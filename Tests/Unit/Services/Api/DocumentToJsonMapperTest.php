@@ -34,6 +34,11 @@ class DocumentToJsonMapperTest extends UnitTestCase
      */
     protected $xpathProp;
 
+    /**
+     * @var \ReflectionProperty
+     */
+    protected $repeatableIndexProp;
+
     protected function setUp()
     {
         parent::setUp();
@@ -47,6 +52,9 @@ class DocumentToJsonMapperTest extends UnitTestCase
 
         $this->xpathProp = new \ReflectionProperty(DocumentToJsonMapper::class, 'xpath');
         $this->xpathProp->setAccessible(true);
+
+        $this->repeatableIndexProp = new \ReflectionProperty(DocumentToJsonMapper::class, 'repeatableIndex');
+        $this->repeatableIndexProp->setAccessible(true);
     }
 
     /**
@@ -169,6 +177,100 @@ class DocumentToJsonMapperTest extends UnitTestCase
 </root>';
 
         $this->xpathProp->setValue($this->mapper, $this->buildXpath($xml));
+
+        $mapping = [
+            'title' => ['_mapping' => '//title']
+        ];
+
+        $result = $this->crawl->invoke($this->mapper, $mapping);
+
+        $this->assertArrayHasKey('title', $result);
+        $this->assertInternalType('string', $result['title']);
+        $this->assertSame('My Paper', $result['title']);
+    }
+
+    /**
+     * @test
+     * @see https://git.slub-dresden.de/kitodo-publication/issues/-/issues/1983
+     *
+     * When a field key is in the repeatableIndex (derived from the dpf field model),
+     * a single matching scalar node must still be wrapped in an array —
+     * without requiring [{}] syntax in fis_mapping.
+     */
+    public function crawl_returns_array_for_model_repeatable_scalar_field_with_single_node()
+    {
+        $xml = '<?xml version="1.0"?>
+<root>
+  <keyword>OpenAccess</keyword>
+</root>';
+
+        $this->xpathProp->setValue($this->mapper, $this->buildXpath($xml));
+        $this->repeatableIndexProp->setValue($this->mapper, ['keywords' => true]);
+
+        // Object syntax (no [0 => ...] wrapping) — cardinality comes from model index
+        $mapping = [
+            'keywords' => ['_mapping' => '//keyword']
+        ];
+
+        $result = $this->crawl->invoke($this->mapper, $mapping);
+
+        $this->assertArrayHasKey('keywords', $result);
+        $this->assertInternalType('array', $result['keywords'], 'Model-repeatable field with single node must return an array');
+        $this->assertCount(1, $result['keywords']);
+        $this->assertSame('OpenAccess', $result['keywords'][0]);
+    }
+
+    /**
+     * @test
+     * @see https://git.slub-dresden.de/kitodo-publication/issues/-/issues/1983
+     *
+     * Same for compound (object) fields: a group key in repeatableIndex with
+     * a single matching node must yield an array of objects.
+     */
+    public function crawl_returns_array_for_model_repeatable_compound_field_with_single_node()
+    {
+        $xml = '<?xml version="1.0"?>
+<root>
+  <author>
+    <name>Smith, John</name>
+    <orcid>0000-0001-2345-6789</orcid>
+  </author>
+</root>';
+
+        $this->xpathProp->setValue($this->mapper, $this->buildXpath($xml));
+        $this->repeatableIndexProp->setValue($this->mapper, ['authors' => true]);
+
+        // Object syntax (no [0 => ...]) — cardinality from model index
+        $mapping = [
+            'authors' => [
+                '_mapping' => '//author',
+                'name'     => ['_mapping' => 'name'],
+                'orcid'    => ['_mapping' => 'orcid'],
+            ]
+        ];
+
+        $result = $this->crawl->invoke($this->mapper, $mapping);
+
+        $this->assertArrayHasKey('authors', $result);
+        $this->assertInternalType('array', $result['authors'], 'Model-repeatable compound field with single node must return an array');
+        $this->assertCount(1, $result['authors']);
+        $this->assertSame('Smith, John', $result['authors'][0]['name']);
+        $this->assertSame('0000-0001-2345-6789', $result['authors'][0]['orcid']);
+    }
+
+    /**
+     * @test
+     * A field not in repeatableIndex and without [{}] syntax must still return scalar.
+     */
+    public function crawl_returns_scalar_when_not_in_index_and_no_list_syntax()
+    {
+        $xml = '<?xml version="1.0"?>
+<root>
+  <title>My Paper</title>
+</root>';
+
+        $this->xpathProp->setValue($this->mapper, $this->buildXpath($xml));
+        $this->repeatableIndexProp->setValue($this->mapper, []);
 
         $mapping = [
             'title' => ['_mapping' => '//title']

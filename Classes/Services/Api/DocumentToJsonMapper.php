@@ -37,6 +37,11 @@ class DocumentToJsonMapper
      */
     protected $clientConfigurationManager;
 
+    /**
+     * @var array<string, bool>
+     */
+    protected $repeatableIndex = [];
+
     public function __construct()
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
@@ -68,6 +73,7 @@ class DocumentToJsonMapper
     {
         $internalFormat = new \EWW\Dpf\Services\Api\InternalFormat($document->getXmlData());
         $this->xpath = $internalFormat->getXpath();
+        $this->repeatableIndex = $this->buildRepeatabilityIndex($document);
         $mapping = json_decode($this->getMapping(), true);
         $data = $this->crawl($mapping);
 
@@ -78,6 +84,38 @@ class DocumentToJsonMapper
         }
 
         return json_encode($data);
+    }
+
+    /**
+     * Builds a lookup of repeatable keys from the document's field model.
+     * Keys are MetadataGroup::jsonMapping / MetadataObject::jsonMapping values.
+     * Used by crawl() to determine array vs scalar output without requiring [{}] syntax in fis_mapping.
+     *
+     * @param Document $document
+     * @return array<string, bool>
+     */
+    protected function buildRepeatabilityIndex(Document $document): array
+    {
+        $index = [];
+        $documentType = $document->getDocumentType();
+        if (!$documentType) {
+            return $index;
+        }
+        foreach ($documentType->getChildren() as $page) {
+            foreach ($page->getChildren() as $group) {
+                $groupKey = $group->getJsonMapping();
+                if ($groupKey !== '' && $group->getMaxIteration() !== 1) {
+                    $index[$groupKey] = true;
+                }
+                foreach ($group->getChildren() as $object) {
+                    $objectKey = $object->getJsonMapping();
+                    if ($objectKey !== '' && $object->getMaxIteration() !== 1) {
+                        $index[$objectKey] = true;
+                    }
+                }
+            }
+        }
+        return $index;
     }
 
     /**
@@ -98,8 +136,8 @@ class DocumentToJsonMapper
                 continue;
             }
 
-            $isList = array_key_exists(0, $items);
-            if ($isList) {
+            $isList = ($this->repeatableIndex[$index] ?? false) || array_key_exists(0, $items);
+            if (array_key_exists(0, $items)) {
                 $items = $items[0];
             }
 
