@@ -14,20 +14,17 @@ namespace EWW\Dpf\Plugin;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Common\MetsDocument;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Plugin 'DPF: Metadata' for the 'dpf' extension.
+ * XClass replacement for \Kitodo\Dlf\Plugin\Metadata.
  *
- * dpf-native replacement for \Kitodo\Dlf\Plugin\Metadata. Fetches METS via
- * MetsDocument (Redis/Fedora direct — no HTTP self-loop). Reads field list
- * and wrap configuration from tx_dlf_metadata (DLF extension installed).
- *
- * Registered by overriding plugin.tx_dlf_metadata.userFunc in dpf TS setup,
- * so no landing-page content element changes are needed.
+ * Fetches METS via MetsDocument (Redis/Fedora direct — no HTTP self-loop).
+ * Registered as XClass in ext_localconf.php — no TS userFunc override needed.
  *
  * Deviations from DLF Metadata (Qucosa-specific simplifications):
  * - No IIIF support
@@ -36,32 +33,30 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * - No hooks
  * - language translation via local ISO-639 XML; owner/type/collection raw
  */
-class Metadata extends \EWW\Dpf\Common\AbstractPlugin
+class Metadata extends \Kitodo\Dlf\Plugin\Metadata
 {
     public $scriptRelPath = 'Classes/Plugin/Metadata.php';
 
     public function main($content, $conf)
     {
         $this->init($conf);
-
-        $dpfTSconfig = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_dpf.'];
-        if (is_array($dpfTSconfig['settings.'])) {
-            ArrayUtility::mergeRecursiveWithOverrule($dpfTSconfig['settings.'], $this->conf, true, false);
-            $this->conf = $dpfTSconfig['settings.'];
-        }
-
         $this->setCache(true);
-        $this->loadDocument();
 
-        if ($this->doc === null) {
+        $location = isset($this->piVars['id']) ? (string) $this->piVars['id'] : '';
+        if (empty($location)) {
             return $content;
         }
 
-        $data = $this->doc->getTitleData((int) ($this->conf['pages'] ?? 0));
+        $doc = MetsDocument::getInstance($location);
+        if ($doc === null) {
+            return $content;
+        }
+
+        $data = $doc->getTitleData((int) ($this->conf['pages'] ?? 0));
         if (empty($data)) {
             return $content;
         }
-        $data['_id'] = $this->doc->toplevelId;
+        $data['_id'] = $doc->toplevelId;
 
         $content .= $this->printMetadata([$data]);
         return $this->pi_wrapInBaseClass($content);
