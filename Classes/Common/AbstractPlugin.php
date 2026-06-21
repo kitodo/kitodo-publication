@@ -64,12 +64,20 @@ class AbstractPlugin extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      */
     protected function init(array $conf)
     {
-        // FlexForm wins over TS.
+        // Base: DLF extension configuration (provides fileGrpDownload, fileGrpFulltext, etc.)
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dlf'])) {
+            $dlfExtConf = @unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dlf']);
+            if (is_array($dlfExtConf)) {
+                ArrayUtility::mergeRecursiveWithOverrule($dlfExtConf, $conf);
+                $conf = $dlfExtConf;
+            }
+        }
+        // FlexForm wins over everything.
         $flexFormConf = [];
         $this->cObj->readFlexformIntoConf($this->cObj->data['pi_flexform'], $flexFormConf);
         if (!empty($flexFormConf)) {
-            ArrayUtility::mergeRecursiveWithOverrule($flexFormConf, $conf);
-            $conf = $flexFormConf;
+            // mergeRecursiveWithOverrule modifies first arg in-place; $flexFormConf overrides $conf
+            ArrayUtility::mergeRecursiveWithOverrule($conf, $flexFormConf);
         }
         $this->conf = $conf;
         $this->pi_setPiVarDefaults();
