@@ -381,7 +381,7 @@
 			<source>Year</source>
 		</trans-unit>
 		<trans-unit id="tx_dpf_metadata">
-			<source>Metadata Configuration</source>
+			<source>Metadaten</source>
 		</trans-unit>
 		</body>
 	</file>
