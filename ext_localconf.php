@@ -89,11 +89,11 @@ $overrideSetup = 'plugin.tx_dpf_relatedlisttool.userFunc = EWW\Dpf\Plugins\Relat
 $overrideSetup = 'plugin.tx_dpf_coins.userFunc = EWW\Dpf\Plugins\Coins\Coins->main';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript($_EXTKEY, 'setup', $overrideSetup);
 
-// XClass: replace DLF Metadata plugin at PHP level — no TS order dependency.
-// TYPO3 instantiates our subclass whenever Kitodo\Dlf\Plugin\Metadata is requested.
-// Our main() fetches METS via Redis/Fedora directly instead of the HTTP self-loop.
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['Kitodo\\Dlf\\Plugin\\Metadata'] = [
-    'className' => 'EWW\\Dpf\\Plugin\\Metadata',
-];
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43($_EXTKEY, 'Classes/Plugin/Metadata.php', '_metadata', 'list_type', true);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+    $_EXTKEY,
+    'setup',
+    'plugin.tx_dpf_metadata.userFunc = EWW\Dpf\Plugin\Metadata->main'
+);
 
 $TYPO3_CONF_VARS['BE']['AJAX']['AjaxDocumentFormController:fieldAction'] = 'EXT:Dpf/Classes/Controller/AjaxDocumentFormController.php:AjaxDocumentFormController->fieldAction';

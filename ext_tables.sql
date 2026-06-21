@@ -517,3 +517,34 @@ CREATE TABLE tx_dpf_domain_model_processnumber (
   KEY language (l10n_parent,sys_language_uid)
 
 ) ENGINE=InnoDB;
+
+#
+# Table structure for table 'tx_dpf_metadata'
+#
+CREATE TABLE tx_dpf_metadata (
+
+  uid int(11) NOT NULL auto_increment,
+  pid int(11) DEFAULT '0' NOT NULL,
+  tstamp int(11) DEFAULT '0' NOT NULL,
+  crdate int(11) DEFAULT '0' NOT NULL,
+  cruser_id int(11) DEFAULT '0' NOT NULL,
+  deleted smallint(6) DEFAULT '0' NOT NULL,
+  hidden smallint(6) DEFAULT '0' NOT NULL,
+  sys_language_uid int(11) DEFAULT '0' NOT NULL,
+  l18n_parent int(11) DEFAULT '0' NOT NULL,
+  l18n_diffsource mediumblob,
+  sorting int(11) DEFAULT '0' NOT NULL,
+  index_name varchar(255) DEFAULT '' NOT NULL,
+  label varchar(255) DEFAULT '' NOT NULL,
+  wrap text,
+  is_listed smallint(6) DEFAULT '0' NOT NULL,
+  is_sortable smallint(6) DEFAULT '0' NOT NULL,
+  xpath varchar(1024) DEFAULT '' NOT NULL,
+  xpath_sorting varchar(1024) DEFAULT '' NOT NULL,
+  default_value varchar(255) DEFAULT '' NOT NULL,
+
+  PRIMARY KEY (uid),
+  KEY parent (pid),
+  KEY language (l18n_parent,sys_language_uid)
+
+) ENGINE=InnoDB;

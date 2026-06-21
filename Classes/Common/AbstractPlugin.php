@@ -137,7 +137,7 @@ class AbstractPlugin extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
             $templateFile = $this->conf['templateFile'];
         } else {
             $className = basename(str_replace('\\', '/', get_class($this)));
-            $templateFile = 'EXT:dlf/Resources/Private/Templates/Plugin/' . $className . '.tmpl';
+            $templateFile = 'EXT:dpf/Resources/Private/Templates/Plugin/' . $className . '.tmpl';
         }
         $fileResource = $GLOBALS['TSFE']->tmpl->getFileName($templateFile);
         if (!empty($fileResource) && file_exists($fileResource)) {

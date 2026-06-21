@@ -14,26 +14,21 @@ namespace EWW\Dpf\Plugin;
  * The TYPO3 project - inspiring people to share!
  */
 
+use EWW\Dpf\Common\AbstractPlugin;
 use EWW\Dpf\Common\MetsDocument;
+use EWW\Dpf\Helper\MetadataExtractor;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * XClass replacement for \Kitodo\Dlf\Plugin\Metadata.
+ * dpf-native Metadata plugin. Replaces Kitodo\Dlf\Plugin\Metadata.
  *
- * Fetches METS via MetsDocument (Redis/Fedora direct — no HTTP self-loop).
- * Registered as XClass in ext_localconf.php — no TS userFunc override needed.
- *
- * Deviations from DLF Metadata (Qucosa-specific simplifications):
- * - No IIIF support
- * - No physical-structure / rootline page walking
- * - No parent-title lookup (getTitle)
- * - No hooks
- * - language translation via local ISO-639 XML; owner/type/collection raw
+ * Registered as list_type 'dpf_metadata'. Reads metadata configuration
+ * from tx_dpf_metadata (migrated from tx_dlf_metadata + tx_dlf_metadataformat).
+ * Fetches METS via Redis/Fedora direct — no HTTP self-loop.
  */
-class Metadata extends \Kitodo\Dlf\Plugin\Metadata
+class Metadata extends AbstractPlugin
 {
     public $scriptRelPath = 'Classes/Plugin/Metadata.php';
 
@@ -41,57 +36,66 @@ class Metadata extends \Kitodo\Dlf\Plugin\Metadata
     {
         $this->init($conf);
         $this->setCache(true);
+        $this->loadDocument();
 
-        $location = isset($this->piVars['id']) ? (string) $this->piVars['id'] : '';
-        if (empty($location)) {
+        if ($this->doc === null || !$this->doc->ready) {
             return $content;
         }
 
-        $doc = MetsDocument::getInstance($location);
-        if ($doc === null) {
+        $mods = $this->doc->getMods();
+        if ($mods === null) {
             return $content;
         }
 
-        $data = $doc->getTitleData((int) ($this->conf['pages'] ?? 0));
-        if (empty($data)) {
+        $pid = (int) ($this->conf['pages'] ?? 0);
+        $metaList = $this->getMetaList($pid);
+        if (empty($metaList)) {
             return $content;
         }
-        $data['_id'] = $doc->toplevelId;
 
-        $content .= $this->printMetadata([$data]);
+        $metadata = MetadataExtractor::extract($mods, $metaList);
+
+        if (!empty($this->doc->recordId) && !in_array($this->doc->recordId, $metadata['record_id'] ?? [])) {
+            array_unshift($metadata['record_id'], $this->doc->recordId);
+        }
+        $metadata['_id'] = $this->doc->toplevelId;
+
+        $content .= $this->printMetadata([$metadata], $metaList);
         return $this->pi_wrapInBaseClass($content);
     }
 
     /**
-     * Render metadata rows using tx_dlf_metadata wrap config.
+     * Render extracted metadata using wrap configuration from tx_dpf_metadata.
      *
-     * Non-IIIF path only — port of DLF Plugin\Metadata::printMetadata().
-     *
-     * @param array $metadataArray
+     * @param array $metadataArray array of metadata records (index_name => [values])
+     * @param array $metaList index_name => [label, wrap, ...]
      * @return string
      */
-    protected function printMetadata(array $metadataArray)
+    protected function printMetadata(array $metadataArray, array $metaList)
     {
         $this->getTemplate();
         if (empty($this->template)) {
             return '';
         }
+
         $output = '';
         $subpart = $this->templateService->getSubpart($this->template, '###BLOCK###');
         $cObjData = $this->cObj->data;
-        $metaList = $this->getMetaList();
 
         foreach ($metadataArray as $metadata) {
             $markerArray['###METADATA###'] = '';
             $this->cObj->data = $cObjData;
+
             foreach ($metadata as $index_name => $value) {
                 $this->cObj->data[$index_name] = is_array($value)
                     ? implode($this->conf['separator'] ?? ', ', $value)
                     : $value;
             }
+
             foreach ($metaList as $index_name => $metaConf) {
                 $parsedValue = '';
                 $fieldwrap = $this->parseTS($metaConf['wrap']);
+
                 do {
                     $value = @array_shift($metadata[$index_name]);
                     if ($index_name === 'language' && !empty($value)) {
@@ -99,83 +103,91 @@ class Metadata extends \Kitodo\Dlf\Plugin\Metadata
                     } elseif (!empty($value)) {
                         $value = htmlspecialchars($value);
                     }
-                    $value = $this->cObj->stdWrap($value, $fieldwrap['value.']);
+                    $value = $this->cObj->stdWrap($value, $fieldwrap['value.'] ?? []);
                     if (!empty($value)) {
                         $parsedValue .= $value;
                     }
                 } while (is_array($metadata[$index_name]) && count($metadata[$index_name]) > 0);
 
                 if (!empty($parsedValue)) {
-                    $field = $this->cObj->stdWrap(htmlspecialchars($metaConf['label']), $fieldwrap['key.']);
+                    $field = $this->cObj->stdWrap(htmlspecialchars($metaConf['label']), $fieldwrap['key.'] ?? []);
                     $field .= $parsedValue;
-                    $markerArray['###METADATA###'] .= $this->cObj->stdWrap($field, $fieldwrap['all.']);
+                    $markerArray['###METADATA###'] .= $this->cObj->stdWrap($field, $fieldwrap['all.'] ?? []);
                 }
             }
+
             $output .= $this->templateService->substituteMarkerArray($subpart, $markerArray);
         }
+
         return $this->templateService->substituteSubpart($this->template, '###BLOCK###', $output, true);
     }
 
     /**
-     * Read renderable fields from tx_dlf_metadata ordered by sorting.
+     * Read displayable fields from tx_dpf_metadata for the given storage PID.
      *
-     * @return array index_name => ['wrap' => string, 'label' => string]
+     * Respects is_listed flag unless conf['showFull'] is set. Merges language
+     * overlay rows so that the user's current language is preferred.
+     *
+     * @param int $pid Storage PID (cPid)
+     * @return array index_name => [label, wrap, xpath, xpath_sorting, default_value, is_listed]
      */
-    protected function getMetaList()
+    protected function getMetaList($pid)
     {
-        $pid = (int) ($this->conf['pages'] ?? 0);
         $langUid = (int) $GLOBALS['TSFE']->sys_language_uid;
 
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('tx_dlf_metadata');
+            ->getQueryBuilderForTable('tx_dpf_metadata');
+
         $result = $queryBuilder
-            ->select('index_name', 'is_listed', 'wrap', 'sys_language_uid')
-            ->from('tx_dlf_metadata')
+            ->select('index_name', 'is_listed', 'wrap', 'label', 'xpath', 'xpath_sorting', 'default_value', 'sys_language_uid')
+            ->from('tx_dpf_metadata')
             ->where(
                 $queryBuilder->expr()->andX(
                     $queryBuilder->expr()->orX(
                         $queryBuilder->expr()->in('sys_language_uid', [-1, 0]),
                         $queryBuilder->expr()->eq('sys_language_uid', $langUid)
                     ),
-                    $queryBuilder->expr()->eq('l18n_parent', 0)
-                ),
-                $queryBuilder->expr()->eq('pid', $pid)
+                    $queryBuilder->expr()->eq('l18n_parent', 0),
+                    $queryBuilder->expr()->eq('pid', $pid)
+                )
             )
             ->orderBy('sorting')
             ->execute();
 
         $metaList = [];
-        while ($resArray = $result->fetch()) {
-            if (!$resArray) {
+        while ($row = $result->fetch()) {
+            if (!$row) {
                 continue;
             }
-            if ($resArray['sys_language_uid'] != $GLOBALS['TSFE']->sys_language_content
+
+            if ($row['sys_language_uid'] != $GLOBALS['TSFE']->sys_language_content
                 && $GLOBALS['TSFE']->sys_language_contentOL
             ) {
-                $resArray = $GLOBALS['TSFE']->sys_page->getRecordOverlay(
-                    'tx_dlf_metadata',
-                    $resArray,
+                $row = $GLOBALS['TSFE']->sys_page->getRecordOverlay(
+                    'tx_dpf_metadata',
+                    $row,
                     $GLOBALS['TSFE']->sys_language_content,
                     $GLOBALS['TSFE']->sys_language_contentOL
                 );
             }
-            if ($resArray && ($this->conf['showFull'] || $resArray['is_listed'])) {
-                $label = \Kitodo\Dlf\Common\Helper::translate(
-                    $resArray['index_name'],
-                    'tx_dlf_metadata',
-                    $pid
-                );
-                $metaList[$resArray['index_name']] = [
-                    'wrap' => $resArray['wrap'],
-                    'label' => $label ?: $resArray['index_name'],
+
+            if ($row && ($this->conf['showFull'] || $row['is_listed'])) {
+                $metaList[$row['index_name']] = [
+                    'label' => $row['label'] ?: $row['index_name'],
+                    'wrap' => $row['wrap'] ?? '',
+                    'xpath' => $row['xpath'] ?? '',
+                    'xpath_sorting' => $row['xpath_sorting'] ?? '',
+                    'default_value' => $row['default_value'] ?? '',
+                    'is_listed' => (int) $row['is_listed'],
                 ];
             }
         }
+
         return $metaList;
     }
 
     /**
-     * Resolve ISO-639 language code to localized name.
+     * Resolve an ISO-639 language code to a localized name.
      *
      * Falls back to the raw code on lookup failure.
      *
@@ -186,17 +198,19 @@ class Metadata extends \Kitodo\Dlf\Plugin\Metadata
     {
         $isoCode = strtolower(trim($code));
         if (preg_match('/^[a-z]{3}$/', $isoCode)) {
-            $file = ExtensionManagementUtility::extPath('dlf')
+            $file = ExtensionManagementUtility::extPath('dpf')
                 . 'Resources/Private/Data/iso-639-2b.xml';
         } elseif (preg_match('/^[a-z]{2}$/', $isoCode)) {
-            $file = ExtensionManagementUtility::extPath('dlf')
+            $file = ExtensionManagementUtility::extPath('dpf')
                 . 'Resources/Private/Data/iso-639-1.xml';
         } else {
             return $code;
         }
+
         if (!file_exists($file)) {
             return $code;
         }
+
         $iso639 = $GLOBALS['TSFE']->readLLfile($file);
         if (!empty($iso639['default'][$isoCode])) {
             $name = $GLOBALS['TSFE']->getLLL($isoCode, $iso639);
@@ -204,6 +218,7 @@ class Metadata extends \Kitodo\Dlf\Plugin\Metadata
                 return $name;
             }
         }
+
         return $code;
     }
 }

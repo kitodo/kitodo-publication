@@ -446,6 +446,11 @@ class MetsDocument
      *
      * @return \SimpleXMLElement|null
      */
+    public function getMods()
+    {
+        return $this->getTopLevelModsSec();
+    }
+
     protected function getTopLevelModsSec()
     {
         $dmdSecs = $this->getDmdSec();
