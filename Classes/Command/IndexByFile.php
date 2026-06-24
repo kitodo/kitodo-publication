@@ -19,7 +19,7 @@ use EWW\Dpf\Domain\Model\Client;
 use EWW\Dpf\Services\ElasticSearch\ElasticSearch;
 use EWW\Dpf\Services\ElasticSearch\PublicElasticSearch;
 use GuzzleHttp\Client as HttpClient;
-use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\Pool;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -60,6 +60,7 @@ class IndexByFile extends AbstractIndexCommand
         $this->addOption('linklist', 'L', InputOption::VALUE_NONE, 'The given file contains URIs to METS/MODS documents.');
         $this->addOption('user', 'u', InputOption::VALUE_OPTIONAL, 'Specify the user name and password to use for server authentication.');
         $this->addOption('public', null, InputOption::VALUE_NONE, 'Index into the public search index instead of the backoffice index.');
+        $this->addOption('concurrency', 'c', InputOption::VALUE_OPTIONAL, 'Number of concurrent Fedora HTTP requests when using --linklist.', 8);
     }
 
     /**
@@ -102,27 +103,8 @@ class IndexByFile extends AbstractIndexCommand
         $result = true;
 
         if ($linklist) {
-            $fn = null;
-            try {
-                $fn = fopen($filename, "r");
-                if ($fn === false) {
-                    $io->error("Could not open file: " . $filename);
-                    return 1;
-                }
-                $httpClient = new HttpClient();
-                while (!feof($fn)) {
-                    $uri = trim(fgets($fn));
-                    if ($uri) {
-                        $result = $this->indexHttpDocument($uri, $io, $httpClient, $credentials)
-                            && $result;
-                    }
-                }
-            } finally {
-                if ($fn) {
-                    fclose($fn);
-                }
-            }
-            $this->flushBulkBuffer($io);
+            $concurrency = max(1, (int) $input->getOption('concurrency'));
+            $result = $this->indexLinklist($filename, $io, $credentials, $concurrency);
         } else {
             $result = $this->indexFile($filename, $io);
             $this->flushBulkBuffer($io);
@@ -134,6 +116,86 @@ class IndexByFile extends AbstractIndexCommand
         } else {
             $io->error("There where errors.");
             return 1;
+        }
+    }
+
+    private function indexLinklist(string $filename, SymfonyStyle $io, ?string $credentials, int $concurrency): bool
+    {
+        $fn = null;
+        $urls = [];
+        try {
+            $fn = fopen($filename, "r");
+            if ($fn === false) {
+                $io->error("Could not open file: " . $filename);
+                return false;
+            }
+            while (!feof($fn)) {
+                $uri = trim(fgets($fn));
+                if ($uri) {
+                    $urls[] = $uri;
+                }
+            }
+        } finally {
+            if ($fn) {
+                fclose($fn);
+            }
+        }
+
+        $requestConfig = ['http_errors' => false];
+        if ($credentials) {
+            $requestConfig['auth'] = explode(':', $credentials, 2);
+        }
+        $httpClient = new HttpClient();
+
+        $result = true;
+
+        $requests = function () use ($urls, $httpClient, $requestConfig) {
+            foreach ($urls as $uri) {
+                yield $uri => function () use ($httpClient, $uri, $requestConfig) {
+                    return $httpClient->getAsync($uri, $requestConfig);
+                };
+            }
+        };
+
+        $pool = new Pool($httpClient, $requests(), [
+            'concurrency' => $concurrency,
+            'fulfilled' => function ($response, $uri) use ($io, &$result) {
+                if (!$this->handleFulfilledResponse($response, $uri, $io)) {
+                    $result = false;
+                }
+            },
+            'rejected' => function ($reason, $uri) use ($io, &$result) {
+                $io->writeln("$uri Error: {$reason->getMessage()}");
+                $result = false;
+            },
+        ]);
+
+        $pool->promise()->wait();
+        $this->flushBulkBuffer($io);
+
+        return $result;
+    }
+
+    private function handleFulfilledResponse($response, string $uri, SymfonyStyle $io): bool
+    {
+        if ($response->getStatusCode() !== 200) {
+            $io->writeln("$uri Error: HTTP {$response->getStatusCode()} {$response->getReasonPhrase()}");
+            return false;
+        }
+        $contentType = $response->getHeader('Content-Type')[0] ?? '';
+        if (!preg_match('/^(text|application)\/(.*)xml(.*)$/', $contentType)) {
+            $io->writeln("$uri Error: unexpected content type `$contentType`");
+            return false;
+        }
+        try {
+            $this->indexXml($response->getBody()->getContents());
+            $io->writeln("Indexed $uri OK");
+            return true;
+        } catch (\Exception $e) {
+            $io->writeln("$uri Error: {$e->getMessage()}");
+            return false;
+        } finally {
+            $response->getBody()->close();
         }
     }
 
@@ -159,69 +221,6 @@ class IndexByFile extends AbstractIndexCommand
             }
         }
         return $this->indexXml($xml);
-    }
-
-    /**
-     * Index a particular web document
-     *
-     * @param string $uri URI to METS/MODS file to index
-     * @param OutputInterface $io IO object for printing messages
-     * @param string|null $credentials Credentials string as "user:password"
-     * @return bool False on error, true on success
-     */
-    protected function indexHttpDocument(
-        string $uri,
-        OutputInterface $io,
-        HttpClient $httpClient,
-        string $credentials = null
-    ) {
-        if (!str_starts_with($uri, 'http')) {
-            $io->writeln("Unrecognized URI scheme: `$uri`");
-            return false;
-        }
-
-        $requestConfig = ['http_errors' => false];
-        if ($credentials) {
-            $requestConfig['auth'] = explode(':', $credentials);
-        }
-
-        $io->write("Indexing $uri... ");
-
-        /** @var ResponseInterface */
-        $response = $httpClient->get($uri, $requestConfig);
-
-        if ($response->getStatusCode() !== 200) {
-            $statusCode = $response->getStatusCode();
-            $reasonPhrase = $response->getReasonPhrase();
-            $io->writeln("Error");
-            $io->writeln("\tHTTP response was `$statusCode $reasonPhrase`");
-            return false;
-        }
-
-        $contentType = $response->getHeader('Content-Type')[0];
-
-        if (preg_match('/^(text|application)\/(.*)xml(.*)$/', $contentType)) {
-            try {
-                $this->indexXml($response->getBody()->getContents());
-                $io->writeln("OK");
-                return true;
-            } catch (\Exception $e) {
-                $io->writeln("Error");
-                $io->writeln($e->getMessage());
-                return false;
-            } finally {
-                // Closing content stream
-                // This should actually be happening when leaving the function
-                // scope. But there are weird issues with open files from Guzzle magic.
-                if (isset($response) && $response instanceof ResponseInterface) {
-                    $response->getBody()->close();
-                }
-            }
-        } else {
-            $io->writeln("Error");
-            $io->writeln("\tExpected XML content type at `$uri` but was `$contentType`.");
-            return false;
-        }
     }
 
     /**
