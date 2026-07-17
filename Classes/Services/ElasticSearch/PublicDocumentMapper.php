@@ -28,6 +28,9 @@ class PublicDocumentMapper
         if ($document->isSuggestion()) {
             return null;
         }
+        if (!in_array('fulltext', (array) $internalFormat->getCollections(), true)) {
+            return null;
+        }
 
         $data = [];
 

@@ -1,0 +1,41 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<f:if condition="{hasDocument}">
+    <f:then>
+        <div class="tx-dpf-landingpage">
+            <f:format.raw>{metadataHtml}</f:format.raw>
+
+            <f:if condition="{downloads}">
+                <div class="tx-dpf-downloadtool tx-dlf-downloadtool">
+                    <ul>
+                        <f:for each="{downloads}" as="download">
+                            <li>
+                                <a href="{download.url}">{download.label}</a>
+                            </li>
+                        </f:for>
+                    </ul>
+                    <f:if condition="{vgwortUrl}">
+                        <div class="div_vgwpixel" data-url="{vgwortUrl}"></div>
+                    </f:if>
+                </div>
+            </f:if>
+
+            <f:if condition="{relatedItems}">
+                <div class="tx-dpf-relatedlisttool tx-dlf-relatedlisttool">
+                    <ul>
+                        <f:for each="{relatedItems}" as="item">
+                            <li>
+                                <f:if condition="{item.url}">
+                                    <f:then><a href="{item.url}">{item.title -> f:format.htmlspecialchars()}</a></f:then>
+                                    <f:else>{item.title -> f:format.htmlspecialchars()}</f:else>
+                                </f:if>
+                            </li>
+                        </f:for>
+                    </ul>
+                </div>
+            </f:if>
+
+            <f:format.raw>{coinsHtml}</f:format.raw>
+        </div>
+    </f:then>
+</f:if>
+</html>

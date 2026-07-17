@@ -479,6 +479,10 @@ class DocumentStorage
                 // $createLocalCopy = false is needed for the Fis api to be able to return only the
                 // remote version of the document metadata in case of a local workingcopy.
                 if ($createLocalCopy) {
+                    $existing = $this->documentRepository->findByObjectIdentifier($documentIdentifier);
+                    if ($existing instanceof Document) {
+                        return $existing;
+                    }
                     $this->documentRepository->add($document);
                     $this->persistenceManager->persistAll();
 
