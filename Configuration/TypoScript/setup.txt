@@ -404,4 +404,6 @@ plugin.tx_dpf_metadata.labels.type {
     journal = Zeitschrift/Zeitung
     periodical = Zeitschrift / Periodikum
     issue = Zeitschriftenheft / Teil eines Periodikums
+    in_encyclopedia = Beitrag in Nachschlagewerk
+    contributionToPeriodical = Beitrag/Interview in nicht-wiss. Medien
 }
