@@ -31,6 +31,28 @@ class LandingPageAssemblerTest extends UnitTestCase
     }
 
     /**
+     * Empty MODS elements (e.g. <mods:subTitle/>) extract as empty strings;
+     * joining them verbatim yields stray separators like "Das Lexikon : ,Jetzt
+     * auch mit Untertitel" (seen live on ubl-26-5002). The join must skip
+     * empty and whitespace-only values.
+     */
+    public function testJoinValuesSkipsEmptyAndWhitespaceOnlyValues()
+    {
+        $method = new \ReflectionMethod(LandingPageAssembler::class, 'joinValues');
+        $method->setAccessible(true);
+
+        $this->assertSame(
+            'Jetzt auch mit Untertitel',
+            $method->invoke(null, ['', 'Jetzt auch mit Untertitel'], ', ')
+        );
+        $this->assertSame(
+            'a, b',
+            $method->invoke(null, ['a', ' ', 'b', ''], ', ')
+        );
+        $this->assertSame('', $method->invoke(null, ['', '  '], ', '));
+    }
+
+    /**
      * Identifier type deliberately not "local"/"urn" so getRelatedItems()
      * takes the null-url branch and never calls typoLink_URL() (needs TSFE).
      */
