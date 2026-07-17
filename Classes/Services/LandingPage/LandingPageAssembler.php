@@ -163,13 +163,16 @@ class LandingPageAssembler
     /**
      * Return structured related items — mirrors RelatedListTool::getRelatedItems().
      *
+     * Covers both directions: "constituent" (downward, issue→articles) and
+     * "host"/"series" (upward, article→issue, issue→journal, book→series).
+     *
      * @param MetsDocument $doc
      * @param array $settings
      * @return array [['title' => string, 'url' => string|null, 'type' => string], ...]
      */
     public function getRelatedItems(MetsDocument $doc, array $settings): array
     {
-        $items = $doc->mets->xpath('//mods:relatedItem[@type="constituent"]');
+        $items = $doc->mets->xpath('//mods:relatedItem[@type="constituent" or @type="host" or @type="series"]');
         if (!is_array($items) || empty($items)) {
             return [];
         }
@@ -196,6 +199,22 @@ class LandingPageAssembler
                 'volume' => $volume ?: null,
             ];
         }
+
+        // De-dupe by identifier: source MODS can carry multiple relatedItem[host]/[series]
+        // blocks for the same target (migration artifact, see qucosa-15470); keep the
+        // richest (non-empty title) entry per docId.
+        $byDocId = [];
+        foreach ($raw as $item) {
+            if ($item['docId'] === '') {
+                $byDocId[] = $item;
+                continue;
+            }
+            $key = $item['type'] . '|' . $item['docId'];
+            if (!isset($byDocId[$key]) || (empty($byDocId[$key]['title']) && !empty($item['title']))) {
+                $byDocId[$key] = $item;
+            }
+        }
+        $raw = array_values($byDocId);
 
         usort($raw, static function (array $a, array $b): int {
             return strnatcmp(
