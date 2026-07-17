@@ -48,6 +48,12 @@ if (!defined('TYPO3_MODE')) {
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_dpf_domain_model_storedsearch');
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    'EWW.' . $_EXTKEY,
+    'LandingPage',
+    'DPF: Landing Page'
+);
+
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
     'EWW.' . $_EXTKEY,

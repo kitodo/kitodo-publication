@@ -24,6 +24,7 @@ use EWW\Dpf\Services\Identifier\Identifier;
  *
  * @method \TYPO3\CMS\Extbase\Persistence\QueryResultInterface findByLinkedUid(string $linkedUid)
  * @method \EWW\Dpf\Domain\Model\Document|null findOneByLinkedUid(string $linkedUid)
+ * @SuppressWarnings(TooManyPublicMethods)
  */
 class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
 {
@@ -212,6 +213,26 @@ class DocumentRepository extends \EWW\Dpf\Domain\Repository\AbstractRepository
         $query->setOrderings(array("tstamp" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));
         $query->matching($query->logicalAnd($constraints));
 
+        return $query->execute()->getFirst();
+    }
+
+
+    /**
+     * Find the newest non-suggestion document by Fedora object identifier.
+     *
+     * @param string $objectIdentifier
+     * @return Document|null
+     */
+    public function findByObjectIdentifier(string $objectIdentifier): ?Document
+    {
+        $query = $this->createQuery();
+        $query->setOrderings(['tstamp' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]);
+        $query->matching(
+            $query->logicalAnd([
+                $query->equals('object_identifier', $objectIdentifier),
+                $query->equals('suggestion', false),
+            ])
+        );
         return $query->execute()->getFirst();
     }
 

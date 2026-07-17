@@ -33,13 +33,13 @@ class PublicDocumentMapperTest extends TestCase
         return $dt;
     }
 
-    private function makeInternalFormat(): InternalFormat
+    private function makeInternalFormat(array $collections = ['fulltext']): InternalFormat
     {
         $fmt = $this->createMock(InternalFormat::class);
         $fmt->method('getSearchTitles')->willReturn([]);
         $fmt->method('getPersons')->willReturn([]);
         $fmt->method('getSearchIdentifiers')->willReturn([]);
-        $fmt->method('getCollections')->willReturn([]);
+        $fmt->method('getCollections')->willReturn($collections);
         $fmt->method('getOpenAccessForSearch')->willReturn('');
         $fmt->method('getLicense')->willReturn('');
         $fmt->method('getPublishers')->willReturn([]);
@@ -132,5 +132,26 @@ class PublicDocumentMapperTest extends TestCase
         $doc->method('getEmbargoDate')->willReturn($embargoDate);
         $result = $mapper->map($doc, $this->makeInternalFormat());
         $this->assertSame('2026-12-31', $result['embargoDate']);
+    }
+
+    public function testMapRejectsDocumentNotInFulltextCollection()
+    {
+        $mapper = new PublicDocumentMapper();
+        $doc = $this->makeDocument(DocumentWorkflow::STATE_NONE_ACTIVE);
+        $this->assertNull($mapper->map($doc, $this->makeInternalFormat(['fis_ULaffiliated'])));
+    }
+
+    public function testMapRejectsDocumentWithNoCollections()
+    {
+        $mapper = new PublicDocumentMapper();
+        $doc = $this->makeDocument(DocumentWorkflow::STATE_NONE_ACTIVE);
+        $this->assertNull($mapper->map($doc, $this->makeInternalFormat([])));
+    }
+
+    public function testMapAcceptsDocumentInFulltextCollection()
+    {
+        $mapper = new PublicDocumentMapper();
+        $doc = $this->makeDocument(DocumentWorkflow::STATE_NONE_ACTIVE);
+        $this->assertIsArray($mapper->map($doc, $this->makeInternalFormat(['fulltext', 'fis_ULaffiliated'])));
     }
 }

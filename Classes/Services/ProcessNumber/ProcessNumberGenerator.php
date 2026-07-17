@@ -16,7 +16,10 @@ namespace EWW\Dpf\Services\ProcessNumber;
 
 use EWW\Dpf\Domain\Model\ProcessNumber;
 use EWW\Dpf\Domain\Repository\ClientRepository;
+use EWW\Dpf\Domain\Repository\DocumentRepository;
 use EWW\Dpf\Domain\Repository\ProcessNumberRepository;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 
@@ -53,6 +56,17 @@ class ProcessNumberGenerator
             }
 
             $persistenceManager->persistAll();
+
+            $candidateString = $processNumber->getProcessNumberString();
+
+            $documentRepository = $objectManager->get(DocumentRepository::class);
+            if ($documentRepository->findByIdentifier($candidateString) !== null) {
+                $logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+                $logger->warning('ProcessNumber collision detected, incrementing counter', ['candidate' => $candidateString]);
+                $processNumber->setCounter($processNumber->getCounter() + 1);
+                $processNumberRepository->update($processNumber);
+                $persistenceManager->persistAll();
+            }
 
             $processNumberRepository->commitTransaction();
             return $processNumber->getProcessNumberString();
