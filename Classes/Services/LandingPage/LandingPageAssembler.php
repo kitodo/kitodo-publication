@@ -185,7 +185,7 @@ class LandingPageAssembler
             $node->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
             $node->registerXPathNamespace('slub', 'http://slub-dresden.de/');
 
-            $type    = $this->firstXPathValue($node, 'mods:identifier/@type');
+            $type    = $this->preferredIdentifierType($node);
             $title   = $this->firstXPathValue($node, 'mods:titleInfo/mods:title');
             $docId   = $type !== '' ? $this->firstXPathValue($node, 'mods:identifier[@type="' . $type . '"]') : '';
             $order   = $this->firstXPathValue($node, 'mods:extension/slub:info/slub:sortingKey');
@@ -423,6 +423,25 @@ class LandingPageAssembler
     {
         $result = $node->xpath($xpath);
         return !empty($result) ? (string)$result[0] : '';
+    }
+
+    /**
+     * relatedItem nodes can carry multiple mods:identifier/@type; prefer the
+     * types that produce a clickable link (urn, then local) over document order.
+     */
+    private function preferredIdentifierType(\SimpleXMLElement $node): string
+    {
+        $types = $node->xpath('mods:identifier/@type');
+        if (empty($types)) {
+            return '';
+        }
+        $values = array_map('strval', $types);
+        foreach (['urn', 'local'] as $preferred) {
+            if (in_array($preferred, $values, true)) {
+                return $preferred;
+            }
+        }
+        return $values[0];
     }
 
     private function safelyFormatDate(string $format, string $date): string

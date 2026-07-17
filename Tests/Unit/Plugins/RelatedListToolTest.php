@@ -198,4 +198,43 @@ XML;
         $this->assertEquals('urn:nbn:de:bsz:14-qucosa2-999', $items[0]['docId']);
         $this->assertEquals('urn', $items[0]['type']);
     }
+
+    /**
+     * Reproduces qucosa-83142: identifier[@type=issn] precedes identifier[@type=urn]
+     * in document order. Must still pick "urn" so the caller can build a link.
+     */
+    public function testGetRelatedItemsPrefersUrnOverEarlierNonLinkableIdentifierType()
+    {
+        $xml = <<<XML
+<?xml version="1.0"?>
+<mets:mets xmlns:mets="http://www.loc.gov/METS/"
+           xmlns:mods="http://www.loc.gov/mods/v3"
+           OBJID="qucosa:parent">
+    <mets:dmdSec ID="DMD_000">
+        <mets:mdWrap MDTYPE="MODS">
+            <mets:xmlData>
+                <mods:mods>
+                    <mods:relatedItem type="constituent">
+                        <mods:identifier type="issn">2748-8489</mods:identifier>
+                        <mods:identifier type="urn">urn:nbn:de:bsz:14-qucosa2-83142</mods:identifier>
+                    </mods:relatedItem>
+                </mods:mods>
+            </mets:xmlData>
+        </mets:mdWrap>
+    </mets:dmdSec>
+    <mets:structMap TYPE="LOGICAL">
+        <mets:div ID="LOG_0000" DMDID="DMD_000" TYPE="multivolume_work"/>
+    </mets:structMap>
+</mets:mets>
+XML;
+        $doc = MetsDocument::fromXmlString($xml);
+        $plugin = $this->makePlugin();
+        $this->setDoc($plugin, $doc);
+
+        $items = $plugin->getRelatedItems();
+
+        $this->assertCount(1, $items);
+        $this->assertEquals('urn', $items[0]['type']);
+        $this->assertEquals('urn:nbn:de:bsz:14-qucosa2-83142', $items[0]['docId']);
+    }
 }
