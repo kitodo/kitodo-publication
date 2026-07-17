@@ -194,6 +194,12 @@ class LandingPageAssembler
             $order   = $this->firstXPathValue($node, 'mods:extension/slub:info/slub:sortingKey');
             $volume  = $this->firstXPathValue($node, 'mods:part[@type="volume" or @type="issue"]/mods:detail/mods:number');
 
+            // Neither title nor identifier: nothing to display or link
+            // (seen live on qucosa-14455 as a visible empty list row).
+            if ($title === '' && $docId === '') {
+                continue;
+            }
+
             $raw[] = [
                 'type'   => $type,
                 'title'  => $title,
