@@ -141,6 +141,47 @@ XML;
     }
 
     /**
+     * Reproduces qucosa-14455: a relatedItem carrying neither a title nor any
+     * identifier rendered as a visible empty <li> in the relations list.
+     */
+    public function testGetRelatedItemsSkipsItemsWithoutTitleAndIdentifier()
+    {
+        $xml = <<<XML
+<?xml version="1.0"?>
+<mets:mets xmlns:mets="http://www.loc.gov/METS/"
+           xmlns:mods="http://www.loc.gov/mods/v3"
+           xmlns:slub="http://slub-dresden.de/"
+           OBJID="qucosa:article">
+    <mets:dmdSec ID="DMD_000">
+        <mets:mdWrap MDTYPE="MODS">
+            <mets:xmlData>
+                <mods:mods>
+                    <mods:relatedItem type="host">
+                        <mods:part type="issue"><mods:detail><mods:number>4</mods:number></mods:detail></mods:part>
+                    </mods:relatedItem>
+                    <mods:relatedItem type="host">
+                        <mods:titleInfo><mods:title>Journal</mods:title></mods:titleInfo>
+                        <mods:identifier type="issn">1234-5678</mods:identifier>
+                    </mods:relatedItem>
+                </mods:mods>
+            </mets:xmlData>
+        </mets:mdWrap>
+    </mets:dmdSec>
+    <mets:structMap TYPE="LOGICAL">
+        <mets:div ID="LOG_0000" DMDID="DMD_000" TYPE="article"/>
+    </mets:structMap>
+</mets:mets>
+XML;
+        $doc = MetsDocument::fromXmlString($xml);
+        $assembler = new LandingPageAssembler();
+
+        $items = $assembler->getRelatedItems($doc, []);
+
+        $this->assertCount(1, $items);
+        $this->assertEquals('Journal', $items[0]['title']);
+    }
+
+    /**
      * Reproduces qucosa-83142: identifier[@type=issn] precedes identifier[@type=urn]
      * in document order. Must still pick "urn" (produces a link), not "issn" (null url).
      * Exercised via reflection on the private selector directly — going through
