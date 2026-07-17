@@ -79,7 +79,10 @@ class LandingPageAssembler
 
         // Load metadata values into cObj data for stdWrap field references
         foreach ($metadata as $indexName => $value) {
-            $cObj->data[$indexName] = is_array($value) ? implode($separator, $value) : $value;
+            if (is_array($value)) {
+                $value = self::joinValues($value, $separator);
+            }
+            $cObj->data[$indexName] = $value;
         }
 
         // Work on a copy so array_shift does not mutate the caller's array
@@ -447,6 +450,27 @@ class LandingPageAssembler
     private function safelyFormatDate(string $format, string $date): string
     {
         return strlen($date) === 4 ? $date : date($format, (int)strtotime($date));
+    }
+
+    /**
+     * Join multi-value field values, skipping empty and whitespace-only
+     * entries — empty MODS elements (e.g. <mods:subTitle/>) extract as empty
+     * strings and would otherwise produce stray separators in the output.
+     *
+     * @param array $values
+     * @param string $separator
+     * @return string
+     */
+    private static function joinValues(array $values, string $separator): string
+    {
+        $nonEmpty = [];
+        foreach ($values as $value) {
+            if (trim((string)$value) !== '') {
+                $nonEmpty[] = $value;
+            }
+        }
+
+        return implode($separator, $nonEmpty);
     }
 
     private function parseTS(string $string): array
