@@ -116,6 +116,28 @@ class RelatedListTool extends \EWW\Dpf\Common\AbstractPlugin
         return '';
     }
 
+    /**
+     * relatedItem nodes can carry multiple mods:identifier/@type; prefer the
+     * types that produce a clickable link (urn, then local) over document order.
+     *
+     * @param \SimpleXMLElement $element
+     * @return string
+     */
+    private function preferredIdentifierType(\SimpleXMLElement $element)
+    {
+        $types = $element->xpath('mods:identifier/@type');
+        if (empty($types)) {
+            return '';
+        }
+        $values = array_map('strval', $types);
+        foreach (array('urn', 'local') as $preferred) {
+            if (in_array($preferred, $values, true)) {
+                return $preferred;
+            }
+        }
+        return $values[0];
+    }
+
     private function compareByOrderVolumeTitle($a, $b)
     {
         $s1 = join(' ', array($a['order'], $a['volume'], $a['title']));
@@ -133,7 +155,7 @@ class RelatedListTool extends \EWW\Dpf\Common\AbstractPlugin
             $relatedItemXmlElement->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
             $relatedItemXmlElement->registerXPathNamespace('slub', 'http://slub-dresden.de/');
 
-            $type = $this->firstXPathValue($relatedItemXmlElement, 'mods:identifier/@type');
+            $type = $this->preferredIdentifierType($relatedItemXmlElement);
             $title = $this->firstXPathValue($relatedItemXmlElement, 'mods:titleInfo/mods:title');
             $docId = '';
             if ($type !== '') {
