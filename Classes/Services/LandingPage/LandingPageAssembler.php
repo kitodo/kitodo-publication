@@ -471,7 +471,7 @@ class LandingPageAssembler
     {
         $nonEmpty = [];
         foreach ($values as $value) {
-            if (trim((string)$value) !== '') {
+            if (trim((string)$value) !== '' && !in_array($value, $nonEmpty, true)) {
                 $nonEmpty[] = $value;
             }
         }

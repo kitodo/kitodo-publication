@@ -53,6 +53,29 @@ class LandingPageAssemblerTest extends UnitTestCase
     }
 
     /**
+     * "original_date" (Erscheinungsjahr) is extracted via an unanchored xpath
+     * matching every mods:relatedItem[@type="host"] block in a document
+     * (tx_dpf_metadata uid 299); when two host blocks legitimately share the
+     * same dateIssued (e.g. qucosa-14455, qucosa-15470), the join must not
+     * render the value twice as "2016,2016". Distinct values must still both
+     * appear (a doc can have genuinely different host years).
+     */
+    public function testJoinValuesSkipsDuplicateNonEmptyValues()
+    {
+        $method = new \ReflectionMethod(LandingPageAssembler::class, 'joinValues');
+        $method->setAccessible(true);
+
+        $this->assertSame(
+            '2016',
+            $method->invoke(null, ['2016', '2016'], ', ')
+        );
+        $this->assertSame(
+            '2016, 2020',
+            $method->invoke(null, ['2016', '2020', '2016'], ', ')
+        );
+    }
+
+    /**
      * Identifier type deliberately not "local"/"urn" so getRelatedItems()
      * takes the null-url branch and never calls typoLink_URL() (needs TSFE).
      */
