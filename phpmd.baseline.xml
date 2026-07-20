@@ -2,7 +2,6 @@
 <phpmd-baseline>
   <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Command/AbstractIndexCommand.php"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Command/AbstractIndexCommand.php" method="createDocument"/>
-  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Command/IndexByFile.php" method="execute"/>
   <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Common/AbstractPlugin.php"/>
   <violation rule="PHPMD\Rule\ExcessivePublicCount" file="Classes/Configuration/ClientConfigurationManager.php"/>
   <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Configuration/ClientConfigurationManager.php"/>
@@ -71,6 +70,7 @@
   <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Controller/GetFileController.php"/>
   <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/GetFileController.php"/>
   <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Controller/GetFileController.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/LandingPageController.php" method="showAction"/>
   <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Controller/SearchController.php"/>
   <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/SearchController.php"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/SearchController.php" method="list"/>
@@ -216,9 +216,7 @@
   <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/Document/DocumentManager.php" method="getUpdateNotificationRecipients"/>
   <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Services/ElasticSearch/ElasticSearch.php"/>
   <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/ElasticSearch/ElasticSearch.php" method="initializeIndex"/>
-  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ElasticSearch/ElasticSearch.php" method="index"/>
-  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/ElasticSearch/ElasticSearch.php" method="index"/>
-  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/ElasticSearch/ElasticSearch.php" method="index"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/ElasticSearch/PublicDocumentMapper.php" method="map"/>
   <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Services/ElasticSearch/QueryBuilder.php"/>
   <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/ElasticSearch/QueryBuilder.php" method="buildQuery"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ElasticSearch/QueryBuilder.php" method="buildFilterQueryPart"/>
@@ -250,6 +248,16 @@
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ImportExternalMetadata/RisReader.php" method="risRecordToXML"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ImportExternalMetadata/RisWosFileImporter.php" method="loadFile"/>
   <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/ImportExternalMetadata/RisWosFileImporter.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Services/LandingPage/LandingPageAssembler.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getMetadataHtml"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getMetadataHtml"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Services/LandingPage/LandingPageAssembler.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getRelatedItems"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getRelatedItems"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getCoinsHtml"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getCoinsHtml"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getMetaTags"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getMetaTags"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Metadata/MetadataExtractor.php" method="extract"/>
   <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/Metadata/MetadataExtractor.php" method="extract"/>
   <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/Metadata/MetadataExtractor.php" method="extract"/>
@@ -287,6 +295,8 @@
   <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/Xml/ParserGenerator.php"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Xml/XMLFragmentGenerator.php" method="generate"/>
   <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Services/Xml/XPath.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Updates/FixMetadataXpathAndLabelsUpdate.php" method="computeFix"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Updates/FixMetadataXpathAndLabelsUpdate.php" method="computeFix"/>
   <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/ViewHelpers/IsElementAllowedViewHelper.php"/>
   <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/ViewHelpers/Link/DataCiteViewHelper.php"/>
   <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/ViewHelpers/Link/DataCiteViewHelper.php"/>
