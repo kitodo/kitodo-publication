@@ -87,7 +87,9 @@ class MetaTags extends \Kitodo\Dlf\Common\AbstractPlugin
             return;
         }
 
-        ksort($metadata);
+        // Plain ksort() breaks past author9 (lexical "author10" < "author2");
+        // SORT_NATURAL orders the embedded number correctly instead.
+        ksort($metadata, SORT_NATURAL);
         $this->printMetaTags($metadata);
         return;
     }

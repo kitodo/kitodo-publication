@@ -78,6 +78,13 @@ class Coins extends \Kitodo\Dlf\Common\AbstractPlugin
             return;
         }
 
+        // author1..N / publisher1..N come from tx_dlf_metadata rows fetched
+        // without ORDER BY, so their array position follows DB row uid, not the
+        // numeric suffix. Plain ksort() (as MetaTags.php uses) breaks past
+        // author9 (lexical "author10" < "author2"); SORT_NATURAL orders the
+        // embedded number correctly instead.
+        ksort($metadata, SORT_NATURAL);
+
         return $this->generateCoins($metadata);
     }
 
