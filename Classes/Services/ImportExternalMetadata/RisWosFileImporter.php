@@ -126,7 +126,10 @@ class RisWosFileImporter extends AbstractImporter implements FileImporter
         /** @var \EWW\Dpf\Domain\Model\Client $client */
         $client = $this->clientRepository->findAll()->current();
 
-        return $client->getRisWosTransformation()->current();
+        $storage = $client->getRisWosTransformation();
+        $storage->rewind();
+
+        return $storage->current();
     }
 
     /**
@@ -145,7 +148,10 @@ class RisWosFileImporter extends AbstractImporter implements FileImporter
      */
     protected function getXsltTransformationByDocumentType($documentType)
     {
-        return $documentType->getRiswosTransformation()->current();
+        $storage = $documentType->getRiswosTransformation();
+        $storage->rewind();
+
+        return $storage->current();
     }
 
     /**

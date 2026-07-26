@@ -199,7 +199,10 @@ class BibTexFileImporter extends AbstractImporter implements FileImporter
         /** @var \EWW\Dpf\Domain\Model\Client $client */
         $client = $this->clientRepository->findAll()->current();
 
-        return $client->getBibTexTransformation()->current();
+        $storage = $client->getBibTexTransformation();
+        $storage->rewind();
+
+        return $storage->current();
     }
 
     /**
@@ -218,7 +221,10 @@ class BibTexFileImporter extends AbstractImporter implements FileImporter
      */
     protected function getXsltTransformationByDocumentType($documentType)
     {
-        return $documentType->getBibtexTransformation()->current();
+        $storage = $documentType->getBibtexTransformation();
+        $storage->rewind();
+
+        return $storage->current();
     }
 
     /**
