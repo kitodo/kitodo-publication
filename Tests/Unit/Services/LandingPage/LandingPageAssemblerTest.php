@@ -124,6 +124,26 @@ XML;
     }
 
     /**
+     * #1985: only a genuinely future embargo date counts as "currently
+     * embargoed" - an expired date, an unparseable value, or none at all
+     * must all render nothing.
+     */
+    public function testIsFutureDate()
+    {
+        $method = new \ReflectionMethod(LandingPageAssembler::class, 'isFutureDate');
+        $method->setAccessible(true);
+        $assembler = new LandingPageAssembler();
+
+        $farFuture = date('Y-m-d', strtotime('+5 years'));
+        $pastDate = '2000-01-01';
+
+        $this->assertTrue($method->invoke($assembler, $farFuture));
+        $this->assertFalse($method->invoke($assembler, $pastDate));
+        $this->assertFalse($method->invoke($assembler, ''));
+        $this->assertFalse($method->invoke($assembler, 'not-a-date'));
+    }
+
+    /**
      * #2039/#2046: Vorgänger/Nachfolger are a sequence relation, not a
      * parent/container one - getParentItems() must not pick them up, and
      * getSequenceItems() must, with the correct German labels.

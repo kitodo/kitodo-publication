@@ -2,6 +2,15 @@
 <f:if condition="{hasDocument}">
     <f:then>
         <div class="tx-dpf-landingpage">
+            <f:if condition="{embargoInfo.isEmbargoed}">
+                <div class="tx-dpf-embargo tx-dpf-metadata tx-dlf-metadata">
+                    <dl>
+                        <dt>Zugangsstatus</dt>
+                        <dd>Embargoed Access (bis {embargoInfo.embargoDate})</dd>
+                    </dl>
+                </div>
+            </f:if>
+
             <f:format.raw>{metadataHtml}</f:format.raw>
 
             <f:if condition="{parentItems}">
