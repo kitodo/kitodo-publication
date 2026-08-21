@@ -124,6 +124,53 @@ XML;
     }
 
     /**
+     * #2039/#2046: Vorgänger/Nachfolger are a sequence relation, not a
+     * parent/container one - getParentItems() must not pick them up, and
+     * getSequenceItems() must, with the correct German labels.
+     */
+    public function testGetSequenceItemsIncludesPrecedingAndSucceeding()
+    {
+        $xml = <<<XML
+<?xml version="1.0"?>
+<mets:mets xmlns:mets="http://www.loc.gov/METS/"
+           xmlns:mods="http://www.loc.gov/mods/v3"
+           xmlns:slub="http://slub-dresden.de/"
+           OBJID="qucosa:12742">
+    <mets:dmdSec ID="DMD_000">
+        <mets:mdWrap MDTYPE="MODS">
+            <mets:xmlData>
+                <mods:mods>
+                    <mods:relatedItem type="preceding">
+                        <mods:titleInfo><mods:title>Bericht des Rektoratskollegiums</mods:title></mods:titleInfo>
+                        <mods:identifier type="issn">1111-1111</mods:identifier>
+                    </mods:relatedItem>
+                    <mods:relatedItem type="succeeding">
+                        <mods:titleInfo><mods:title>Jahresspiegel</mods:title></mods:titleInfo>
+                        <mods:identifier type="issn">2222-2222</mods:identifier>
+                    </mods:relatedItem>
+                </mods:mods>
+            </mets:xmlData>
+        </mets:mdWrap>
+    </mets:dmdSec>
+    <mets:structMap TYPE="LOGICAL">
+        <mets:div ID="LOG_0000" DMDID="DMD_000" TYPE="report"/>
+    </mets:structMap>
+</mets:mets>
+XML;
+        $doc = MetsDocument::fromXmlString($xml);
+        $assembler = new LandingPageAssembler();
+
+        $this->assertCount(0, $assembler->getParentItems($doc, []));
+
+        $items = $assembler->getSequenceItems($doc, []);
+        $this->assertCount(2, $items);
+
+        $byTitle = array_column($items, 'relationLabel', 'title');
+        $this->assertSame('Vorgänger', $byTitle['Bericht des Rektoratskollegiums']);
+        $this->assertSame('Nachfolger', $byTitle['Jahresspiegel']);
+    }
+
+    /**
      * Reproduces the qucosa-15470 migration artifact: 3 relatedItem[type=host]
      * blocks for the same journal (shared identifier), only one carries a title.
      */

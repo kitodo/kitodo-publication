@@ -354,6 +354,22 @@ class LandingPageAssembler
     }
 
     /**
+     * Return "preceding"/"succeeding" (Vorgänger/Nachfolger) related items -
+     * this document's place in a sequence, not a parent/container relation.
+     * Rendered in the same slot as parentItems (#2039/#2046): the disseminator
+     * now derives "succeeding" by reverse lookup since Qucosa never stores it
+     * directly, only "preceding".
+     *
+     * @param MetsDocument $doc
+     * @param array $settings
+     * @return array [['title' => string, 'url' => string|null, 'type' => string], ...]
+     */
+    public function getSequenceItems(MetsDocument $doc, array $settings): array
+    {
+        return $this->extractRelatedItems($doc, $settings, '//mods:relatedItem[@type="preceding" or @type="succeeding"]');
+    }
+
+    /**
      * @param MetsDocument $doc
      * @param array $settings
      * @param string $xpath selects which relatedItem nodes to extract
@@ -741,8 +757,10 @@ class LandingPageAssembler
     private function relationLabel(string $relation): string
     {
         $labels = [
-            'host'   => 'Erschienen in',
-            'series' => 'Schriftenreihe',
+            'host'       => 'Erschienen in',
+            'series'     => 'Schriftenreihe',
+            'preceding'  => 'Vorgänger',
+            'succeeding' => 'Nachfolger',
         ];
         return $labels[$relation] ?? '';
     }
