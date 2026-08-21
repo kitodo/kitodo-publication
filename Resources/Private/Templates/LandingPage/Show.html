@@ -5,17 +5,18 @@
             <f:format.raw>{metadataHtml}</f:format.raw>
 
             <f:if condition="{parentItems}">
-                <div class="tx-dpf-parentlink tx-dlf-relatedlisttool">
-                    <ul>
+                <div class="tx-dpf-parentlink tx-dpf-metadata tx-dlf-metadata">
+                    <dl>
                         <f:for each="{parentItems}" as="item">
-                            <li>
+                            <dt>{item.relationLabel}</dt>
+                            <dd>
                                 <f:if condition="{item.url}">
                                     <f:then><a href="{item.url}">{item.title -> f:format.htmlspecialchars()}</a></f:then>
                                     <f:else>{item.title -> f:format.htmlspecialchars()}</f:else>
                                 </f:if>
-                            </li>
+                            </dd>
                         </f:for>
-                    </ul>
+                    </dl>
                 </div>
             </f:if>
 

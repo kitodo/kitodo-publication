@@ -117,6 +117,10 @@ XML;
         $titles = array_column($items, 'title');
         $this->assertContains('Journal', $titles);
         $this->assertContains('Series', $titles);
+
+        $byTitle = array_column($items, 'relationLabel', 'title');
+        $this->assertSame('Erschienen in', $byTitle['Journal']);
+        $this->assertSame('Schriftenreihe', $byTitle['Series']);
     }
 
     /**
