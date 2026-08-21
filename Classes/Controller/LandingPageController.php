@@ -90,7 +90,10 @@ class LandingPageController extends ActionController
             }
         }
 
-        $parentItems = $assembler->getParentItems($doc, $this->settings);
+        $parentItems = array_merge(
+            $assembler->getParentItems($doc, $this->settings),
+            $assembler->getSequenceItems($doc, $this->settings)
+        );
         $hostUrl     = $assembler->getHostUrl($parentItems);
         $metadataResult = $assembler->getMetadataHtml($doc, $metadata, $this->settings, $hostUrl, $parentItems);
 
