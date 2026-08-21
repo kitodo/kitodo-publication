@@ -375,4 +375,116 @@ XML;
 
         $this->assertEquals('urn', $method->invoke($assembler, $node));
     }
+
+    /**
+     * getHostUrl() picks the host relatedItem's URL for embedding into the
+     * "Quellenangabe" prose row (#2039); a series entry must not be picked
+     * even if it happens to precede the host entry.
+     */
+    public function testGetHostUrlPicksHostOverSeries()
+    {
+        $assembler = new LandingPageAssembler();
+
+        $url = $assembler->getHostUrl([
+            ['relation' => 'series', 'url' => 'https://example.org/series'],
+            ['relation' => 'host', 'url' => 'https://example.org/host'],
+        ]);
+
+        $this->assertSame('https://example.org/host', $url);
+    }
+
+    public function testGetHostUrlReturnsEmptyStringWhenNoLinkableHost()
+    {
+        $assembler = new LandingPageAssembler();
+
+        $this->assertSame('', $assembler->getHostUrl([]));
+        $this->assertSame('', $assembler->getHostUrl([['relation' => 'host', 'url' => null]]));
+        $this->assertSame('', $assembler->getHostUrl([['relation' => 'series', 'url' => 'https://example.org/series']]));
+    }
+
+    /**
+     * Reproduces #2039 item 2 (qucosa-83142/qucosa-14455): for
+     * Zeitschriftenartikel (article) and Konferenzbeitrag (in_proceeding),
+     * the host entry is now embedded into the citation prose
+     * (EmbedHostLinkInQuellenangabeUpdate), so the separate parentItems
+     * entry must be dropped to avoid showing the link twice.
+     */
+    public function testFilterEmbeddedHostItemsDropsHostForArticleAndInProceeding()
+    {
+        $assembler = new LandingPageAssembler();
+        $items = [
+            ['relation' => 'host', 'url' => 'https://example.org/host', 'title' => 'Journal'],
+            ['relation' => 'series', 'url' => 'https://example.org/series', 'title' => 'Series'],
+        ];
+
+        $this->assertSame(
+            [['relation' => 'series', 'url' => 'https://example.org/series', 'title' => 'Series']],
+            $assembler->filterEmbeddedHostItems($items, 'article')
+        );
+        $this->assertSame(
+            [['relation' => 'series', 'url' => 'https://example.org/series', 'title' => 'Series']],
+            $assembler->filterEmbeddedHostItems($items, 'in_proceeding')
+        );
+    }
+
+    /**
+     * Other doctypes (e.g. periodical_issue/"Erschienen in") still rely on
+     * the parentItems host entry as their only link — must be untouched.
+     */
+    public function testFilterEmbeddedHostItemsKeepsHostForOtherDoctypes()
+    {
+        $assembler = new LandingPageAssembler();
+        $items = [['relation' => 'host', 'url' => 'https://example.org/host', 'title' => 'Journal']];
+
+        $this->assertSame($items, $assembler->filterEmbeddedHostItems($items, 'periodical_issue'));
+    }
+
+    /**
+     * getVisibleParentItems() must only drop the host entry when the prose
+     * row will actually render a linked title — reproduces a bug where the
+     * host entry was filtered unconditionally by doctype: an article with
+     * only an ISSN on its host relatedItem (no linkable identifier, so
+     * hostUrl is empty) would otherwise lose the "Erschienen in" line
+     * entirely, with no unlinked prose title either (#2039 regression risk).
+     */
+    public function testGetVisibleParentItemsKeepsHostWhenHostUrlEmpty()
+    {
+        $assembler = new LandingPageAssembler();
+        $items = [['relation' => 'host', 'url' => null, 'title' => 'Journal']];
+
+        $this->assertSame(
+            $items,
+            $assembler->getVisibleParentItems($items, '', 'Article Title', 'article')
+        );
+    }
+
+    /**
+     * Same guard for the other fieldRequired on the wrap row: if
+     * original_title is empty, the <dt>Zeitschrift</dt> block never renders
+     * at all, so the parentItems host entry must stay as the only link.
+     */
+    public function testGetVisibleParentItemsKeepsHostWhenOriginalTitleEmpty()
+    {
+        $assembler = new LandingPageAssembler();
+        $items = [['relation' => 'host', 'url' => 'https://example.org/host', 'title' => 'Journal']];
+
+        $this->assertSame(
+            $items,
+            $assembler->getVisibleParentItems($items, 'https://example.org/host', '', 'article')
+        );
+    }
+
+    public function testGetVisibleParentItemsDropsHostWhenProseRowWillLinkIt()
+    {
+        $assembler = new LandingPageAssembler();
+        $items = [
+            ['relation' => 'host', 'url' => 'https://example.org/host', 'title' => 'Journal'],
+            ['relation' => 'series', 'url' => 'https://example.org/series', 'title' => 'Series'],
+        ];
+
+        $this->assertSame(
+            [['relation' => 'series', 'url' => 'https://example.org/series', 'title' => 'Series']],
+            $assembler->getVisibleParentItems($items, 'https://example.org/host', 'Article Title', 'article')
+        );
+    }
 }

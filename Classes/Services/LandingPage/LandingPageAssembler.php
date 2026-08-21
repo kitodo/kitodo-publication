@@ -42,9 +42,13 @@ class LandingPageAssembler
      * @param MetsDocument $doc
      * @param array $metadata return value of MetsDocument::getTitleData()
      * @param array $settings Extbase settings from plugin.tx_dpf_landingpage.settings.*
+     * @param string $hostUrl absolute URL of this document's host/series relatedItem
+     *   (from getHostUrl(getParentItems())), if any. Lets the "Quellenangabe" wrap
+     *   rows (e.g. "Zeitschrift", "Konferenzband") link their prose title instead of
+     *   showing a redundant unlinked line next to the separate parent-link block (#2039).
      * @return string HTML string including the outer <div><dl> wrapper
      */
-    public function getMetadataHtml(MetsDocument $doc, array $metadata, array $settings): string
+    public function getMetadataHtml(MetsDocument $doc, array $metadata, array $settings, string $hostUrl = ''): string
     {
         $cPid       = (int)($settings['pages'] ?? 0);
         $sysLangUid = (int)($GLOBALS['TSFE']->sys_language_uid ?? 0);
@@ -84,6 +88,7 @@ class LandingPageAssembler
             }
             $cObj->data[$indexName] = $value;
         }
+        $cObj->data['host_url'] = $hostUrl;
 
         // Work on a copy so array_shift does not mutate the caller's array
         $local = $metadata;
@@ -269,33 +274,112 @@ class LandingPageAssembler
 
         $result = [];
         foreach ($raw as $item) {
-            if ($item['type'] === 'local') {
-                $url = $cObj->typoLink_URL([
-                    'useCacheHash'     => 1,
-                    'parameter'        => $landingPage,
-                    'additionalParams' => '&tx_dpf_landingpage[qid]=' . rawurlencode(strtolower($item['docId'])),
-                    'forceAbsoluteUrl' => true,
-                ]);
-            } elseif ($item['type'] === 'urn') {
-                $url = $cObj->typoLink_URL([
-                    'useCacheHash'     => 0,
-                    'parameter'        => 'https://nbn-resolving.de/' . $item['docId'],
-                    'forceAbsoluteUrl' => true,
-                ]);
-            } else {
-                $url = null;
-            }
+            $url = $this->buildRelatedItemUrl($cObj, $item, $landingPage);
 
             $label = $item['title'] ?: $item['docId'];
             $result[] = [
                 'title'         => $label,
                 'url'           => $url,
                 'type'          => $item['type'],
+                'relation'      => $item['relation'],
                 'relationLabel' => $this->relationLabel($item['relation']),
             ];
         }
 
         return $result;
+    }
+
+    /**
+     * Builds the clickable URL for one deduped related-item entry, or null
+     * when its identifier type has no known link scheme.
+     *
+     * @param array $item one entry from $raw in extractRelatedItems() (keys: type, docId)
+     */
+    private function buildRelatedItemUrl(ContentObjectRenderer $cObj, array $item, int $landingPage): ?string
+    {
+        if ($item['type'] === 'local') {
+            return $cObj->typoLink_URL([
+                'useCacheHash'     => 1,
+                'parameter'        => $landingPage,
+                'additionalParams' => '&tx_dpf_landingpage[qid]=' . rawurlencode(strtolower($item['docId'])),
+                'forceAbsoluteUrl' => true,
+            ]);
+        }
+        if ($item['type'] === 'urn') {
+            return $cObj->typoLink_URL([
+                'useCacheHash'     => 0,
+                'parameter'        => 'https://nbn-resolving.de/' . $item['docId'],
+                'forceAbsoluteUrl' => true,
+            ]);
+        }
+        return null;
+    }
+
+    /**
+     * Absolute URL of the document's host relatedItem (the journal/issue a
+     * Zeitschriftenartikel or Konferenzbeitrag belongs to), if any and if
+     * linkable. Used to embed the link into the "Quellenangabe" prose row
+     * instead of only showing it in the separate parent-link block (#2039).
+     *
+     * @param array $parentItems return value of getParentItems()
+     */
+    public function getHostUrl(array $parentItems): string
+    {
+        foreach ($parentItems as $item) {
+            if (($item['relation'] ?? '') === 'host' && !empty($item['url'])) {
+                return (string) $item['url'];
+            }
+        }
+        return '';
+    }
+
+    /**
+     * Doctypes whose tx_dpf_metadata "Quellenangabe" wrap row (e.g.
+     * "Zeitschrift", "Konferenzband") embeds the host link via getHostUrl()
+     * once EmbedHostLinkInQuellenangabeUpdate has run (#2039). For these,
+     * the host entry in parentItems is dropped so it isn't shown twice.
+     */
+    private const DOCTYPES_WITH_EMBEDDED_HOST_LINK = ['article', 'in_proceeding'];
+
+    /**
+     * @param array $parentItems return value of getParentItems()
+     * @param string $type the document's "type" field (mods:genre)
+     * @return array $parentItems with the host entry removed for doctypes
+     *   whose citation prose already links it; series entries are untouched.
+     */
+    public function filterEmbeddedHostItems(array $parentItems, string $type): array
+    {
+        if (!in_array($type, self::DOCTYPES_WITH_EMBEDDED_HOST_LINK, true)) {
+            return $parentItems;
+        }
+        return array_values(array_filter($parentItems, static function (array $item): bool {
+            return ($item['relation'] ?? '') !== 'host';
+        }));
+    }
+
+    /**
+     * The parentItems the template should actually render: with the host
+     * entry dropped only when the Quellenangabe prose row will actually
+     * render a linked title for it — i.e. both of the wrap row's own
+     * fieldRequired guards are met (non-empty original_title, non-empty
+     * host_url). Otherwise the host entry stays, so a record never ends up
+     * with neither a linked prose title nor a parentItems fallback (#2039).
+     *
+     * @param array $parentItems return value of getParentItems()
+     * @param string $hostUrl return value of getHostUrl($parentItems)
+     * @param string $originalTitle $metadata['original_title'][0] ?? ''
+     * @param string $type the document's "type" field (mods:genre)
+     */
+    public function getVisibleParentItems(
+        array $parentItems,
+        string $hostUrl,
+        string $originalTitle,
+        string $type
+    ): array {
+        if ($hostUrl === '' || $originalTitle === '') {
+            return $parentItems;
+        }
+        return $this->filterEmbeddedHostItems($parentItems, $type);
     }
 
     /**
