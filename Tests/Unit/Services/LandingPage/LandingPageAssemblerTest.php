@@ -403,13 +403,12 @@ XML;
     }
 
     /**
-     * Reproduces #2039 item 2 (qucosa-83142/qucosa-14455): for
-     * Zeitschriftenartikel (article) and Konferenzbeitrag (in_proceeding),
-     * the host entry is now embedded into the citation prose
-     * (EmbedHostLinkInQuellenangabeUpdate), so the separate parentItems
-     * entry must be dropped to avoid showing the link twice.
+     * filterEmbeddedRelations() drops exactly the relations getMetadataHtml()
+     * reports as embedded — no doctype guessing, since getMetadataHtml() now
+     * knows precisely what it rendered (#2039 follow-up: field-order parity
+     * with legacy replaced the old doctype-heuristic filter).
      */
-    public function testFilterEmbeddedHostItemsDropsHostForArticleAndInProceeding()
+    public function testFilterEmbeddedRelationsDropsOnlyReportedRelations()
     {
         $assembler = new LandingPageAssembler();
         $items = [
@@ -419,72 +418,141 @@ XML;
 
         $this->assertSame(
             [['relation' => 'series', 'url' => 'https://example.org/series', 'title' => 'Series']],
-            $assembler->filterEmbeddedHostItems($items, 'article')
+            $assembler->filterEmbeddedRelations($items, ['host' => true, 'series' => false])
         );
-        $this->assertSame(
-            [['relation' => 'series', 'url' => 'https://example.org/series', 'title' => 'Series']],
-            $assembler->filterEmbeddedHostItems($items, 'in_proceeding')
-        );
+        $this->assertSame($items, $assembler->filterEmbeddedRelations($items, ['host' => false, 'series' => false]));
+        $this->assertSame([], $assembler->filterEmbeddedRelations($items, ['host' => true, 'series' => true]));
     }
 
     /**
-     * Other doctypes (e.g. periodical_issue/"Erschienen in") still rely on
-     * the parentItems host entry as their only link — must be untouched.
+     * firstByRelation() picks the first entry of the requested relation and
+     * ignores others — used by getMetadataHtml() to find the one host/series
+     * entry to splice into the <dl> at the legacy field-order position.
      */
-    public function testFilterEmbeddedHostItemsKeepsHostForOtherDoctypes()
+    public function testFirstByRelationPicksMatchingEntry()
     {
         $assembler = new LandingPageAssembler();
-        $items = [['relation' => 'host', 'url' => 'https://example.org/host', 'title' => 'Journal']];
+        $method = new \ReflectionMethod(LandingPageAssembler::class, 'firstByRelation');
+        $method->setAccessible(true);
 
-        $this->assertSame($items, $assembler->filterEmbeddedHostItems($items, 'periodical_issue'));
-    }
-
-    /**
-     * getVisibleParentItems() must only drop the host entry when the prose
-     * row will actually render a linked title — reproduces a bug where the
-     * host entry was filtered unconditionally by doctype: an article with
-     * only an ISSN on its host relatedItem (no linkable identifier, so
-     * hostUrl is empty) would otherwise lose the "Erschienen in" line
-     * entirely, with no unlinked prose title either (#2039 regression risk).
-     */
-    public function testGetVisibleParentItemsKeepsHostWhenHostUrlEmpty()
-    {
-        $assembler = new LandingPageAssembler();
-        $items = [['relation' => 'host', 'url' => null, 'title' => 'Journal']];
-
-        $this->assertSame(
-            $items,
-            $assembler->getVisibleParentItems($items, '', 'Article Title', 'article')
-        );
-    }
-
-    /**
-     * Same guard for the other fieldRequired on the wrap row: if
-     * original_title is empty, the <dt>Zeitschrift</dt> block never renders
-     * at all, so the parentItems host entry must stay as the only link.
-     */
-    public function testGetVisibleParentItemsKeepsHostWhenOriginalTitleEmpty()
-    {
-        $assembler = new LandingPageAssembler();
-        $items = [['relation' => 'host', 'url' => 'https://example.org/host', 'title' => 'Journal']];
-
-        $this->assertSame(
-            $items,
-            $assembler->getVisibleParentItems($items, 'https://example.org/host', '', 'article')
-        );
-    }
-
-    public function testGetVisibleParentItemsDropsHostWhenProseRowWillLinkIt()
-    {
-        $assembler = new LandingPageAssembler();
         $items = [
-            ['relation' => 'host', 'url' => 'https://example.org/host', 'title' => 'Journal'],
-            ['relation' => 'series', 'url' => 'https://example.org/series', 'title' => 'Series'],
+            ['relation' => 'series', 'title' => 'Series'],
+            ['relation' => 'host', 'title' => 'Journal'],
         ];
 
+        $this->assertSame(['relation' => 'host', 'title' => 'Journal'], $method->invoke($assembler, $items, 'host'));
+        $this->assertSame(['relation' => 'series', 'title' => 'Series'], $method->invoke($assembler, $items, 'series'));
+        $this->assertNull($method->invoke($assembler, $items, 'constituent'));
+        $this->assertNull($method->invoke($assembler, [], 'host'));
+    }
+
+    /**
+     * renderEmbeddedParentItemRow() must produce the same <dt>/<dd> shape the
+     * standalone parent-link partial used to, so splicing it into the <dl>
+     * (#2039 order-parity fix) is visually identical to the block it replaces.
+     */
+    public function testRenderEmbeddedParentItemRowLinksWhenUrlPresent()
+    {
+        $assembler = new LandingPageAssembler();
+        $method = new \ReflectionMethod(LandingPageAssembler::class, 'renderEmbeddedParentItemRow');
+        $method->setAccessible(true);
+
+        $html = $method->invoke($assembler, [
+            'relationLabel' => 'Erschienen in',
+            'title' => 'Archiv für Epigraphik',
+            'url' => 'https://nbn-resolving.de/urn:nbn:de:bsz:15-qucosa2-809604',
+        ]);
+
         $this->assertSame(
-            [['relation' => 'series', 'url' => 'https://example.org/series', 'title' => 'Series']],
-            $assembler->getVisibleParentItems($items, 'https://example.org/host', 'Article Title', 'article')
+            '<dt>Erschienen in</dt><dd><a href="https://nbn-resolving.de/urn:nbn:de:bsz:15-qucosa2-809604">'
+                . 'Archiv für Epigraphik</a></dd>',
+            $html
         );
+    }
+
+    public function testRenderEmbeddedParentItemRowUnlinkedWhenNoUrl()
+    {
+        $assembler = new LandingPageAssembler();
+        $method = new \ReflectionMethod(LandingPageAssembler::class, 'renderEmbeddedParentItemRow');
+        $method->setAccessible(true);
+
+        $html = $method->invoke($assembler, [
+            'relationLabel' => 'Schriftenreihe',
+            'title' => 'Series Title',
+            'url' => null,
+        ]);
+
+        $this->assertSame('<dt>Schriftenreihe</dt><dd>Series Title</dd>', $html);
+    }
+
+    /**
+     * htmlspecialchars() must be applied to attacker-controlled title/url
+     * (sourced from public MODS/ES data) so the embedded row can't break out
+     * of its <dd> into markup.
+     */
+    public function testRenderEmbeddedParentItemRowEscapesTitleAndUrl()
+    {
+        $assembler = new LandingPageAssembler();
+        $method = new \ReflectionMethod(LandingPageAssembler::class, 'renderEmbeddedParentItemRow');
+        $method->setAccessible(true);
+
+        $html = $method->invoke($assembler, [
+            'relationLabel' => 'Erschienen in',
+            'title' => '<script>alert(1)</script>',
+            'url' => 'https://example.org/?a=1&b=2',
+        ]);
+
+        $this->assertStringNotContainsString('<script>', $html);
+        $this->assertStringContainsString('&lt;script&gt;', $html);
+        $this->assertStringContainsString('https://example.org/?a=1&amp;b=2', $html);
+    }
+
+    /**
+     * resolveEmbeddableParentItems() must only pre-embed 'host' for the
+     * doctypes whose Quellenangabe wrap row actually consumes {field:host_url}
+     * (article, in_proceeding — EmbedHostLinkInQuellenangabeUpdate). Every
+     * other doctype's host relatedItem is not consumed by any wrap row, so
+     * it must still come back as a splice candidate — reproduces a bug where
+     * doctype was dropped from the guard and e.g. contained_work's host link
+     * was silently discarded (not spliced, not in prose, filtered from the
+     * bottom block).
+     */
+    public function testResolveEmbeddableParentItemsEmbedsHostOnlyForWrapConsumingDoctypes()
+    {
+        $assembler = new LandingPageAssembler();
+        $method = new \ReflectionMethod(LandingPageAssembler::class, 'resolveEmbeddableParentItems');
+        $method->setAccessible(true);
+
+        $parentItems = [['relation' => 'host', 'url' => 'https://example.org/host', 'title' => 'Journal']];
+        $metadata = ['original_title' => ['Article Title'], 'type' => ['article']];
+
+        [$hostItem, , $embedded] = $method->invoke($assembler, $parentItems, 'https://example.org/host', $metadata);
+        $this->assertNull($hostItem);
+        $this->assertTrue($embedded['host']);
+
+        $metadata['type'] = ['contained_work'];
+        [$hostItem, , $embedded] = $method->invoke($assembler, $parentItems, 'https://example.org/host', $metadata);
+        $this->assertSame($parentItems[0], $hostItem);
+        $this->assertFalse($embedded['host']);
+    }
+
+    public function testResolveEmbeddableParentItemsKeepsHostWhenProseGuardsUnmet()
+    {
+        $assembler = new LandingPageAssembler();
+        $method = new \ReflectionMethod(LandingPageAssembler::class, 'resolveEmbeddableParentItems');
+        $method->setAccessible(true);
+
+        $parentItems = [['relation' => 'host', 'url' => 'https://example.org/host', 'title' => 'Journal']];
+
+        [$hostItem] = $method->invoke($assembler, $parentItems, '', ['type' => ['article']]);
+        $this->assertSame($parentItems[0], $hostItem);
+
+        [$hostItem] = $method->invoke(
+            $assembler,
+            $parentItems,
+            'https://example.org/host',
+            ['type' => ['article'], 'original_title' => ['']]
+        );
+        $this->assertSame($parentItems[0], $hostItem);
     }
 }

@@ -90,17 +90,16 @@ class LandingPageController extends ActionController
             }
         }
 
-        $parentItems    = $assembler->getParentItems($doc, $this->settings);
-        $hostUrl        = $assembler->getHostUrl($parentItems);
-        $type           = (string) ($metadata['type'][0] ?? '');
-        $originalTitle  = (string) ($metadata['original_title'][0] ?? '');
+        $parentItems = $assembler->getParentItems($doc, $this->settings);
+        $hostUrl     = $assembler->getHostUrl($parentItems);
+        $metadataResult = $assembler->getMetadataHtml($doc, $metadata, $this->settings, $hostUrl, $parentItems);
 
         $this->view->assignMultiple([
             'hasDocument'  => true,
             'qid'          => $qid,
-            'metadataHtml' => $assembler->getMetadataHtml($doc, $metadata, $this->settings, $hostUrl),
+            'metadataHtml' => $metadataResult['html'],
             'downloads'    => $assembler->getDownloads($doc, $this->settings),
-            'parentItems'  => $assembler->getVisibleParentItems($parentItems, $hostUrl, $originalTitle, $type),
+            'parentItems'  => $assembler->filterEmbeddedRelations($parentItems, $metadataResult['embeddedRelations']),
             'relatedItems' => $assembler->getRelatedItems($doc, $this->settings),
             'coinsHtml'    => $assembler->getCoinsHtml($metadata),
         ]);
