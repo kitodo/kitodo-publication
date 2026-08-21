@@ -24,7 +24,7 @@ class LandingPageAssemblerTest extends UnitTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        // ContentObjectRenderer::__construct() reads this directly; getRelatedItems()
+        // ContentObjectRenderer::__construct() reads this directly; getRelatedItems()/getParentItems()
         // instantiates one even when the null-url branch never calls typoLink_URL().
         $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects'] = [];
         $GLOBALS['TYPO3_CONF_VARS']['LOG'] = [];
@@ -76,10 +76,10 @@ class LandingPageAssemblerTest extends UnitTestCase
     }
 
     /**
-     * Identifier type deliberately not "local"/"urn" so getRelatedItems()
+     * Identifier type deliberately not "local"/"urn" so getParentItems()
      * takes the null-url branch and never calls typoLink_URL() (needs TSFE).
      */
-    public function testGetRelatedItemsIncludesHostAndSeries()
+    public function testGetParentItemsIncludesHostAndSeries()
     {
         $xml = <<<XML
 <?xml version="1.0"?>
@@ -111,7 +111,7 @@ XML;
         $doc = MetsDocument::fromXmlString($xml);
         $assembler = new LandingPageAssembler();
 
-        $items = $assembler->getRelatedItems($doc, []);
+        $items = $assembler->getParentItems($doc, []);
 
         $this->assertCount(2, $items);
         $titles = array_column($items, 'title');
@@ -123,7 +123,7 @@ XML;
      * Reproduces the qucosa-15470 migration artifact: 3 relatedItem[type=host]
      * blocks for the same journal (shared identifier), only one carries a title.
      */
-    public function testGetRelatedItemsDedupesDuplicateHostByIdentifier()
+    public function testGetParentItemsDedupesDuplicateHostByIdentifier()
     {
         $xml = <<<XML
 <?xml version="1.0"?>
@@ -157,7 +157,7 @@ XML;
         $doc = MetsDocument::fromXmlString($xml);
         $assembler = new LandingPageAssembler();
 
-        $items = $assembler->getRelatedItems($doc, []);
+        $items = $assembler->getParentItems($doc, []);
 
         $this->assertCount(1, $items);
         $this->assertEquals('Journal', $items[0]['title']);
@@ -167,7 +167,7 @@ XML;
      * Reproduces qucosa-14455: a relatedItem carrying neither a title nor any
      * identifier rendered as a visible empty <li> in the relations list.
      */
-    public function testGetRelatedItemsSkipsItemsWithoutTitleAndIdentifier()
+    public function testGetParentItemsSkipsItemsWithoutTitleAndIdentifier()
     {
         $xml = <<<XML
 <?xml version="1.0"?>
@@ -198,10 +198,153 @@ XML;
         $doc = MetsDocument::fromXmlString($xml);
         $assembler = new LandingPageAssembler();
 
-        $items = $assembler->getRelatedItems($doc, []);
+        $items = $assembler->getParentItems($doc, []);
 
         $this->assertCount(1, $items);
         $this->assertEquals('Journal', $items[0]['title']);
+    }
+
+    /**
+     * Reproduces #2039: slub:sortingKey is meant only to order relatedItems
+     * (via usort() above), but was also being appended to the visible label
+     * as " - <sortingKey>" — leaking the internal sort key into the public
+     * landing page (seen live on qucosa-33168's "Erschienen in" link).
+     */
+    public function testGetParentItemsDoesNotAppendSortingKeyToTitle()
+    {
+        $xml = <<<XML
+<?xml version="1.0"?>
+<mets:mets xmlns:mets="http://www.loc.gov/METS/"
+           xmlns:mods="http://www.loc.gov/mods/v3"
+           xmlns:slub="http://slub-dresden.de/"
+           OBJID="qucosa:book">
+    <mets:dmdSec ID="DMD_000">
+        <mets:mdWrap MDTYPE="MODS">
+            <mets:xmlData>
+                <mods:mods>
+                    <mods:relatedItem type="series">
+                        <mods:titleInfo><mods:title>Schriftenreihe</mods:title></mods:titleInfo>
+                        <mods:identifier type="issn">1234-5678</mods:identifier>
+                        <mods:extension><slub:info><slub:sortingKey>042</slub:sortingKey></slub:info></mods:extension>
+                    </mods:relatedItem>
+                </mods:mods>
+            </mets:xmlData>
+        </mets:mdWrap>
+    </mets:dmdSec>
+    <mets:structMap TYPE="LOGICAL">
+        <mets:div ID="LOG_0000" DMDID="DMD_000" TYPE="book"/>
+    </mets:structMap>
+</mets:mets>
+XML;
+        $doc = MetsDocument::fromXmlString($xml);
+        $assembler = new LandingPageAssembler();
+
+        $items = $assembler->getParentItems($doc, []);
+
+        $this->assertCount(1, $items);
+        $this->assertEquals('Schriftenreihe', $items[0]['title']);
+    }
+
+    /**
+     * Reproduces #2039: parent (host/series) and child (constituent) links
+     * were rendered mixed into one list at the bottom of the page. They must
+     * now come from two distinct methods so the template can place the
+     * parent link separately near the top.
+     */
+    public function testGetRelatedItemsAndGetParentItemsAreDisjoint()
+    {
+        $xml = <<<XML
+<?xml version="1.0"?>
+<mets:mets xmlns:mets="http://www.loc.gov/METS/"
+           xmlns:mods="http://www.loc.gov/mods/v3"
+           xmlns:slub="http://slub-dresden.de/"
+           OBJID="qucosa:issue">
+    <mets:dmdSec ID="DMD_000">
+        <mets:mdWrap MDTYPE="MODS">
+            <mets:xmlData>
+                <mods:mods>
+                    <mods:relatedItem type="host">
+                        <mods:titleInfo><mods:title>Journal</mods:title></mods:titleInfo>
+                        <mods:identifier type="issn">1234-5678</mods:identifier>
+                    </mods:relatedItem>
+                    <mods:relatedItem type="constituent">
+                        <mods:titleInfo><mods:title>Article One</mods:title></mods:titleInfo>
+                        <mods:identifier type="issn">1111-1111</mods:identifier>
+                    </mods:relatedItem>
+                </mods:mods>
+            </mets:xmlData>
+        </mets:mdWrap>
+    </mets:dmdSec>
+    <mets:structMap TYPE="LOGICAL">
+        <mets:div ID="LOG_0000" DMDID="DMD_000" TYPE="periodical_issue"/>
+    </mets:structMap>
+</mets:mets>
+XML;
+        $doc = MetsDocument::fromXmlString($xml);
+        $assembler = new LandingPageAssembler();
+
+        $children = $assembler->getRelatedItems($doc, []);
+        $parents  = $assembler->getParentItems($doc, []);
+
+        $this->assertCount(1, $children);
+        $this->assertEquals('Article One', $children[0]['title']);
+        $this->assertCount(1, $parents);
+        $this->assertEquals('Journal', $parents[0]['title']);
+    }
+
+    /**
+     * Reproduces #2039 / qucosa-80960: a host relatedItem's URN
+     * ("urn:...-752899", the journal "Archiv für Epigraphik") is also
+     * present in every issue of that journal in the public index, because
+     * getSearchIdentifiers() flattens inherited host links into the same
+     * field. Only the journal's own record carries that URN exactly once;
+     * the 7 issue siblings each carry it twice (their own URN + the
+     * inherited one). Fixture is a trimmed copy of the real ES response.
+     */
+    public function testPickOwnTitleFromSearchHitsSkipsSiblingsWithInheritedUrn()
+    {
+        $assembler = new LandingPageAssembler();
+        $urn = 'urn:nbn:de:bsz:15-qucosa2-752899';
+
+        $hits = [
+            [
+                '_source' => [
+                    'title' => ['Archiv für Epigraphik'],
+                    'identifier' => ['qucosa-75222', 'UBL-21-863', $urn, 'urn:nbn:de:bsz:15-qucosa2-752220'],
+                ],
+            ],
+            [
+                '_source' => [
+                    'title' => ['Archiv für Epigraphik', 'AfE'],
+                    'identifier' => ['qucosa-75289', 'UBL-21-880', '2748-8489', $urn],
+                ],
+            ],
+            [
+                '_source' => [
+                    'title' => ['Archiv für Epigraphik'],
+                    'identifier' => ['qucosa-80960', 'UBL-22-875', $urn, 'urn:nbn:de:bsz:15-qucosa2-809604'],
+                ],
+            ],
+        ];
+
+        $this->assertSame('Archiv für Epigraphik', $assembler->pickOwnTitleFromSearchHits($hits, $urn));
+    }
+
+    public function testPickOwnTitleFromSearchHitsReturnsEmptyWhenNoOwnMatch()
+    {
+        $assembler = new LandingPageAssembler();
+        $urn = 'urn:nbn:de:bsz:15-qucosa2-752899';
+
+        $hits = [
+            [
+                '_source' => [
+                    'title' => ['Issue'],
+                    'identifier' => ['qucosa-75222', $urn, 'urn:nbn:de:bsz:15-qucosa2-752220'],
+                ],
+            ],
+        ];
+
+        $this->assertSame('', $assembler->pickOwnTitleFromSearchHits($hits, $urn));
     }
 
     /**

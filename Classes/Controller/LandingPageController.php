@@ -95,6 +95,7 @@ class LandingPageController extends ActionController
             'qid'          => $qid,
             'metadataHtml' => $assembler->getMetadataHtml($doc, $metadata, $this->settings),
             'downloads'    => $assembler->getDownloads($doc, $this->settings),
+            'parentItems'  => $assembler->getParentItems($doc, $this->settings),
             'relatedItems' => $assembler->getRelatedItems($doc, $this->settings),
             'coinsHtml'    => $assembler->getCoinsHtml($metadata),
         ]);
