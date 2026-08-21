@@ -33,6 +33,37 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 class LandingPageAssembler
 {
     /**
+     * Doctypes whose tx_dpf_metadata "Quellenangabe" wrap row (e.g.
+     * "Zeitschrift", "Konferenzband") embeds the host link via {field:host_url}
+     * once EmbedHostLinkInQuellenangabeUpdate has run (#2039). Every other
+     * doctype's host relatedItem is not consumed by any wrap row, so it must
+     * still be spliced into the <dl> by resolveEmbeddableParentItems() below
+     * — keep this list in sync with EmbedHostLinkInQuellenangabeUpdate's
+     * AFFECTED_INDEX_NAMES (original0000000000=article, original_in_proceeding0000000=in_proceeding).
+     */
+    private const DOCTYPES_WITH_EMBEDDED_HOST_LINK = ['article', 'in_proceeding'];
+
+    /**
+     * index_name of the dead "Erschienen in" placeholder rows (empty xpath,
+     * kept only for their `sorting` value) — one per legacy doctype that
+     * used to show a host link there. Does NOT include `original_in_media`
+     * (uid 537, also labelled "Erschienen in"): that's a live Quellenangabe
+     * citation row from AddTypeSpecificSourceCitationRowsUpdate, not a
+     * placeholder, and must never be treated as a splice point.
+     */
+    private const HOST_PLACEHOLDER_INDEX_NAMES = [
+        'multivolume_proceeding',
+        'multivolume0000',
+        'multivolume_issue00',
+        'multivolume_lecture0',
+        'multivolume_monograph0',
+        'multivolume_doctoral_thesis',
+    ];
+
+    /** index_name of the dead "Schriftenreihe" placeholder row (empty xpath). */
+    private const SERIES_PLACEHOLDER_INDEX_NAME = 'series0';
+
+    /**
      * Render the metadata <dl> block — mirrors Metadata::printMetadata().
      *
      * The tx_dpf_metadata wrap TS (key./value./all.) is applied via
@@ -46,10 +77,21 @@ class LandingPageAssembler
      *   (from getHostUrl(getParentItems())), if any. Lets the "Quellenangabe" wrap
      *   rows (e.g. "Zeitschrift", "Konferenzband") link their prose title instead of
      *   showing a redundant unlinked line next to the separate parent-link block (#2039).
-     * @return string HTML string including the outer <div><dl> wrapper
+     * @param array $parentItems return value of getParentItems(). Host/series entries not
+     *   already embedded via $hostUrl are spliced into the <dl> at the position of their
+     *   now-dead legacy placeholder row (e.g. "multivolume_proceeding", "series0" — empty
+     *   xpath, kept only for their `sorting` value), matching where Kitodo.Presentation's
+     *   metadata plugin used to show them (#2039: order parity with the legacy page, where
+     *   "Erschienen in" sat right after the title fields, not at the very bottom).
+     * @return array{html: string, embeddedRelations: array{host: bool, series: bool}}
      */
-    public function getMetadataHtml(MetsDocument $doc, array $metadata, array $settings, string $hostUrl = ''): string
-    {
+    public function getMetadataHtml(
+        MetsDocument $doc,
+        array $metadata,
+        array $settings,
+        string $hostUrl = '',
+        array $parentItems = []
+    ): array {
         $cPid       = (int)($settings['pages'] ?? 0);
         $sysLangUid = (int)($GLOBALS['TSFE']->sys_language_uid ?? 0);
         $separator  = $settings['separator'] ?? ', ';
@@ -93,36 +135,150 @@ class LandingPageAssembler
         // Work on a copy so array_shift does not mutate the caller's array
         $local = $metadata;
 
+        [$hostItem, $seriesItem, $embedded] = $this->resolveEmbeddableParentItems($parentItems, $hostUrl, $metadata);
+
         $inner = '';
         foreach ($metaList as $indexName => $metaConf) {
-            $parsedValue = '';
             $fieldwrap   = $this->parseTS($metaConf['wrap']);
-
-            do {
-                // Mirrors PI plugin: @array_shift on potentially non-array key (e.g. 'authors'
-                // has no XPath rule; value comes from cObj->data via value.override.insertData)
-                $value = is_array($local[$indexName] ?? null) ? array_shift($local[$indexName]) : null;
-                if ($indexName === 'title') {
-                    $value = !empty($value) ? htmlspecialchars((string)$value) : '';
-                } elseif (in_array($indexName, ['owner', 'type', 'collection', 'language'], true) && !empty($value)) {
-                    $value = htmlspecialchars($this->translateValue($indexName, (string)$value, $settings));
-                } elseif (!empty($value)) {
-                    $value = htmlspecialchars((string)$value);
-                }
-                $value = $cObj->stdWrap($value ?? '', $fieldwrap['value.'] ?? []);
-                if (!empty($value)) {
-                    $parsedValue .= $value;
-                }
-            } while (!empty($local[$indexName]));
+            $parsedValue = $this->parseFieldValue($cObj, $local, $indexName, $fieldwrap, $settings);
 
             if (!empty($parsedValue)) {
                 $field  = $cObj->stdWrap(htmlspecialchars($metaConf['label']), $fieldwrap['key.'] ?? []);
                 $field .= $parsedValue;
                 $inner .= $cObj->stdWrap($field, $fieldwrap['all.'] ?? []);
+            } elseif (
+                $hostItem !== null
+                && !$embedded['host']
+                && in_array($indexName, self::HOST_PLACEHOLDER_INDEX_NAMES, true)
+            ) {
+                $inner .= $this->renderEmbeddedParentItemRow($hostItem);
+                $embedded['host'] = true;
+            } elseif (
+                $seriesItem !== null
+                && !$embedded['series']
+                && $indexName === self::SERIES_PLACEHOLDER_INDEX_NAME
+            ) {
+                $inner .= $this->renderEmbeddedParentItemRow($seriesItem);
+                $embedded['series'] = true;
             }
         }
 
-        return '<div class="tx-dpf-metadata tx-dlf-metadata"><div><dl>' . $inner . '</dl></div></div>';
+        [$inner, $embedded] = $this->appendUnplacedParentItems($inner, $hostItem, $seriesItem, $embedded);
+
+        $html = '<div class="tx-dpf-metadata tx-dlf-metadata"><div><dl>' . $inner . '</dl></div></div>';
+        return ['html' => $html, 'embeddedRelations' => $embedded];
+    }
+
+    /**
+     * Renders one field's value(s) through its wrap TypoScript — mirrors the
+     * PI plugin's per-field loop (repeatable fields shift/join via
+     * array_shift on $local until exhausted).
+     *
+     * @param array $local metadata values, consumed via array_shift as repeatable fields are read
+     * @param array $fieldwrap parsed TypoScript for this field (key./value./all.)
+     * @param array $settings Extbase settings, needed by translateValue()
+     */
+    private function parseFieldValue(
+        ContentObjectRenderer $cObj,
+        array &$local,
+        string $indexName,
+        array $fieldwrap,
+        array $settings
+    ): string {
+        $parsedValue = '';
+        do {
+            // Mirrors PI plugin: @array_shift on potentially non-array key (e.g. 'authors'
+            // has no XPath rule; value comes from cObj->data via value.override.insertData)
+            $value = is_array($local[$indexName] ?? null) ? array_shift($local[$indexName]) : null;
+            if ($indexName === 'title') {
+                $value = !empty($value) ? htmlspecialchars((string)$value) : '';
+            } elseif (in_array($indexName, ['owner', 'type', 'collection', 'language'], true) && !empty($value)) {
+                $value = htmlspecialchars($this->translateValue($indexName, (string)$value, $settings));
+            } elseif (!empty($value)) {
+                $value = htmlspecialchars((string)$value);
+            }
+            $value = $cObj->stdWrap($value ?? '', $fieldwrap['value.'] ?? []);
+            if (!empty($value)) {
+                $parsedValue .= $value;
+            }
+        } while (!empty($local[$indexName]));
+
+        return $parsedValue;
+    }
+
+    /**
+     * Picks the one host and one series entry (if any) getMetadataHtml()
+     * should try to splice into the <dl>, and pre-marks 'host' as already
+     * embedded when the Quellenangabe prose row will link it itself (item 2,
+     * #2039) — so neither the placeholder-splice nor the end-of-list
+     * fallback fire for it a second time.
+     *
+     * @param array $parentItems return value of getParentItems()
+     * @param string $hostUrl return value of getHostUrl($parentItems)
+     * @param array $metadata return value of MetsDocument::getTitleData()
+     * @return array{0: array|null, 1: array|null, 2: array{host: bool, series: bool}}
+     */
+    private function resolveEmbeddableParentItems(array $parentItems, string $hostUrl, array $metadata): array
+    {
+        $type = (string) ($metadata['type'][0] ?? '');
+        $hostAlreadyInProse = $hostUrl !== ''
+            && !empty($metadata['original_title'][0] ?? null)
+            && in_array($type, self::DOCTYPES_WITH_EMBEDDED_HOST_LINK, true);
+        $hostItem   = $hostAlreadyInProse ? null : $this->firstByRelation($parentItems, 'host');
+        $seriesItem = $this->firstByRelation($parentItems, 'series');
+        return [$hostItem, $seriesItem, ['host' => $hostAlreadyInProse, 'series' => false]];
+    }
+
+    /**
+     * Appends host/series rows that never matched their dead-placeholder
+     * label while walking $metaList (e.g. a doctype absent from the legacy
+     * tx_dlf_metadata table) — same fallback position the code used before
+     * the #2039 ordering fix.
+     *
+     * @return array{0: string, 1: array{host: bool, series: bool}}
+     */
+    private function appendUnplacedParentItems(string $inner, ?array $hostItem, ?array $seriesItem, array $embedded): array
+    {
+        if ($hostItem !== null && !$embedded['host']) {
+            $inner .= $this->renderEmbeddedParentItemRow($hostItem);
+            $embedded['host'] = true;
+        }
+        if ($seriesItem !== null && !$embedded['series']) {
+            $inner .= $this->renderEmbeddedParentItemRow($seriesItem);
+            $embedded['series'] = true;
+        }
+        return [$inner, $embedded];
+    }
+
+    /**
+     * @param array $parentItems return value of getParentItems()
+     */
+    private function firstByRelation(array $parentItems, string $relation): ?array
+    {
+        foreach ($parentItems as $item) {
+            if (($item['relation'] ?? '') === $relation) {
+                return $item;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Renders one parentItems entry as a <dt>/<dd> pair matching the markup the
+     * standalone parent-link partial (Show.html) used to produce, so embedding it
+     * into the metadata <dl> is visually identical to the block it replaces.
+     *
+     * @param array $item one entry from getParentItems() (keys: title, url, relationLabel)
+     */
+    private function renderEmbeddedParentItemRow(array $item): string
+    {
+        $label = htmlspecialchars($item['relationLabel']);
+        $title = htmlspecialchars($item['title']);
+        $value = $title;
+        if (!empty($item['url'])) {
+            $value = '<a href="' . htmlspecialchars($item['url']) . '">' . $title . '</a>';
+        }
+        return '<dt>' . $label . '</dt><dd>' . $value . '</dd>';
     }
 
     /**
@@ -334,52 +490,21 @@ class LandingPageAssembler
     }
 
     /**
-     * Doctypes whose tx_dpf_metadata "Quellenangabe" wrap row (e.g.
-     * "Zeitschrift", "Konferenzband") embeds the host link via getHostUrl()
-     * once EmbedHostLinkInQuellenangabeUpdate has run (#2039). For these,
-     * the host entry in parentItems is dropped so it isn't shown twice.
-     */
-    private const DOCTYPES_WITH_EMBEDDED_HOST_LINK = ['article', 'in_proceeding'];
-
-    /**
-     * @param array $parentItems return value of getParentItems()
-     * @param string $type the document's "type" field (mods:genre)
-     * @return array $parentItems with the host entry removed for doctypes
-     *   whose citation prose already links it; series entries are untouched.
-     */
-    public function filterEmbeddedHostItems(array $parentItems, string $type): array
-    {
-        if (!in_array($type, self::DOCTYPES_WITH_EMBEDDED_HOST_LINK, true)) {
-            return $parentItems;
-        }
-        return array_values(array_filter($parentItems, static function (array $item): bool {
-            return ($item['relation'] ?? '') !== 'host';
-        }));
-    }
-
-    /**
-     * The parentItems the template should actually render: with the host
-     * entry dropped only when the Quellenangabe prose row will actually
-     * render a linked title for it — i.e. both of the wrap row's own
-     * fieldRequired guards are met (non-empty original_title, non-empty
-     * host_url). Otherwise the host entry stays, so a record never ends up
-     * with neither a linked prose title nor a parentItems fallback (#2039).
+     * The parentItems the standalone template block should still render —
+     * i.e. everything getMetadataHtml() did *not* already embed into the
+     * <dl> itself, either via the Quellenangabe prose link or the ordering
+     * splice (#2039). Superseded the doctype-guessing
+     * filterEmbeddedHostItems()/getVisibleParentItems() pair: getMetadataHtml()
+     * now reports exactly what it embedded, so no heuristic is needed here.
      *
      * @param array $parentItems return value of getParentItems()
-     * @param string $hostUrl return value of getHostUrl($parentItems)
-     * @param string $originalTitle $metadata['original_title'][0] ?? ''
-     * @param string $type the document's "type" field (mods:genre)
+     * @param array $embeddedRelations the 'embeddedRelations' entry from getMetadataHtml()'s return value
      */
-    public function getVisibleParentItems(
-        array $parentItems,
-        string $hostUrl,
-        string $originalTitle,
-        string $type
-    ): array {
-        if ($hostUrl === '' || $originalTitle === '') {
-            return $parentItems;
-        }
-        return $this->filterEmbeddedHostItems($parentItems, $type);
+    public function filterEmbeddedRelations(array $parentItems, array $embeddedRelations): array
+    {
+        return array_values(array_filter($parentItems, static function (array $item) use ($embeddedRelations): bool {
+            return empty($embeddedRelations[$item['relation'] ?? '']);
+        }));
     }
 
     /**
