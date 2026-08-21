@@ -213,6 +213,7 @@ class LandingPageAssembler
             $node->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
             $node->registerXPathNamespace('slub', 'http://slub-dresden.de/');
 
+            $relation = $this->firstXPathValue($node, '@type');
             $type    = $this->preferredIdentifierType($node);
             $title   = $this->firstXPathValue($node, 'mods:titleInfo/mods:title');
             $docId   = $type !== '' ? $this->firstXPathValue($node, 'mods:identifier[@type="' . $type . '"]') : '';
@@ -234,6 +235,7 @@ class LandingPageAssembler
             }
 
             $raw[] = [
+                'relation' => $relation,
                 'type'   => $type,
                 'title'  => $title,
                 'docId'  => $docId,
@@ -286,9 +288,10 @@ class LandingPageAssembler
 
             $label = $item['title'] ?: $item['docId'];
             $result[] = [
-                'title' => $label,
-                'url'   => $url,
-                'type'  => $item['type'],
+                'title'         => $label,
+                'url'           => $url,
+                'type'          => $item['type'],
+                'relationLabel' => $this->relationLabel($item['relation']),
             ];
         }
 
@@ -520,6 +523,19 @@ class LandingPageAssembler
             }
         }
         return '';
+    }
+
+    /**
+     * German label for a relatedItem's own @type (host/series/constituent),
+     * shown above the parent link so it isn't a bare unlabeled URL (#2039).
+     */
+    private function relationLabel(string $relation): string
+    {
+        $labels = [
+            'host'   => 'Erschienen in',
+            'series' => 'Schriftenreihe',
+        ];
+        return $labels[$relation] ?? '';
     }
 
     /**
