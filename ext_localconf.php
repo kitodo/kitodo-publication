@@ -314,8 +314,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfFixMissin
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfFixIsbnOtherVersionScope'] =
     \EWW\Dpf\Updates\FixIsbnOtherVersionScopeUpdate::class;
 
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfLinkResearchDataUrl'] =
-    \EWW\Dpf\Updates\LinkResearchDataUrlUpdate::class;
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfFixResearchDataUrl1LinkTypo'] =
+    \EWW\Dpf\Updates\FixResearchDataUrl1LinkTypoUpdate::class;
 
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddFrenchTranslatedTitleRows'] =
     \EWW\Dpf\Updates\AddFrenchTranslatedTitleRowsUpdate::class;
