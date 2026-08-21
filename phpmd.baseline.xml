@@ -252,8 +252,8 @@
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getMetadataHtml"/>
   <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getMetadataHtml"/>
   <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Services/LandingPage/LandingPageAssembler.php"/>
-  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getRelatedItems"/>
-  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getRelatedItems"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="extractRelatedItems"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="extractRelatedItems"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getCoinsHtml"/>
   <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getCoinsHtml"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getMetaTags"/>

@@ -4,6 +4,21 @@
         <div class="tx-dpf-landingpage">
             <f:format.raw>{metadataHtml}</f:format.raw>
 
+            <f:if condition="{parentItems}">
+                <div class="tx-dpf-parentlink tx-dlf-relatedlisttool">
+                    <ul>
+                        <f:for each="{parentItems}" as="item">
+                            <li>
+                                <f:if condition="{item.url}">
+                                    <f:then><a href="{item.url}">{item.title -> f:format.htmlspecialchars()}</a></f:then>
+                                    <f:else>{item.title -> f:format.htmlspecialchars()}</f:else>
+                                </f:if>
+                            </li>
+                        </f:for>
+                    </ul>
+                </div>
+            </f:if>
+
             <f:if condition="{downloads}">
                 <div class="tx-dpf-downloadtool tx-dlf-downloadtool">
                     <ul>

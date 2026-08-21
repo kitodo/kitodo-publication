@@ -164,10 +164,9 @@ class LandingPageAssembler
 
 
     /**
-     * Return structured related items — mirrors RelatedListTool::getRelatedItems().
-     *
-     * Covers both directions: "constituent" (downward, issue→articles) and
-     * "host"/"series" (upward, article→issue, issue→journal, book→series).
+     * Return constituent (downward, issue→articles) related items — mirrors
+     * RelatedListTool::getRelatedItems(). Rendered as the "contained items"
+     * list.
      *
      * @param MetsDocument $doc
      * @param array $settings
@@ -175,7 +174,33 @@ class LandingPageAssembler
      */
     public function getRelatedItems(MetsDocument $doc, array $settings): array
     {
-        $items = $doc->mets->xpath('//mods:relatedItem[@type="constituent" or @type="host" or @type="series"]');
+        return $this->extractRelatedItems($doc, $settings, '//mods:relatedItem[@type="constituent"]');
+    }
+
+    /**
+     * Return "host"/"series" (upward, article→issue, issue→journal,
+     * book→series) related items — the document's parent/container. Rendered
+     * separately near the top of the landing page, not mixed into the
+     * "contained items" list below (#2039).
+     *
+     * @param MetsDocument $doc
+     * @param array $settings
+     * @return array [['title' => string, 'url' => string|null, 'type' => string], ...]
+     */
+    public function getParentItems(MetsDocument $doc, array $settings): array
+    {
+        return $this->extractRelatedItems($doc, $settings, '//mods:relatedItem[@type="host" or @type="series"]');
+    }
+
+    /**
+     * @param MetsDocument $doc
+     * @param array $settings
+     * @param string $xpath selects which relatedItem nodes to extract
+     * @return array [['title' => string, 'url' => string|null, 'type' => string], ...]
+     */
+    private function extractRelatedItems(MetsDocument $doc, array $settings, string $xpath): array
+    {
+        $items = $doc->mets->xpath($xpath);
         if (!is_array($items) || empty($items)) {
             return [];
         }
@@ -193,6 +218,14 @@ class LandingPageAssembler
             $docId   = $type !== '' ? $this->firstXPathValue($node, 'mods:identifier[@type="' . $type . '"]') : '';
             $order   = $this->firstXPathValue($node, 'mods:extension/slub:info/slub:sortingKey');
             $volume  = $this->firstXPathValue($node, 'mods:part[@type="volume" or @type="issue"]/mods:detail/mods:number');
+
+            // A host/series relatedItem stub often carries only an identifier
+            // (see qucosa-80960: <relatedItem type="host"> has no titleInfo
+            // at all), so the link fell back to the raw URN as its label
+            // (#2039). Resolve the real title from the public search index.
+            if ($title === '' && $docId !== '') {
+                $title = $this->resolveTitleFromPublicIndex($type, $docId);
+            }
 
             // Neither title nor identifier: nothing to display or link
             // (seen live on qucosa-14455 as a visible empty list row).
@@ -252,9 +285,6 @@ class LandingPageAssembler
             }
 
             $label = $item['title'] ?: $item['docId'];
-            if ($item['order']) {
-                $label .= ' - ' . $item['order'];
-            }
             $result[] = [
                 'title' => $label,
                 'url'   => $url,
@@ -432,6 +462,64 @@ class LandingPageAssembler
     {
         $result = $node->xpath($xpath);
         return !empty($result) ? (string)$result[0] : '';
+    }
+
+    /**
+     * Looks up a related item's title in the public search index when the
+     * relatedItem stub itself carries none (#2039). Never throws — any
+     * lookup failure (ES down, doc not indexed) leaves the caller to fall
+     * back to the raw identifier as before.
+     */
+    private function resolveTitleFromPublicIndex(string $type, string $docId): string
+    {
+        try {
+            $index = GeneralUtility::makeInstance(\EWW\Dpf\Services\ElasticSearch\PublicElasticSearch::class);
+
+            if ($type === 'local') {
+                $doc = $index->getDocument(strtolower($docId));
+                $titles = $doc['_source']['title'] ?? [];
+                return !empty($titles) ? (string)$titles[0] : '';
+            }
+
+            if ($type === 'urn') {
+                $results = $index->search([
+                    'body' => ['query' => ['term' => ['identifier.keyword' => $docId]]],
+                ]);
+                return $this->pickOwnTitleFromSearchHits($results['hits']['hits'] ?? [], $docId);
+            }
+        } catch (\Throwable $e) {
+            // ES unreachable or doc not indexed — caller falls back to docId as label.
+        }
+
+        return '';
+    }
+
+    /**
+     * A relatedItem's URN can match several public-index docs at once: the
+     * target itself, plus every sibling that merely links to it via a host
+     * relation (getSearchIdentifiers() flattens inherited identifiers into
+     * the same field — see qucosa-80960's journal URN, shared by 8 issues
+     * in the index). The target is the one hit whose own identifier list
+     * contains this URN exactly once — siblings carry it twice (their own
+     * URN plus the inherited one).
+     *
+     * @param array $hits ES hits array (each with '_source' => ['title' => [...], 'identifier' => [...]])
+     * @param string $urn the queried URN
+     * @return string
+     */
+    public function pickOwnTitleFromSearchHits(array $hits, string $urn): string
+    {
+        foreach ($hits as $hit) {
+            $identifiers = $hit['_source']['identifier'] ?? [];
+            $urnCount = count(array_filter($identifiers, static function ($id) {
+                return strpos((string)$id, 'urn:') === 0;
+            }));
+            if ($urnCount === 1 && in_array($urn, $identifiers, true)) {
+                $titles = $hit['_source']['title'] ?? [];
+                return !empty($titles) ? (string)$titles[0] : '';
+            }
+        }
+        return '';
     }
 
     /**
