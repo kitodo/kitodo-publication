@@ -30,7 +30,7 @@ class AddFrenchTranslatedTitleRowsUpdateTest extends UnitTestCase
         $this->assertSame('translated_title_fre', $rows[2]['index_name']);
     }
 
-    public function testExtractionRowsUseCorrectLanguageCode()
+    public function testExtractionRowsUseCorrectLanguageCodeAndAreHidden()
     {
         $rows = (new AddFrenchTranslatedTitleRowsUpdate())->getNewRows();
 
@@ -39,6 +39,9 @@ class AddFrenchTranslatedTitleRowsUpdateTest extends UnitTestCase
             $this->assertSame('MODS', $row['format_type']);
             $this->assertStringContainsString('@lang="fre"', $row['xpath']);
             $this->assertStringContainsString('@type="translated"', $row['xpath']);
+            // Hidden: rendered only via the composite row's {field:...} reference,
+            // never standalone - matches the established translated_title1_eng/ger pattern.
+            $this->assertSame(1, $row['hidden']);
         }
     }
 
@@ -49,9 +52,14 @@ class AddFrenchTranslatedTitleRowsUpdateTest extends UnitTestCase
 
         $this->assertSame(0, $composite['format']);
         $this->assertSame('', $composite['xpath']);
+        $this->assertArrayNotHasKey('hidden', $composite);
         $this->assertStringContainsString('value.fieldRequired = translated_title1_fre', $composite['wrap']);
         $this->assertStringContainsString('{field:translated_title1_fre}', $composite['wrap']);
         $this->assertStringContainsString('{field:translated_subtitle1_fre}', $composite['wrap']);
+        // Must use wrap3 (applied after value.append), not plain wrap (applied before
+        // append) - the latter lets the appended subtitle text leak outside the <dd>.
+        $this->assertStringContainsString('value.wrap3 = <dd>|</dd>', $composite['wrap']);
+        $this->assertStringNotContainsString('value.wrap =', $composite['wrap']);
     }
 
     public function testSortingValuesAreDistinctAndOrdered()

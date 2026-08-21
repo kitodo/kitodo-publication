@@ -43,6 +43,7 @@ class AddFrenchTranslatedTitleRowsUpdate implements UpgradeWizardInterface
         return [
         [
             'pid' => 1,
+            'hidden' => 1,
             'sorting' => 20650,
             'index_name' => 'translated_title1_fre',
             'label' => 'Übersetzter Haupttitel (FRZ)',
@@ -54,6 +55,7 @@ class AddFrenchTranslatedTitleRowsUpdate implements UpgradeWizardInterface
         ],
         [
             'pid' => 1,
+            'hidden' => 1,
             'sorting' => 20670,
             'index_name' => 'translated_subtitle1_fre',
             'label' => 'Übersetzter Untertitel (FRZ)',
@@ -81,7 +83,7 @@ class AddFrenchTranslatedTitleRowsUpdate implements UpgradeWizardInterface
                 . "\tvalue.noTrimWrap = | : ||\n"
                 . "\tvalue.noTrimWrap.fieldRequired = translated_subtitle1_fre\n"
                 . "}\n"
-                . "value.wrap = <dd>|</dd>",
+                . "value.wrap3 = <dd>|</dd>",
         ],
         ];
     }
