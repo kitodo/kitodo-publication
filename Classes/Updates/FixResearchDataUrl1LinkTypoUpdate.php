@@ -21,41 +21,44 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
  * Fixes #2039 red item "Forschungsdatenverweis" (Buch, qucosa-80365): the
- * label renders but the link doesn't. Extraction is fine (researchData_url1
- * xpath correctly matches qucosa-80365's mods:relatedItem[@type="references"]
- * URL) - the row's wrap just prints the value as plain text
- * (`value.wrap = <dd>|</dd>`), so the URL shows as inert text, never as an
- * `<a href>`.
+ * label renders but the link doesn't. The row that actually renders this
+ * block is "researchData1" (uid 127) - a composite TypoScript COA that
+ * assembles up to 4 research-data entries from the (individually hidden)
+ * researchData_title/doi/urlN extraction rows.
  *
- * Adds a self-referencing typolink (the URL field is both link text and
- * target), same dataWrap.typolink shape as
- * EmbedHostLinkInQuellenangabeUpdate.php's host-link fix.
+ * Items 2-4's link line correctly reads `field = researchData_url2/3/4`.
+ * Item 1's link line has a typo: `field = researchData_url` (missing the
+ * "1" suffix) - a field that doesn't exist, so `required = 1` always blanks
+ * it, and the link text/href for the first (and often only) research-data
+ * entry never renders, even though the underlying data extracts fine
+ * (confirmed against the live metsdisseminator output for qucosa-80365).
  */
-class LinkResearchDataUrlUpdate implements UpgradeWizardInterface
+class FixResearchDataUrl1LinkTypoUpdate implements UpgradeWizardInterface
 {
-    private const AFFECTED_INDEX_NAMES = [
-        'researchData_url1',
-        'researchData_url2',
-        'researchData_url3',
-        'researchData_url4',
-    ];
+    private const AFFECTED_INDEX_NAME = 'researchData1';
 
-    private const OLD_VALUE_WRAP = 'value.wrap = <dd>|</dd>';
+    private const OLD_FIELD = "\t30 {\n\t\tfield = researchData_url\n\t\trequired = 1\n"
+        . "\t\ttypolink.parameter.field = researchData_url1\n\t\twrap = Link:&nbsp;|<br />\n\t}";
+
+    private const NEW_FIELD = "\t30 {\n\t\tfield = researchData_url1\n\t\trequired = 1\n"
+        . "\t\ttypolink.parameter.field = researchData_url1\n\t\twrap = Link:&nbsp;|<br />\n\t}";
 
     public function getIdentifier(): string
     {
-        return 'dpfLinkResearchDataUrl';
+        return 'dpfFixResearchDataUrl1LinkTypo';
     }
 
     public function getTitle(): string
     {
-        return 'Render Forschungsdatenverweis URLs as links, not plain text';
+        return 'Fix researchData1 item-1 link field-name typo';
     }
 
     public function getDescription(): string
     {
-        return 'Adds a typolink to the researchData_url1-4 tx_dpf_metadata rows so the '
-            . 'extracted research-data URL renders as a clickable link instead of inert text.';
+        return 'The "researchData1" tx_dpf_metadata row\'s wrap displays the link text for its first '
+            . 'entry from a nonexistent field ("researchData_url" instead of "researchData_url1"), so '
+            . 'the link never rendered even though the underlying URL extracted fine. Items 2-4 already '
+            . 'use the correctly-suffixed field name; this fixes item 1 to match (#2039).';
     }
 
     public function getPrerequisites(): array
@@ -71,29 +74,16 @@ class LinkResearchDataUrlUpdate implements UpgradeWizardInterface
      */
     public function computeFix(array $row): array
     {
-        if (!in_array($row['index_name'], self::AFFECTED_INDEX_NAMES, true)) {
+        if ($row['index_name'] !== self::AFFECTED_INDEX_NAME) {
             return [];
         }
 
         $wrap = (string) $row['wrap'];
-        $indexName = $row['index_name'];
-
-        if (strpos($wrap, 'value.dataWrap.typolink.parameter') !== false) {
+        if (strpos($wrap, self::OLD_FIELD) === false) {
             return [];
         }
 
-        if (strpos($wrap, self::OLD_VALUE_WRAP) === false) {
-            return [];
-        }
-
-        $newValueWrap = "value.dataWrap = {field:$indexName}\n"
-            . "value.dataWrap.typolink.parameter = {field:$indexName}\n"
-            . "value.dataWrap.typolink.parameter.fieldRequired = $indexName\n"
-            . self::OLD_VALUE_WRAP;
-
-        $wrap = str_replace(self::OLD_VALUE_WRAP, $newValueWrap, $wrap);
-
-        return ['wrap' => $wrap];
+        return ['wrap' => str_replace(self::OLD_FIELD, self::NEW_FIELD, $wrap)];
     }
 
     protected function findAffectedRows(): array
@@ -102,8 +92,8 @@ class LinkResearchDataUrlUpdate implements UpgradeWizardInterface
             ->getConnectionForTable('tx_dpf_metadata');
 
         return $connection->executeQuery(
-            'SELECT uid, index_name, wrap FROM tx_dpf_metadata WHERE deleted = 0 AND index_name IN (?, ?, ?, ?)',
-            self::AFFECTED_INDEX_NAMES
+            'SELECT uid, index_name, wrap FROM tx_dpf_metadata WHERE deleted = 0 AND index_name = ?',
+            [self::AFFECTED_INDEX_NAME]
         )->fetchAll();
     }
 
