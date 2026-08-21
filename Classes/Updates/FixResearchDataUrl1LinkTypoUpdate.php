@@ -37,11 +37,14 @@ class FixResearchDataUrl1LinkTypoUpdate implements UpgradeWizardInterface
 {
     private const AFFECTED_INDEX_NAME = 'researchData1';
 
-    private const OLD_FIELD = "\t30 {\n\t\tfield = researchData_url\n\t\trequired = 1\n"
-        . "\t\ttypolink.parameter.field = researchData_url1\n\t\twrap = Link:&nbsp;|<br />\n\t}";
+    // tx_dpf_metadata.wrap is stored with CRLF line endings on this table (confirmed via
+    // HEX() on the live row) - matching on \n alone silently never matches, and
+    // updateNecessary() then reports nothing to fix.
+    private const OLD_FIELD = "\t30 {\r\n\t\tfield = researchData_url\r\n\t\trequired = 1\r\n"
+        . "\t\ttypolink.parameter.field = researchData_url1\r\n\t\twrap = Link:&nbsp;|<br />\r\n\t}";
 
-    private const NEW_FIELD = "\t30 {\n\t\tfield = researchData_url1\n\t\trequired = 1\n"
-        . "\t\ttypolink.parameter.field = researchData_url1\n\t\twrap = Link:&nbsp;|<br />\n\t}";
+    private const NEW_FIELD = "\t30 {\r\n\t\tfield = researchData_url1\r\n\t\trequired = 1\r\n"
+        . "\t\ttypolink.parameter.field = researchData_url1\r\n\t\twrap = Link:&nbsp;|<br />\r\n\t}";
 
     public function getIdentifier(): string
     {
