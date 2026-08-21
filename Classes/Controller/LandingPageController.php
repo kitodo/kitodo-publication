@@ -104,6 +104,7 @@ class LandingPageController extends ActionController
             'downloads'    => $assembler->getDownloads($doc, $this->settings),
             'parentItems'  => $assembler->filterEmbeddedRelations($parentItems, $metadataResult['embeddedRelations']),
             'relatedItems' => $assembler->getRelatedItems($doc, $this->settings),
+            'embargoInfo'  => $assembler->getEmbargoInfo($qid),
             'coinsHtml'    => $assembler->getCoinsHtml($metadata),
         ]);
     }

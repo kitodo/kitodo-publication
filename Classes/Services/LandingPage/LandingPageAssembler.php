@@ -790,6 +790,51 @@ class LandingPageAssembler
     }
 
     /**
+     * Looks up embargo status for the current document in the public search
+     * index (#1985/#2039 display piece only - the actual download block is
+     * enforced separately at publish time via Document::publicXml(), not
+     * here). No METS/MODS element carries embargo info, so this can't be
+     * read from $doc like other fields. Never throws; a lookup failure or a
+     * past/absent embargo date both render nothing.
+     *
+     * @return array{isEmbargoed: bool, embargoDate: string} embargoDate is
+     *   '' when not currently embargoed.
+     */
+    public function getEmbargoInfo(string $qid): array
+    {
+        $notEmbargoed = ['isEmbargoed' => false, 'embargoDate' => ''];
+
+        try {
+            $index = GeneralUtility::makeInstance(\EWW\Dpf\Services\ElasticSearch\PublicElasticSearch::class);
+            $document = $index->getDocument(strtolower($qid));
+            $embargoDate = (string)($document['_source']['embargoDate'] ?? '');
+        } catch (\Throwable $e) {
+            return $notEmbargoed;
+        }
+
+        if (!$this->isFutureDate($embargoDate)) {
+            return $notEmbargoed;
+        }
+
+        return [
+            'isEmbargoed' => true,
+            'embargoDate' => $this->safelyFormatDate('d.m.Y', $embargoDate),
+        ];
+    }
+
+    /**
+     * @param string $date empty string, or any format strtotime() accepts
+     */
+    private function isFutureDate(string $date): bool
+    {
+        if ($date === '') {
+            return false;
+        }
+        $timestamp = strtotime($date);
+        return $timestamp !== false && $timestamp > time();
+    }
+
+    /**
      * Join multi-value field values, skipping empty and whitespace-only
      * entries — empty MODS elements (e.g. <mods:subTitle/>) extract as empty
      * strings and would otherwise produce stray separators in the output.
