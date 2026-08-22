@@ -323,6 +323,9 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddFrench
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfFixIssnOtherVersionScope'] =
     \EWW\Dpf\Updates\FixIssnOtherVersionScopeUpdate::class;
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfFixQuellenangabeFieldRequiredGate'] =
+    \EWW\Dpf\Updates\FixQuellenangabeFieldRequiredGateUpdate::class;
+
 // Public search results vary per request and are never page-cached (plugin runs as USER_INT),
 // so its GET parameters carry no caching risk and don't need a cHash.
 // CacheHashCalculator::isExcludedParameter() does an exact match per key, no wildcards.
