@@ -710,8 +710,15 @@ class LandingPageAssembler
             }
 
             if ($type === 'urn') {
+                // A shared series/collection URN can have more hits than ES's default
+                // page size of 10 (e.g. 14 volumes of one Schriftenreihe, #2039) —
+                // without an explicit size the container's own record can be pushed
+                // past the cutoff and never reach pickOwnTitleFromSearchHits() at all.
                 $results = $index->search([
-                    'body' => ['query' => ['term' => ['identifier.keyword' => $docId]]],
+                    'body' => [
+                        'query' => ['term' => ['identifier.keyword' => $docId]],
+                        'size'  => 50,
+                    ],
                 ]);
                 return $this->pickOwnTitleFromSearchHits($results['hits']['hits'] ?? [], $docId);
             }
@@ -727,16 +734,26 @@ class LandingPageAssembler
      * target itself, plus every sibling that merely links to it via a host
      * relation (getSearchIdentifiers() flattens inherited identifiers into
      * the same field — see qucosa-80960's journal URN, shared by 8 issues
-     * in the index). The target is the one hit whose own identifier list
-     * contains this URN exactly once — siblings carry it twice (their own
-     * URN plus the inherited one).
+     * in the index). The target is normally the one hit whose own identifier
+     * list contains this URN exactly once — siblings carry it twice (their
+     * own URN plus the inherited one).
      *
-     * @param array $hits ES hits array (each with '_source' => ['title' => [...], 'identifier' => [...]])
+     * That count-based rule assumes the target's only URN is the shared one.
+     * A multivolume-work container can carry its own distinct URN *and* the
+     * shared one (qucosa-35005/urn:...334170, #2039) — two URNs, so it never
+     * matches the count rule even though it's genuinely the target. For that
+     * case, fall back to doctype: a hit whose own doctype marks it as a
+     * container (periodical/series/multivolume_work) is the target regardless
+     * of how many URNs it carries.
+     *
+     * @param array $hits ES hits array (each with '_source' => ['title' => [...], 'identifier' => [...], 'doctype' => string])
      * @param string $urn the queried URN
      * @return string
      */
     public function pickOwnTitleFromSearchHits(array $hits, string $urn): string
     {
+        static $containerDoctypes = ['periodical', 'series', 'multivolume_work'];
+
         foreach ($hits as $hit) {
             $identifiers = $hit['_source']['identifier'] ?? [];
             $urnCount = count(array_filter($identifiers, static function ($id) {
@@ -747,6 +764,16 @@ class LandingPageAssembler
                 return !empty($titles) ? (string)$titles[0] : '';
             }
         }
+
+        foreach ($hits as $hit) {
+            $identifiers = $hit['_source']['identifier'] ?? [];
+            $doctype = (string)($hit['_source']['doctype'] ?? '');
+            if (in_array($doctype, $containerDoctypes, true) && in_array($urn, $identifiers, true)) {
+                $titles = $hit['_source']['title'] ?? [];
+                return !empty($titles) ? (string)$titles[0] : '';
+            }
+        }
+
         return '';
     }
 

@@ -419,6 +419,36 @@ XML;
     }
 
     /**
+     * Reproduces qucosa-35005: the multivolume_work container carries its own
+     * distinct URN *and* the shared/inherited one, so the urn-count-1 rule
+     * never matches it. doctype must be used as the fallback discriminator (#2039).
+     */
+    public function testPickOwnTitleFromSearchHitsFallsBackToDoctypeForMultivolumeWork()
+    {
+        $assembler = new LandingPageAssembler();
+        $urn = 'urn:nbn:de:bsz:15-qucosa2-334170';
+
+        $hits = [
+            [
+                '_source' => [
+                    'title' => ['Tagungsband'],
+                    'identifier' => ['qucosa-33421', 'UBL-19-595', $urn, 'urn:nbn:de:bsz:15-qucosa2-334215'],
+                    'doctype' => 'proceeding',
+                ],
+            ],
+            [
+                '_source' => [
+                    'title' => ['9. Leipziger Tierärztekongress', '[18. bis 20. Januar 2018]'],
+                    'identifier' => ['qucosa-33417', 'UBL-19-591', 'urn:nbn:de:bsz:15-qucosa2-342569', $urn],
+                    'doctype' => 'multivolume_work',
+                ],
+            ],
+        ];
+
+        $this->assertSame('9. Leipziger Tierärztekongress', $assembler->pickOwnTitleFromSearchHits($hits, $urn));
+    }
+
+    /**
      * Reproduces qucosa-83142: identifier[@type=issn] precedes identifier[@type=urn]
      * in document order. Must still pick "urn" (produces a link), not "issn" (null url).
      * Exercised via reflection on the private selector directly — going through
