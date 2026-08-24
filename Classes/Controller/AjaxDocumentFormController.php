@@ -84,6 +84,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
             $field->setMaxInputLength($object->getMaxInputLength());
             $field->setValue("", $object->getDefaultValue());
             $field->setObjectType($object->getObjectType());
+            $field->setHelpText($object->getHelpText());
 
             $groupItem->addItem($field);
         }
@@ -139,6 +140,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
         $fieldItem->setMaxInputLength($field->getMaxInputLength());
         $fieldItem->setValue("", $field->getDefaultValue());
         $fieldItem->setObjectType($field->getObjectType());
+        $fieldItem->setHelpText($field->getHelpText());
 
         $this->view->assign('formPageUid', $pageUid);
         $this->view->assign('formGroupUid', $groupUid);
@@ -197,6 +199,7 @@ class AjaxDocumentFormController extends \EWW\Dpf\Controller\AbstractController
         $fieldItem->setMaxInputLength($field->getMaxInputLength());
         $fieldItem->setValue("", $field->getDefaultValue());
         $fieldItem->setObjectType($field->getObjectType());
+        $fieldItem->setHelpText($field->getHelpText());
 
         $this->view->assign('formPageUid', $pageUid);
         $this->view->assign('formGroupUid', $groupUid);

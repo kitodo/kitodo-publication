@@ -30,6 +30,13 @@
         <legend>
             <span class="groupCounter" data-groupcount="{groupCount}"><f:if condition="{groupCount}">+{groupCount}:</f:if></span>
             {formGroupDisplayName}
+            <f:if condition="{groupItem.infoText}">
+                <a data-toggle="collapse" href="#collapseGroup{formGroupUid}-{groupIndex}">
+                    <span data-toggle="tooltip" title="">
+                        <i class="fas fa-question-circle"></i>
+                    </span>
+                </a>
+            </f:if>
             <f:if condition="{groupIndex}">
                 <button type="button" name="rem_group" class="btn btn-outline-secondary rem_group" data-group="{formGroupUid}"
                         {f:if(condition: '{groupCount} < 1' , then: 'style="display:none;"')} >
@@ -37,10 +44,17 @@
                     <i class="fas fa-times"></i><span class="sr-only">{f:translate(key: 'form_button.delete_item', arguments: {0: formGroupDisplayName})}</span>
                 </button>
             </f:if>
-            <div class="group-info-text">
-                <f:format.raw>{groupItem.infoText}</f:format.raw>
-            </div>
         </legend>
+        <f:if condition="{groupItem.infoText}">
+            <div class="collapse group-info-text" id="collapseGroup{formGroupUid}-{groupIndex}">
+                <div class="alert alert-primary" role="alert">
+                    <a class="close" href="#collapseGroup{formGroupUid}-{groupIndex}" data-toggle="collapse" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                    <f:format.raw>{groupItem.infoText}</f:format.raw>
+                </div>
+            </div>
+        </f:if>
     </f:if>
 
     <f:for each="{eww:explodeString(string:'{groupItem.groupType}', glue:',')}" as="api" iteration="iterator">

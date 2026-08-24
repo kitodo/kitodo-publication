@@ -388,6 +388,7 @@ class FormDataReader
                             $documentFormField->setFillOutService($metadataObject->getFillOutService());
                             $documentFormField->setGndFieldUid($metadataObject->getGndFieldUid());
                             $documentFormField->setMaxInputLength($metadataObject->getMaxInputLength());
+                            $documentFormField->setHelpText($metadataObject->getHelpText());
                             $documentFormField->setValue($object, $metadataObject->getDefaultValue());
                             $depositLicense = $this->depositLicenseRepository->findByUid($metadataObject->getDepositLicense());
                             $documentFormField->setDepositLicense($depositLicense);
