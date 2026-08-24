@@ -26,7 +26,19 @@ class PublicQueryBuilder
     private const MAX_SIZE = 100;
 
     /**
-     * Builds a public-safe ES query. State filter NONE:ACTIVE is non-overridable.
+     * Builds a public-safe ES query. No state filter is applied here: the
+     * public index write path (PublicDocumentMapper::map()) already gates
+     * every indexed document to remoteState=ACTIVE + fulltext collection,
+     * so anything reaching this query is by construction eligible.
+     *
+     * A prior version filtered `state == 'NONE:ACTIVE'` here too, which
+     * looked like defense in depth but was actually a distinct, wrong third
+     * condition ("and has no open working copy") layered on top of the
+     * write-time gate - it made every actively-embargoed document
+     * permanently unsearchable, since DocumentManager deliberately keeps an
+     * embargoed document's local state at IN_PROGRESS (never NONE) for as
+     * long as its embargo is active. That directly contradicted #1969: an
+     * active embargo must affect delivery/download only, never findability.
      *
      * @param array  $criteria  Keys: q, doctype, year, yearFrom, yearTo, sort
      * @param int    $size      Results per page (clamped to MAX_SIZE)
@@ -72,7 +84,7 @@ class PublicQueryBuilder
 
     private function buildFilters(array $criteria): array
     {
-        $filters = [['term' => ['state' => 'NONE:ACTIVE']]];
+        $filters = [];
 
         if (!empty($criteria['doctype'])) {
             $filters[] = ['term' => ['doctype' => $criteria['doctype']]];
