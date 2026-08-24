@@ -165,11 +165,12 @@ class GetFileController extends ActionController
     public function metsAction(string $qid, string $deliverInactive = ""): void
     {
         if ($this->isRemote($qid)) {
-            $state = $this->getKitodoPublicationState($this->resourcePathFor($qid));
+            $objectIdentifier = $this->resolveObjectIdentifier($qid);
+            $state = $this->getKitodoPublicationState($this->resourcePathFor($objectIdentifier));
             if (!$this->canProceedWithState($state, $qid, $deliverInactive)) {
                 throw new ForbiddenException(sprintf("Access to requested document %s is not permitted", $qid), 403);
             }
-            $uri = $this->metsUriFor($qid);
+            $uri = $this->metsUriFor($objectIdentifier);
             try {
                 $response = (new Client())->get($uri);
             } catch (GuzzleException $exception) {
@@ -233,6 +234,33 @@ class GetFileController extends ActionController
         }
         // Not in DB — fall back: numeric = local UID, anything else = remote Fedora PID
         return !Identifier::isUid($qid);
+    }
+
+    /**
+     * Resolves a request qid to the Fedora objectIdentifier a remote action
+     * must actually use to build request paths against Fedora/the METS
+     * dissemination service.
+     *
+     * findByIdentifier() already accepts either a process number (e.g.
+     * `UBL-25-667`) or an objectIdentifier (e.g. `qucosa-99227`), but Fedora
+     * containers are only ever keyed by objectIdentifier. For freshly
+     * created UBL documents these two happen to be the same string
+     * (DocumentStorage::ingest() sets objectIdentifier = strtolower(process
+     * number)), which is why passing a process number appeared to work -
+     * but for any migrated document, where the two differ, using the raw
+     * qid as a Fedora path 404s even though the state/embargo checks above
+     * resolve it correctly via the DB.
+     *
+     * @param string $qid Request identifier (process number or objectIdentifier)
+     * @return string The Fedora objectIdentifier to use for path building
+     */
+    private function resolveObjectIdentifier(string $qid): string
+    {
+        $document = $this->documentRepository->findByIdentifier($qid);
+        if ($document !== null && !empty($document->getObjectIdentifier())) {
+            return $document->getObjectIdentifier();
+        }
+        return $qid;
     }
 
     /**
@@ -427,12 +455,13 @@ class GetFileController extends ActionController
             throw new Exception("ZIP method not allowed for local documents", 405);
         }
 
-        $state = $this->getKitodoPublicationState($this->resourcePathFor($qid));
+        $objectIdentifier = $this->resolveObjectIdentifier($qid);
+        $state = $this->getKitodoPublicationState($this->resourcePathFor($objectIdentifier));
         if (!$this->canProceedWithStateForFileDelivery($state, $qid)) {
             throw new ForbiddenException(sprintf("Access to requested document %s is not permitted", $qid), 403);
         }
 
-        $metsUri = $this->metsUriFor($qid);
+        $metsUri = $this->metsUriFor($objectIdentifier);
         $zipUri = str_replace('$metsUri', rawurlencode($metsUri), $this->zipUriTemplate);
         try {
             $response = (new Client())->get($zipUri);
@@ -463,11 +492,12 @@ class GetFileController extends ActionController
     public function dataCiteAction(string $qid): void
     {
         if ($this->isRemote($qid)) {
-            $state = $this->getKitodoPublicationState($this->resourcePathFor($qid));
+            $objectIdentifier = $this->resolveObjectIdentifier($qid);
+            $state = $this->getKitodoPublicationState($this->resourcePathFor($objectIdentifier));
             if (!$this->canProceedWithState($state, $qid)) {
                 throw new ForbiddenException(sprintf("Access to requested document %s is not permitted", $qid), 403);
             }
-            $uri = $this->metsUriFor($qid);
+            $uri = $this->metsUriFor($objectIdentifier);
             try {
                 $response = (new Client())->get($uri);
             } catch (GuzzleException $exception) {
@@ -536,11 +566,12 @@ class GetFileController extends ActionController
     public function attachmentAction(string $qid, string $attachment, string $deliverInactive = ""): void
     {
         if ($this->isRemote($qid)) {
-            $state = $this->getKitodoPublicationState($this->resourcePathFor($qid));
+            $objectIdentifier = $this->resolveObjectIdentifier($qid);
+            $state = $this->getKitodoPublicationState($this->resourcePathFor($objectIdentifier));
             if (!$this->canProceedWithStateForFileDelivery($state, $qid, $deliverInactive)) {
                 throw new ForbiddenException(sprintf("Access to requested document %s is not permitted", $qid), 403);
             }
-            $resourceUri = $this->resourcePathFor($qid, $attachment);
+            $resourceUri = $this->resourcePathFor($objectIdentifier, $attachment);
             $client = $this->getAuthenticatedFedoraClient();
             try {
                 $response = ($client)->get($resourceUri);
