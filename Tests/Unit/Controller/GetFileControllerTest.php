@@ -6,8 +6,10 @@ use EWW\Dpf\Controller\GetFileController;
 use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Domain\Repository\DocumentRepository;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
+use EWW\Dpf\Services\ElasticSearch\PublicElasticSearch;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Covers GetFileController's two state-gate methods (private, reached via
@@ -60,6 +62,27 @@ class GetFileControllerTest extends TestCase
         $method = new ReflectionMethod(GetFileController::class, 'resolveObjectIdentifier');
         $method->setAccessible(true);
         return $method->invoke($controller, $qid);
+    }
+
+    private function callIsRemote(GetFileController $controller, string $qid): bool
+    {
+        $method = new ReflectionMethod(GetFileController::class, 'isRemote');
+        $method->setAccessible(true);
+        return $method->invoke($controller, $qid);
+    }
+
+    /**
+     * Queues a PublicElasticSearch mock for the next GeneralUtility::makeInstance()
+     * call so resolveViaPublicIndex() doesn't reach out to a real ES server.
+     */
+    private function stubPublicIndexSearchResult(?string $foundObjectIdentifier): void
+    {
+        $es = $this->createMock(PublicElasticSearch::class);
+        $hits = $foundObjectIdentifier === null
+            ? []
+            : [['_source' => ['objectIdentifier' => $foundObjectIdentifier]]];
+        $es->method('search')->willReturn(['hits' => ['hits' => $hits]]);
+        GeneralUtility::addInstance(PublicElasticSearch::class, $es);
     }
 
     public function testFileDeliveryBlockedForActiveDocumentUnderEmbargo(): void
@@ -149,5 +172,37 @@ class GetFileControllerTest extends TestCase
         // qid must already be the Fedora objectIdentifier itself.
         $controller = $this->makeController(null);
         $this->assertSame('qucosa-11203', $this->callResolveObjectIdentifier($controller, 'qucosa-11203'));
+    }
+
+    /**
+     * Process-number collision fix, 2026-08-24: a migrated document has no
+     * local DB row at all, so findByIdentifier() (checked above by
+     * testUnknownQidResolvesToItself) can't resolve its process number.
+     * Found live: a colliding local test document with the same process
+     * number was served instead of the real, DB-row-less migrated document
+     * (landing-page/UBL-25-667 resolved to "test 217" instead of
+     * qucosa-99227). resolveObjectIdentifier() must fall back to the public
+     * ES index - which does have the mapping - before giving up and
+     * returning the qid unresolved.
+     */
+    public function testResolvesProcessNumberViaPublicIndexWhenNoDbRow(): void
+    {
+        $controller = $this->makeController(null);
+        $this->stubPublicIndexSearchResult('qucosa-99227');
+        $this->assertSame('qucosa-99227', $this->callResolveObjectIdentifier($controller, 'UBL-25-667'));
+    }
+
+    public function testIsRemoteTrueForProcessNumberFoundOnlyInPublicIndex(): void
+    {
+        $controller = $this->makeController(null);
+        $this->stubPublicIndexSearchResult('qucosa-99227');
+        $this->assertTrue($this->callIsRemote($controller, 'UBL-25-667'));
+    }
+
+    public function testUnknownQidStillResolvesToItselfWhenPublicIndexHasNoMatch(): void
+    {
+        $controller = $this->makeController(null);
+        $this->stubPublicIndexSearchResult(null);
+        $this->assertSame('UBL-25-667', $this->callResolveObjectIdentifier($controller, 'UBL-25-667'));
     }
 }

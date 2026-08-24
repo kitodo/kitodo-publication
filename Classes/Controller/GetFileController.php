@@ -23,6 +23,7 @@ use EWW\Dpf\Security\PreviewToken;
 use EWW\Dpf\Domain\Repository\DocumentRepository;
 use EWW\Dpf\Domain\Workflow\DocumentWorkflow;
 use EWW\Dpf\Helper\DataCiteXml;
+use EWW\Dpf\Services\ElasticSearch\PublicElasticSearch;
 use EWW\Dpf\Services\Identifier\Identifier;
 use EWW\Dpf\Services\Storage\Fedora\ResourceTuple;
 use EWW\Dpf\Services\Transformer\XSLTransformator;
@@ -32,9 +33,11 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use Throwable;
 use TYPO3\CMS\Core\Error\Http\BadRequestException;
 use TYPO3\CMS\Core\Error\Http\ForbiddenException;
 use TYPO3\CMS\Core\Error\Http\StatusException;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\RequestInterface as ExtbaseRequestInterface;
 use TYPO3\CMS\Extbase\Mvc\ResponseInterface as ExtbaseResponseInterface;
@@ -232,7 +235,12 @@ class GetFileController extends ActionController
         if ($document !== null) {
             return !empty($document->getObjectIdentifier());
         }
-        // Not in DB — fall back: numeric = local UID, anything else = remote Fedora PID
+        // Not in DB — migrated documents have no DB row at all, so check the
+        // public ES index before falling back (see resolveObjectIdentifier()).
+        if ($this->resolveViaPublicIndex($qid) !== null) {
+            return true;
+        }
+        // Not in DB or public index — fall back: numeric = local UID, anything else = remote Fedora PID
         return !Identifier::isUid($qid);
     }
 
@@ -260,7 +268,37 @@ class GetFileController extends ActionController
         if ($document !== null && !empty($document->getObjectIdentifier())) {
             return $document->getObjectIdentifier();
         }
-        return $qid;
+        return $this->resolveViaPublicIndex($qid) ?? $qid;
+    }
+
+    /**
+     * Resolves a process-number qid to its Fedora objectIdentifier via the
+     * public ES index, for documents that have no local DB row at all
+     * (migrated documents — see resolveObjectIdentifier()'s docblock).
+     * DB-only lookups miss these entirely, which is what let a colliding
+     * local test document win by default (see #processNumber collision
+     * fix, 2026-08-24).
+     *
+     * @return string|null The objectIdentifier, or null if qid isn't a
+     *   process number, nothing matched, or the index is unreachable.
+     */
+    private function resolveViaPublicIndex(string $qid): ?string
+    {
+        if (!Identifier::isProcessNumber($qid)) {
+            return null;
+        }
+        try {
+            $es = GeneralUtility::makeInstance(PublicElasticSearch::class);
+            $result = $es->search([
+                'body' => [
+                    'query' => ['term' => ['process_number' => $qid]],
+                    'size'  => 1,
+                ],
+            ]);
+        } catch (Throwable $e) {
+            return null;
+        }
+        return $result['hits']['hits'][0]['_source']['objectIdentifier'] ?? null;
     }
 
     /**
