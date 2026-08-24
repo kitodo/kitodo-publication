@@ -295,8 +295,16 @@ class GetFileController extends ActionController
 
     /**
      * Check whether the specified object is considered active in the
-     * Kitodo.Publication workflow. And if not, whether the request carries a
-     * valid preview token for this document.
+     * Kitodo.Publication workflow, and not currently under embargo. And if
+     * not, whether the request carries a valid preview token for this
+     * document.
+     *
+     * The container itself stays REMOTE_STATE_ACTIVE while under embargo (by
+     * design, #1969/#1985: metadata/landing page must stay public), so an
+     * active container state alone must not be sufficient to deliver a file.
+     * Per #1985, embargo blocks delivery as long as the Embargo-Enddatum
+     * field carries any value at all, regardless of whether the date itself
+     * has already passed (see Document::isActiveEmbargo()).
      *
      * @param string $state State of a Kitodo.Publication object
      * @param string $qid Document identifier the token must be bound to
@@ -305,8 +313,17 @@ class GetFileController extends ActionController
      */
     private function canProceedWithState(string $state, string $qid, string $givenToken = ''): bool
     {
-        return $state === DocumentWorkflow::REMOTE_STATE_ACTIVE
-            || $this->isValidToken($givenToken, $qid);
+        if ($this->isValidToken($givenToken, $qid)) {
+            return true;
+        }
+        if ($state !== DocumentWorkflow::REMOTE_STATE_ACTIVE) {
+            return false;
+        }
+        $document = $this->documentRepository->findByIdentifier($qid);
+        if ($document !== null && $document->isActiveEmbargo()) {
+            return false;
+        }
+        return true;
     }
 
     /**
