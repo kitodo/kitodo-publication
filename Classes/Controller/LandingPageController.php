@@ -133,6 +133,11 @@ class LandingPageController extends ActionController
             'forceAbsoluteUrl' => true,
             'useCacheHash'     => 0,
         ]);
+        // 'useCacheHash' => 0 above doesn't reliably suppress cHash for
+        // every TypoScript/routing configuration - strip it explicitly so
+        // the canonical URL stays stable across requests/sessions instead
+        // of embedding a value tied to this one request.
+        $canonicalUrl = preg_replace('/[?&]cHash=[^&]*/', '', $canonicalUrl);
         $pageRenderer->addHeaderData(
             '<link rel="canonical" href="' . htmlspecialchars($canonicalUrl) . '">'
         );
