@@ -90,6 +90,8 @@ class LandingPageController extends ActionController
             }
         }
 
+        $this->addCanonicalLink($cObj, $pageRenderer, $doc->recordId);
+
         $parentItems = array_merge(
             $assembler->getParentItems($doc, $this->settings),
             $assembler->getSequenceItems($doc, $this->settings)
@@ -107,5 +109,32 @@ class LandingPageController extends ActionController
             'embargoInfo'  => $assembler->getEmbargoInfo($qid),
             'coinsHtml'    => $assembler->getCoinsHtml($metadata),
         ]);
+    }
+
+    /**
+     * A landing page is reachable under either the document's process
+     * number or its Fedora objectIdentifier (findByIdentifier() in
+     * GetFileController accepts both). Two URLs for the same content is bad
+     * for SEO/citation ambiguity, so declare the objectIdentifier form
+     * canonical - it's what the public ES index _id and Fedora's own
+     * container key already use.
+     *
+     * @param string $recordId The METS OBJID, i.e. the true objectIdentifier,
+     *   resolved regardless of which form the request's qid came in as.
+     */
+    private function addCanonicalLink(ContentObjectRenderer $cObj, PageRenderer $pageRenderer, string $recordId): void
+    {
+        if (empty($recordId)) {
+            return;
+        }
+        $canonicalUrl = $cObj->typoLink_URL([
+            'parameter'        => $GLOBALS['TSFE']->id,
+            'additionalParams' => '&tx_dpf_landingpage[qid]=' . rawurlencode($recordId),
+            'forceAbsoluteUrl' => true,
+            'useCacheHash'     => 0,
+        ]);
+        $pageRenderer->addHeaderData(
+            '<link rel="canonical" href="' . htmlspecialchars($canonicalUrl) . '">'
+        );
     }
 }

@@ -47,11 +47,19 @@ class GetFileControllerTest extends TestCase
         return new GetFileController($documentRepository, $clientConfigurationManager);
     }
 
-    private function makeDocument(bool $activeEmbargo): Document
+    private function makeDocument(bool $activeEmbargo, string $objectIdentifier = ''): Document
     {
         $doc = $this->createMock(Document::class);
         $doc->method('isActiveEmbargo')->willReturn($activeEmbargo);
+        $doc->method('getObjectIdentifier')->willReturn($objectIdentifier);
         return $doc;
+    }
+
+    private function callResolveObjectIdentifier(GetFileController $controller, string $qid): string
+    {
+        $method = new ReflectionMethod(GetFileController::class, 'resolveObjectIdentifier');
+        $method->setAccessible(true);
+        return $method->invoke($controller, $qid);
     }
 
     public function testFileDeliveryBlockedForActiveDocumentUnderEmbargo(): void
@@ -111,5 +119,35 @@ class GetFileControllerTest extends TestCase
             'canProceedWithStateForFileDelivery',
             $controller, DocumentWorkflow::REMOTE_STATE_ACTIVE, 'qucosa-11203'
         ));
+    }
+
+    /**
+     * #1969/#1985: process-number and objectIdentifier URLs resolved to the
+     * same DB row for the state/embargo checks (findByIdentifier() already
+     * handles both), but Fedora path building used the raw request qid
+     * directly - which 404s for any migrated document, where objectIdentifier
+     * (the old Fedora 3 qucosa-ID) differs from the process number it was
+     * later assigned. Found live: landing-page/UBL-25-667 (process number)
+     * failed while landing-page/qucosa-99227 (objectIdentifier, same
+     * document) worked.
+     */
+    public function testResolvesProcessNumberToObjectIdentifier(): void
+    {
+        $controller = $this->makeController($this->makeDocument(false, 'qucosa-99227'));
+        $this->assertSame('qucosa-99227', $this->callResolveObjectIdentifier($controller, 'UBL-25-667'));
+    }
+
+    public function testObjectIdentifierResolvesToItself(): void
+    {
+        $controller = $this->makeController($this->makeDocument(false, 'qucosa-99227'));
+        $this->assertSame('qucosa-99227', $this->callResolveObjectIdentifier($controller, 'qucosa-99227'));
+    }
+
+    public function testUnknownQidResolvesToItself(): void
+    {
+        // No local Document row at all - nothing to resolve against, the
+        // qid must already be the Fedora objectIdentifier itself.
+        $controller = $this->makeController(null);
+        $this->assertSame('qucosa-11203', $this->callResolveObjectIdentifier($controller, 'qucosa-11203'));
     }
 }
