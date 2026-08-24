@@ -64,7 +64,7 @@ class PreviewViewHelper extends AbstractViewHelper
         $landingPageUri = $this->uriBuilder
             ->reset()
             ->setTargetPageUid($pageUid)
-            ->setArguments(['tx_dpf' => $args])
+            ->setArguments(['tx_dpf_landingpage' => $args])
             ->setCreateAbsoluteUri(true)
             ->setUseCacheHash(true)
             ->buildFrontendUri();
@@ -117,8 +117,6 @@ class PreviewViewHelper extends AbstractViewHelper
             if ($document) {
 
                 $row['qid'] = $document->getProcessNumber();
-
-                $row['action'] = 'preview';
 
                 if (!empty($deliverInactive)) {
                     $row['deliverInactive'] = PreviewToken::generate($row['qid'], $deliverInactive);

@@ -65,7 +65,6 @@ class PreviewViewHelper extends AbstractViewHelper
     {
         $documentIdentifier = $this->arguments['documentIdentifier'];
         $pageUid = $this->arguments['pageUid'];
-        $action = $this->arguments['action'];
         $deliverInactive = $this->arguments['deliverInactive'];
 
         if (empty($documentIdentifier)) {
@@ -80,9 +79,6 @@ class PreviewViewHelper extends AbstractViewHelper
         }
 
         $args = ['qid' => $qid];
-        if ($action !== 'mets') {
-            $args['action'] = $action;
-        }
         if (!empty($deliverInactive)) {
             $args['deliverInactive'] = PreviewToken::generate($qid, $deliverInactive);
         }
@@ -90,7 +86,7 @@ class PreviewViewHelper extends AbstractViewHelper
         return $this->uriBuilder
             ->reset()
             ->setTargetPageUid($pageUid)
-            ->setArguments(['tx_dpf' => $args])
+            ->setArguments(['tx_dpf_landingpage' => $args])
             ->setCreateAbsoluteUri(true)
             ->setUseCacheHash(true)
             ->buildFrontendUri();
