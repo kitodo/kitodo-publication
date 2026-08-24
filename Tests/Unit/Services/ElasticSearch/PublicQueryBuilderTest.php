@@ -14,37 +14,33 @@ class PublicQueryBuilderTest extends TestCase
         $this->builder = new PublicQueryBuilder();
     }
 
-    public function testStateFilterAlwaysPresent(): void
+    /**
+     * No state filter is applied at query time - the public index write
+     * path already gates every document to remoteState=ACTIVE + fulltext
+     * collection (PublicDocumentMapper::map()). A prior 'state' == 'NONE:ACTIVE'
+     * filter here made every actively-embargoed document unsearchable
+     * (DocumentManager keeps an embargoed doc's local state at IN_PROGRESS,
+     * never NONE, for as long as the embargo is active), contradicting
+     * #1969's requirement that embargo must not affect findability.
+     */
+    public function testNoStateFilterApplied(): void
     {
         $query = $this->builder->buildQuery([]);
         $filter = $this->extractMustFilters($query);
-        $this->assertContains(['term' => ['state' => 'NONE:ACTIVE']], $filter);
+        $stateClauses = array_filter($filter, function ($clause) {
+            return isset($clause['term']['state']);
+        });
+        $this->assertCount(0, $stateClauses);
     }
 
-    public function testStateFilterPresentWithSearchTerm(): void
-    {
-        $query = $this->builder->buildQuery(['q' => 'test']);
-        $filter = $this->extractMustFilters($query);
-        $this->assertContains(['term' => ['state' => 'NONE:ACTIVE']], $filter);
-    }
-
-    public function testStateFilterPresentWithDoctype(): void
-    {
-        $query = $this->builder->buildQuery(['doctype' => 'article']);
-        $filter = $this->extractMustFilters($query);
-        $this->assertContains(['term' => ['state' => 'NONE:ACTIVE']], $filter);
-    }
-
-    public function testStateFilterCannotBeOverridden(): void
+    public function testStateCriteriaIsIgnored(): void
     {
         $query = $this->builder->buildQuery(['state' => 'NONE:NONE']);
         $filter = $this->extractMustFilters($query);
-        $this->assertContains(['term' => ['state' => 'NONE:ACTIVE']], $filter);
-        foreach ($filter as $clause) {
-            if (isset($clause['term']['state'])) {
-                $this->assertSame('NONE:ACTIVE', $clause['term']['state']);
-            }
-        }
+        $stateClauses = array_filter($filter, function ($clause) {
+            return isset($clause['term']['state']);
+        });
+        $this->assertCount(0, $stateClauses);
     }
 
     public function testSearchTermBuildsQueryString(): void
