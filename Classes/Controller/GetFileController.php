@@ -167,8 +167,8 @@ class GetFileController extends ActionController
      */
     public function metsAction(string $qid, string $deliverInactive = ""): void
     {
-        if ($this->isRemote($qid)) {
-            $objectIdentifier = $this->resolveObjectIdentifier($qid);
+        $objectIdentifier = $this->resolveObjectIdentifier($qid);
+        if ($objectIdentifier !== null) {
             $state = $this->getKitodoPublicationState($this->resourcePathFor($objectIdentifier));
             if (!$this->canProceedWithState($state, $qid, $deliverInactive)) {
                 throw new ForbiddenException(sprintf("Access to requested document %s is not permitted", $qid), 403);
@@ -229,25 +229,12 @@ class GetFileController extends ActionController
         $this->response->setContent($xml);
     }
 
-    private function isRemote(string $qid): bool
-    {
-        $document = $this->documentRepository->findByIdentifier($qid);
-        if ($document !== null) {
-            return !empty($document->getObjectIdentifier());
-        }
-        // Not in DB — migrated documents have no DB row at all, so check the
-        // public ES index before falling back (see resolveObjectIdentifier()).
-        if ($this->resolveViaPublicIndex($qid) !== null) {
-            return true;
-        }
-        // Not in DB or public index — fall back: numeric = local UID, anything else = remote Fedora PID
-        return !Identifier::isUid($qid);
-    }
-
     /**
      * Resolves a request qid to the Fedora objectIdentifier a remote action
      * must actually use to build request paths against Fedora/the METS
-     * dissemination service.
+     * dissemination service. Returns null when the document is local (i.e.
+     * not remote), so a single DB/ES lookup serves both the isRemote check
+     * and the objectIdentifier resolution previously done separately.
      *
      * findByIdentifier() already accepts either a process number (e.g.
      * `UBL-25-667`) or an objectIdentifier (e.g. `qucosa-99227`), but Fedora
@@ -260,15 +247,22 @@ class GetFileController extends ActionController
      * resolve it correctly via the DB.
      *
      * @param string $qid Request identifier (process number or objectIdentifier)
-     * @return string The Fedora objectIdentifier to use for path building
+     * @return string|null The Fedora objectIdentifier to use for path building, or null if local
      */
-    private function resolveObjectIdentifier(string $qid): string
+    private function resolveObjectIdentifier(string $qid): ?string
     {
         $document = $this->documentRepository->findByIdentifier($qid);
-        if ($document !== null && !empty($document->getObjectIdentifier())) {
-            return $document->getObjectIdentifier();
+        if ($document !== null) {
+            return $document->getObjectIdentifier() ?: null;
         }
-        return $this->resolveViaPublicIndex($qid) ?? $qid;
+        // Not in DB — migrated documents have no DB row at all, so check the
+        // public ES index before falling back.
+        $resolved = $this->resolveViaPublicIndex($qid);
+        if ($resolved !== null) {
+            return $resolved;
+        }
+        // Not in DB or public index — fall back: numeric = local UID, anything else = remote Fedora PID
+        return Identifier::isUid($qid) ? null : $qid;
     }
 
     /**
@@ -489,11 +483,11 @@ class GetFileController extends ActionController
      */
     public function zipAction(string $qid): StreamInterface
     {
-        if (!$this->isRemote($qid)) {
+        $objectIdentifier = $this->resolveObjectIdentifier($qid);
+        if ($objectIdentifier === null) {
             throw new Exception("ZIP method not allowed for local documents", 405);
         }
 
-        $objectIdentifier = $this->resolveObjectIdentifier($qid);
         $state = $this->getKitodoPublicationState($this->resourcePathFor($objectIdentifier));
         if (!$this->canProceedWithStateForFileDelivery($state, $qid)) {
             throw new ForbiddenException(sprintf("Access to requested document %s is not permitted", $qid), 403);
@@ -529,8 +523,8 @@ class GetFileController extends ActionController
      */
     public function dataCiteAction(string $qid): void
     {
-        if ($this->isRemote($qid)) {
-            $objectIdentifier = $this->resolveObjectIdentifier($qid);
+        $objectIdentifier = $this->resolveObjectIdentifier($qid);
+        if ($objectIdentifier !== null) {
             $state = $this->getKitodoPublicationState($this->resourcePathFor($objectIdentifier));
             if (!$this->canProceedWithState($state, $qid)) {
                 throw new ForbiddenException(sprintf("Access to requested document %s is not permitted", $qid), 403);
@@ -603,8 +597,8 @@ class GetFileController extends ActionController
      */
     public function attachmentAction(string $qid, string $attachment, string $deliverInactive = ""): void
     {
-        if ($this->isRemote($qid)) {
-            $objectIdentifier = $this->resolveObjectIdentifier($qid);
+        $objectIdentifier = $this->resolveObjectIdentifier($qid);
+        if ($objectIdentifier !== null) {
             $state = $this->getKitodoPublicationState($this->resourcePathFor($objectIdentifier));
             if (!$this->canProceedWithStateForFileDelivery($state, $qid, $deliverInactive)) {
                 throw new ForbiddenException(sprintf("Access to requested document %s is not permitted", $qid), 403);

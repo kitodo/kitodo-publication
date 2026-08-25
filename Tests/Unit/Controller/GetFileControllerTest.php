@@ -27,6 +27,15 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class GetFileControllerTest extends TestCase
 {
+    protected function tearDown(): void
+    {
+        // stubPublicIndexSearchResult() queues instances via addInstance();
+        // purge them so an instance left unconsumed by one test (e.g. an
+        // assertion failing before it's consumed) can't leak into the next.
+        GeneralUtility::purgeInstances();
+        parent::tearDown();
+    }
+
     private function callMethod(
         string $methodName,
         GetFileController $controller,
@@ -57,16 +66,9 @@ class GetFileControllerTest extends TestCase
         return $doc;
     }
 
-    private function callResolveObjectIdentifier(GetFileController $controller, string $qid): string
+    private function callResolveObjectIdentifier(GetFileController $controller, string $qid): ?string
     {
         $method = new ReflectionMethod(GetFileController::class, 'resolveObjectIdentifier');
-        $method->setAccessible(true);
-        return $method->invoke($controller, $qid);
-    }
-
-    private function callIsRemote(GetFileController $controller, string $qid): bool
-    {
-        $method = new ReflectionMethod(GetFileController::class, 'isRemote');
         $method->setAccessible(true);
         return $method->invoke($controller, $qid);
     }
@@ -192,17 +194,22 @@ class GetFileControllerTest extends TestCase
         $this->assertSame('qucosa-99227', $this->callResolveObjectIdentifier($controller, 'UBL-25-667'));
     }
 
-    public function testIsRemoteTrueForProcessNumberFoundOnlyInPublicIndex(): void
-    {
-        $controller = $this->makeController(null);
-        $this->stubPublicIndexSearchResult('qucosa-99227');
-        $this->assertTrue($this->callIsRemote($controller, 'UBL-25-667'));
-    }
-
     public function testUnknownQidStillResolvesToItselfWhenPublicIndexHasNoMatch(): void
     {
         $controller = $this->makeController(null);
         $this->stubPublicIndexSearchResult(null);
         $this->assertSame('UBL-25-667', $this->callResolveObjectIdentifier($controller, 'UBL-25-667'));
+    }
+
+    /**
+     * A local Document row with no objectIdentifier is the "not remote"
+     * case previously carried by the separate isRemote() method - merged
+     * into resolveObjectIdentifier() to remove the duplicate DB/ES lookup
+     * (bug_003). Callers now branch on null instead of a boolean.
+     */
+    public function testLocalDocumentWithoutObjectIdentifierResolvesToNull(): void
+    {
+        $controller = $this->makeController($this->makeDocument(false, ''));
+        $this->assertNull($this->callResolveObjectIdentifier($controller, 'ubl-25-667'));
     }
 }
