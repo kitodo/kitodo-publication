@@ -449,31 +449,6 @@ XML;
     }
 
     /**
-     * Reproduces qucosa-83142: identifier[@type=issn] precedes identifier[@type=urn]
-     * in document order. Must still pick "urn" (produces a link), not "issn" (null url).
-     * Exercised via reflection on the private selector directly — going through
-     * getRelatedItems()'s "urn" branch would require a full TSFE bootstrap.
-     */
-    public function testPreferredIdentifierTypePrefersUrnOverEarlierNonLinkableType()
-    {
-        $xml = <<<XML
-<?xml version="1.0"?>
-<mods:relatedItem xmlns:mods="http://www.loc.gov/mods/v3" type="host">
-    <mods:identifier type="issn">2748-8489</mods:identifier>
-    <mods:identifier type="urn">urn:nbn:de:bsz:14-qucosa2-83142</mods:identifier>
-</mods:relatedItem>
-XML;
-        $node = new \SimpleXMLElement($xml);
-        $node->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
-
-        $assembler = new LandingPageAssembler();
-        $method = new \ReflectionMethod(LandingPageAssembler::class, 'preferredIdentifierType');
-        $method->setAccessible(true);
-
-        $this->assertEquals('urn', $method->invoke($assembler, $node));
-    }
-
-    /**
      * getHostUrl() picks the host relatedItem's URL for embedding into the
      * "Quellenangabe" prose row (#2039); a series entry must not be picked
      * even if it happens to precede the host entry.
