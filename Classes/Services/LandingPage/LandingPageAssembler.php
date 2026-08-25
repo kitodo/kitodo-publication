@@ -391,7 +391,7 @@ class LandingPageAssembler
             $node->registerXPathNamespace('slub', 'http://slub-dresden.de/');
 
             $relation = $this->firstXPathValue($node, '@type');
-            $type    = $this->preferredIdentifierType($node);
+            $type    = \EWW\Dpf\Common\ModsIdentifier::preferredType($node);
             $title   = $this->firstXPathValue($node, 'mods:titleInfo/mods:title');
             $docId   = $type !== '' ? $this->firstXPathValue($node, 'mods:identifier[@type="' . $type . '"]') : '';
             $order   = $this->firstXPathValue($node, 'mods:extension/slub:info/slub:sortingKey');
@@ -796,21 +796,6 @@ class LandingPageAssembler
      * relatedItem nodes can carry multiple mods:identifier/@type; prefer the
      * types that produce a clickable link (urn, then local) over document order.
      */
-    private function preferredIdentifierType(\SimpleXMLElement $node): string
-    {
-        $types = $node->xpath('mods:identifier/@type');
-        if (empty($types)) {
-            return '';
-        }
-        $values = array_map('strval', $types);
-        foreach (['urn', 'local'] as $preferred) {
-            if (in_array($preferred, $values, true)) {
-                return $preferred;
-            }
-        }
-        return $values[0];
-    }
-
     private function safelyFormatDate(string $format, string $date): string
     {
         return strlen($date) === 4 ? $date : date($format, (int)strtotime($date));
