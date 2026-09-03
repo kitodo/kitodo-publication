@@ -616,11 +616,12 @@ XML;
     /**
      * resolveEmbeddableParentItems() must only pre-embed 'host' for the
      * doctypes whose Quellenangabe wrap row actually consumes {field:host_url}
-     * (article, in_proceeding — EmbedHostLinkInQuellenangabeUpdate). Every
-     * other doctype's host relatedItem is not consumed by any wrap row, so
-     * it must still come back as a splice candidate — reproduces a bug where
-     * doctype was dropped from the guard and e.g. contained_work's host link
-     * was silently discarded (not spliced, not in prose, filtered from the
+     * (article, in_proceeding, contained_work — EmbedHostLinkInQuellenangabeUpdate
+     * / FixSammelbandHostLinkAndFieldOrderUpdate, #2040 item 5). Every other
+     * doctype's host relatedItem is not consumed by any wrap row, so it must
+     * still come back as a splice candidate — reproduces a bug where doctype
+     * was dropped from the guard and e.g. a monograph's host link was
+     * silently discarded (not spliced, not in prose, filtered from the
      * bottom block).
      */
     public function testResolveEmbeddableParentItemsEmbedsHostOnlyForWrapConsumingDoctypes()
@@ -637,6 +638,11 @@ XML;
         $this->assertTrue($embedded['host']);
 
         $metadata['type'] = ['contained_work'];
+        [$hostItem, , $embedded] = $method->invoke($assembler, $parentItems, 'https://example.org/host', $metadata);
+        $this->assertNull($hostItem);
+        $this->assertTrue($embedded['host']);
+
+        $metadata['type'] = ['monograph'];
         [$hostItem, , $embedded] = $method->invoke($assembler, $parentItems, 'https://example.org/host', $metadata);
         $this->assertSame($parentItems[0], $hostItem);
         $this->assertFalse($embedded['host']);
