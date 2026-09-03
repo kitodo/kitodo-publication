@@ -667,4 +667,62 @@ XML;
         );
         $this->assertSame($parentItems[0], $hostItem);
     }
+
+    /**
+     * #2041: qucosa-11116's own METS (the "Vorgänger" target for
+     * qucosa-11225) carries its issue designation as a top-level mods:part,
+     * not inside any relatedItem.
+     */
+    public function testExtractIssueDesignationReadsTopLevelPart()
+    {
+        $assembler = new LandingPageAssembler();
+        $mets = $this->metsFixture(
+            '<mods:part type="issue"><mods:detail><mods:number>2.2010</mods:number></mods:detail></mods:part>'
+        );
+
+        $this->assertSame('2.2010', $assembler->extractIssueDesignation($mets));
+    }
+
+    public function testExtractIssueDesignationReturnsEmptyWhenAbsent()
+    {
+        $assembler = new LandingPageAssembler();
+        $mets = $this->metsFixture('');
+
+        $this->assertSame('', $assembler->extractIssueDesignation($mets));
+    }
+
+    /**
+     * A mods:part[@type="issue"] nested inside a relatedItem (e.g. the
+     * current document's own host relation) must not be picked up - only
+     * the target document's own top-level designation is wanted.
+     */
+    public function testExtractIssueDesignationIgnoresPartNestedInRelatedItem()
+    {
+        $assembler = new LandingPageAssembler();
+        $mets = $this->metsFixture(
+            '<mods:relatedItem type="host">'
+            . '<mods:part type="issue"><mods:detail><mods:number>5,1 (2025)</mods:number></mods:detail></mods:part>'
+            . '</mods:relatedItem>'
+        );
+
+        $this->assertSame('', $assembler->extractIssueDesignation($mets));
+    }
+
+    /**
+     * Builds a minimal namespaced METS root wrapping the given mods:mods
+     * inner content, matching what MetsDocument::getInstance() leaves on
+     * ->mets (namespaces registered, mods:mods reachable via //mods:mods).
+     */
+    private function metsFixture(string $modsInner): \SimpleXMLElement
+    {
+        $xml = new \SimpleXMLElement(
+            '<mets:mets xmlns:mets="http://www.loc.gov/METS/" xmlns:mods="http://www.loc.gov/mods/v3">'
+            . '<mets:dmdSec><mets:mdWrap><mets:xmlData>'
+            . '<mods:mods>' . $modsInner . '</mods:mods>'
+            . '</mets:xmlData></mets:mdWrap></mets:dmdSec>'
+            . '</mets:mets>'
+        );
+        MetsDocument::registerNamespaces($xml);
+        return $xml;
+    }
 }
