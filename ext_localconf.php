@@ -332,6 +332,9 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfFixOtherV
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfFixHostEditorPositionScope'] =
     \EWW\Dpf\Updates\FixHostEditorPositionScopeUpdate::class;
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddThirdEditorSlotToConferenceQuellenangabe'] =
+    \EWW\Dpf\Updates\AddThirdEditorSlotToConferenceQuellenangabeUpdate::class;
+
 // Public search results vary per request and are never page-cached (plugin runs as USER_INT),
 // so its GET parameters carry no caching risk and don't need a cHash.
 // CacheHashCalculator::isExcludedParameter() does an exact match per key, no wildcards.
