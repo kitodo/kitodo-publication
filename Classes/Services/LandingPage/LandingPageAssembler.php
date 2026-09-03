@@ -39,9 +39,10 @@ class LandingPageAssembler
      * doctype's host relatedItem is not consumed by any wrap row, so it must
      * still be spliced into the <dl> by resolveEmbeddableParentItems() below
      * — keep this list in sync with EmbedHostLinkInQuellenangabeUpdate's
-     * AFFECTED_INDEX_NAMES (original0000000000=article, original_in_proceeding0000000=in_proceeding).
+     * AFFECTED_INDEX_NAMES (original0000000000=article, original_in_proceeding0000000=in_proceeding)
+     * and FixSammelbandHostLinkAndFieldOrderUpdate (original_in_book=contained_work, #2040 item 5).
      */
-    private const DOCTYPES_WITH_EMBEDDED_HOST_LINK = ['article', 'in_proceeding'];
+    private const DOCTYPES_WITH_EMBEDDED_HOST_LINK = ['article', 'in_proceeding', 'contained_work'];
 
     /**
      * index_name of the dead "Erschienen in" placeholder rows (empty xpath,
