@@ -402,8 +402,16 @@ class LandingPageAssembler
             // (see qucosa-80960: <relatedItem type="host"> has no titleInfo
             // at all), so the link fell back to the raw URN as its label
             // (#2039). Resolve the real title from the public search index.
+            $targetObjectIdentifier = '';
             if ($title === '' && $docId !== '') {
-                $title = $this->resolveTitleFromPublicIndex($type, $docId);
+                $resolved = $this->resolveTitleFromPublicIndex($type, $docId);
+                $title = $resolved['title'];
+                $targetObjectIdentifier = $resolved['objectIdentifier'];
+            }
+
+            if (in_array($relation, ['preceding', 'succeeding'], true)) {
+                $targetId = $type === 'local' ? $docId : $targetObjectIdentifier;
+                $title = $this->appendIssueDesignation($title, $targetId, $settings);
             }
 
             // Neither title nor identifier: nothing to display or link
@@ -698,8 +706,13 @@ class LandingPageAssembler
      * relatedItem stub itself carries none (#2039). Never throws — any
      * lookup failure (ES down, doc not indexed) leaves the caller to fall
      * back to the raw identifier as before.
+     *
+     * @return array{title: string, objectIdentifier: string} objectIdentifier
+     *   is '' when unresolved (used by resolveIssueDesignation() for #2041's
+     *   Vorgänger/Nachfolger issue-designation lookup, which needs the
+     *   target's real objectIdentifier, not its shared/inherited URN).
      */
-    private function resolveTitleFromPublicIndex(string $type, string $docId): string
+    private function resolveTitleFromPublicIndex(string $type, string $docId): array
     {
         try {
             $index = GeneralUtility::makeInstance(\EWW\Dpf\Services\ElasticSearch\PublicElasticSearch::class);
@@ -707,27 +720,107 @@ class LandingPageAssembler
             if ($type === 'local') {
                 $doc = $index->getDocument(strtolower($docId));
                 $titles = $doc['_source']['title'] ?? [];
-                return !empty($titles) ? (string)$titles[0] : '';
+                return [
+                    'title'            => !empty($titles) ? (string)$titles[0] : '',
+                    'objectIdentifier' => (string)($doc['_source']['objectIdentifier'] ?? ''),
+                ];
             }
 
             if ($type === 'urn') {
                 // A shared series/collection URN can have more hits than ES's default
                 // page size of 10 (e.g. 14 volumes of one Schriftenreihe, #2039) —
                 // without an explicit size the container's own record can be pushed
-                // past the cutoff and never reach pickOwnTitleFromSearchHits() at all.
+                // past the cutoff and never reach pickOwnHit() at all.
                 $results = $index->search([
                     'body' => [
                         'query' => ['term' => ['identifier.keyword' => $docId]],
                         'size'  => 50,
                     ],
                 ]);
-                return $this->pickOwnTitleFromSearchHits($results['hits']['hits'] ?? [], $docId);
+                $hit = $this->pickOwnHit($results['hits']['hits'] ?? [], $docId);
+                return [
+                    'title'            => $hit !== null ? $this->hitTitle($hit) : '',
+                    'objectIdentifier' => $hit !== null ? (string)($hit['_source']['objectIdentifier'] ?? '') : '',
+                ];
             }
         } catch (\Throwable $e) {
             // ES unreachable or doc not indexed — caller falls back to docId as label.
         }
 
-        return '';
+        return ['title' => '', 'objectIdentifier' => ''];
+    }
+
+    /**
+     * #2041: appends the target's issue designation to a Vorgänger/
+     * Nachfolger title, e.g. "Archiv für Epigraphik" + "5,1 (2025)" - split
+     * out of extractRelatedItems() to keep it under phpmd's line-count limit.
+     */
+    private function appendIssueDesignation(string $title, string $targetId, array $settings): string
+    {
+        if ($title === '') {
+            return $title;
+        }
+        $issue = $this->resolveIssueDesignation($targetId, $settings);
+        return $issue !== '' ? $title . ' ' . $issue : $title;
+    }
+
+    /**
+     * #2041: resolves the target document's own issue designation (e.g.
+     * "5,1 (2025)"), matching the legacy system. Not in the relatedItem
+     * stub, not in the public search index - only in the target's own
+     * MODS, so this is a live METS fetch. Never throws: any failure
+     * (Fedora down, no apiPid in a non-frontend context) leaves the title
+     * without the designation, same as today.
+     */
+    private function resolveIssueDesignation(string $objectIdentifier, array $settings): string
+    {
+        if ($objectIdentifier === '' || empty($settings['apiPid'])) {
+            return '';
+        }
+
+        try {
+            $doc = $this->fetchTargetMetsDocument($objectIdentifier, $settings);
+            return $doc !== null ? $this->extractIssueDesignation($doc->mets) : '';
+        } catch (\Throwable $e) {
+            return '';
+        }
+    }
+
+    /**
+     * Public (not just for resolveIssueDesignation()'s live-fetch caller):
+     * unit-testable without a Fedora connection, same reasoning as
+     * pickOwnTitleFromSearchHits() being public to test without an ES one.
+     *
+     * @param \SimpleXMLElement $mets a document's METS root, namespaces
+     *   already registered (as MetsDocument::getInstance() leaves it)
+     */
+    public function extractIssueDesignation(\SimpleXMLElement $mets): string
+    {
+        return $this->firstXPathValue($mets, '//mods:mods/mods:part[@type="issue"]/mods:detail/mods:number');
+    }
+
+    /**
+     * Fetches another document's METS via the same disseminator mechanism
+     * LandingPageController uses for the current document - GetFileController
+     * needs a real frontend request context (apiPid, TSFE), so this is a
+     * no-op outside one (unit tests, CLI).
+     */
+    private function fetchTargetMetsDocument(string $objectIdentifier, array $settings): ?MetsDocument
+    {
+        $apiPid = (int)($settings['apiPid'] ?? 0);
+
+        /** @var ContentObjectRenderer $cObj */
+        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $metsUrl = $cObj->typoLink_URL([
+            'parameter'        => $apiPid,
+            'additionalParams' => '&tx_dpf_getfile[qid]=' . rawurlencode($objectIdentifier)
+                . '&tx_dpf_getfile[action]=mets',
+            'forceAbsoluteUrl' => true,
+            'useCacheHash'     => 0,
+        ]);
+
+        $doc = MetsDocument::getInstance($metsUrl);
+        return ($doc !== null && $doc->ready) ? $doc : null;
     }
 
     /**
@@ -753,6 +846,17 @@ class LandingPageAssembler
      */
     public function pickOwnTitleFromSearchHits(array $hits, string $urn): string
     {
+        $hit = $this->pickOwnHit($hits, $urn);
+        return $hit !== null ? $this->hitTitle($hit) : '';
+    }
+
+    /**
+     * Same disambiguation as pickOwnTitleFromSearchHits(), returning the
+     * winning hit itself rather than just its title - #2041's issue-
+     * designation lookup also needs the hit's objectIdentifier.
+     */
+    private function pickOwnHit(array $hits, string $urn): ?array
+    {
         static $containerDoctypes = ['periodical', 'series', 'multivolume_work'];
 
         // No ambiguity to resolve: the heuristics below only exist to pick
@@ -762,7 +866,7 @@ class LandingPageAssembler
         // without being a "container" doctype - don't let those heuristics
         // reject the only candidate there is (#2041).
         if (count($hits) === 1) {
-            return $this->hitTitle($hits[0]);
+            return $hits[0];
         }
 
         foreach ($hits as $hit) {
@@ -771,7 +875,7 @@ class LandingPageAssembler
                 return strpos((string)$id, 'urn:') === 0;
             }));
             if ($urnCount === 1 && in_array($urn, $identifiers, true)) {
-                return $this->hitTitle($hit);
+                return $hit;
             }
         }
 
@@ -779,11 +883,11 @@ class LandingPageAssembler
             $identifiers = $hit['_source']['identifier'] ?? [];
             $doctype = (string)($hit['_source']['doctype'] ?? '');
             if (in_array($doctype, $containerDoctypes, true) && in_array($urn, $identifiers, true)) {
-                return $this->hitTitle($hit);
+                return $hit;
             }
         }
 
-        return '';
+        return null;
     }
 
     /**
