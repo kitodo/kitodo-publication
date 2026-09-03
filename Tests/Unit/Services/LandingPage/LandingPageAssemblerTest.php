@@ -406,16 +406,50 @@ XML;
         $assembler = new LandingPageAssembler();
         $urn = 'urn:nbn:de:bsz:15-qucosa2-752899';
 
+        // Two hits sharing the URN, neither an exact single-URN owner nor a
+        // container doctype: genuinely ambiguous, no candidate to prefer.
         $hits = [
             [
                 '_source' => [
-                    'title' => ['Issue'],
+                    'title' => ['Issue A'],
                     'identifier' => ['qucosa-75222', $urn, 'urn:nbn:de:bsz:15-qucosa2-752220'],
+                ],
+            ],
+            [
+                '_source' => [
+                    'title' => ['Issue B'],
+                    'identifier' => ['qucosa-75223', $urn, 'urn:nbn:de:bsz:15-qucosa2-752230'],
                 ],
             ],
         ];
 
         $this->assertSame('', $assembler->pickOwnTitleFromSearchHits($hits, $urn));
+    }
+
+    /**
+     * Reproduces qucosa-11225's "Vorgänger" link (#2041): the predecessor
+     * (qucosa-11116, doctype "issue") carries two URNs itself - its own plus
+     * one inherited from its own host relation - so it matches neither the
+     * urn-count-1 rule nor the container-doctype fallback. But the ES search
+     * for this URN returns exactly one hit, so there's no ambiguity to
+     * resolve: it must be the target.
+     */
+    public function testPickOwnTitleFromSearchHitsReturnsSoleHitsTitleWithNoDisambiguationNeeded()
+    {
+        $assembler = new LandingPageAssembler();
+        $urn = 'urn:nbn:de:bsz:15-qucosa-64507';
+
+        $hits = [
+            [
+                '_source' => [
+                    'title' => ['GAIR-Mitteilungen'],
+                    'identifier' => ['qucosa-11116', 'UBL-MIG-11116', 'urn:nbn:de:bsz:15-qucosa-154766', $urn],
+                    'doctype' => 'issue',
+                ],
+            ],
+        ];
+
+        $this->assertSame('GAIR-Mitteilungen', $assembler->pickOwnTitleFromSearchHits($hits, $urn));
     }
 
     /**
