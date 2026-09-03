@@ -754,14 +754,23 @@ class LandingPageAssembler
     {
         static $containerDoctypes = ['periodical', 'series', 'multivolume_work'];
 
+        // No ambiguity to resolve: the heuristics below only exist to pick
+        // the right one out of several docs sharing an inherited URN. A
+        // single hit can legitimately carry >1 URN itself (e.g. an "issue"
+        // that is itself part of a host with a shared URN, qucosa-11116)
+        // without being a "container" doctype - don't let those heuristics
+        // reject the only candidate there is (#2041).
+        if (count($hits) === 1) {
+            return $this->hitTitle($hits[0]);
+        }
+
         foreach ($hits as $hit) {
             $identifiers = $hit['_source']['identifier'] ?? [];
             $urnCount = count(array_filter($identifiers, static function ($id) {
                 return strpos((string)$id, 'urn:') === 0;
             }));
             if ($urnCount === 1 && in_array($urn, $identifiers, true)) {
-                $titles = $hit['_source']['title'] ?? [];
-                return !empty($titles) ? (string)$titles[0] : '';
+                return $this->hitTitle($hit);
             }
         }
 
@@ -769,12 +778,20 @@ class LandingPageAssembler
             $identifiers = $hit['_source']['identifier'] ?? [];
             $doctype = (string)($hit['_source']['doctype'] ?? '');
             if (in_array($doctype, $containerDoctypes, true) && in_array($urn, $identifiers, true)) {
-                $titles = $hit['_source']['title'] ?? [];
-                return !empty($titles) ? (string)$titles[0] : '';
+                return $this->hitTitle($hit);
             }
         }
 
         return '';
+    }
+
+    /**
+     * @param array $hit one ES hit (with '_source' => ['title' => [...]])
+     */
+    private function hitTitle(array $hit): string
+    {
+        $titles = $hit['_source']['title'] ?? [];
+        return !empty($titles) ? (string)$titles[0] : '';
     }
 
     /**
