@@ -29,6 +29,14 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  * dpf_metatags) but operates on a pre-loaded MetsDocument instead of
  * loading it per-plugin. Call getTitleData() once in the controller and
  * pass the result to the methods that need it.
+ *
+ * #2047's embargo-date fix tips this class a few lines over PHPMD's 1000
+ * LOC threshold; it was already at the ceiling before this change.
+ * Splitting it (e.g. one assembler per legacy-PI-plugin area, matching the
+ * docblock above) is a real fix but out of scope for a bug fix - own
+ * follow-up.
+ *
+ * @SuppressWarnings("PHPMD.ExcessiveClassLength")
  */
 class LandingPageAssembler
 {
@@ -924,35 +932,55 @@ class LandingPageAssembler
     }
 
     /**
-     * Looks up embargo status for the current document in the public search
-     * index (#1985/#2039 display piece only - the actual download block is
-     * enforced separately at publish time via Document::publicXml(), not
-     * here). No METS/MODS element carries embargo info, so this can't be
-     * read from $doc like other fields. Never throws; a lookup failure or a
-     * past/absent embargo date both render nothing.
+     * Looks up embargo status and Kollektion/Zweitveröffentlichung membership
+     * for the current document in one shared public-index lookup (#1985/
+     * #2039/#2047 - both are display pieces only, read from the same
+     * already-published document, same host as this request). #2047: an
+     * incomplete embargo date (e.g. bare year "2031") skips the future/past
+     * check - strtotime("2031") misparses it as a time-of-day, not a year -
+     * and is treated as still-embargoed with no end date shown, since we
+     * don't actually know.
      *
-     * @return array{isEmbargoed: bool, embargoDate: string} embargoDate is
-     *   '' when not currently embargoed.
+     * "collections" is populated by PublicDocumentMapper straight from the
+     * METS built for the current publish request (see
+     * InternalFormat::getCollections()) - not from Fedora RELS-EXT, so there
+     * is no indexing-order race to worry about (#2047 recon).
+     *
+     * @return array{isEmbargoed: bool, embargoDate: string, isSecondaryPublication: bool}
      */
-    public function getEmbargoInfo(string $qid): array
+    public function getPublicIndexInfo(string $qid): array
     {
-        $notEmbargoed = ['isEmbargoed' => false, 'embargoDate' => ''];
+        $none = ['isEmbargoed' => false, 'embargoDate' => '', 'isSecondaryPublication' => false];
 
         try {
             $index = GeneralUtility::makeInstance(\EWW\Dpf\Services\ElasticSearch\PublicElasticSearch::class);
             $document = $index->getDocument(strtolower($qid));
             $embargoDate = (string)($document['_source']['embargoDate'] ?? '');
+            $collections = (array)($document['_source']['collections'] ?? []);
         } catch (\Throwable $e) {
-            return $notEmbargoed;
+            return $none;
+        }
+
+        $isSecondaryPublication = in_array('secondary', $collections, true);
+
+        if ($embargoDate === '') {
+            $none['isSecondaryPublication'] = $isSecondaryPublication;
+            return $none;
+        }
+
+        if (!$this->isCleanDate($embargoDate)) {
+            return ['isEmbargoed' => true, 'embargoDate' => '', 'isSecondaryPublication' => $isSecondaryPublication];
         }
 
         if (!$this->isFutureDate($embargoDate)) {
-            return $notEmbargoed;
+            $none['isSecondaryPublication'] = $isSecondaryPublication;
+            return $none;
         }
 
         return [
             'isEmbargoed' => true,
             'embargoDate' => $this->safelyFormatDate('d.m.Y', $embargoDate),
+            'isSecondaryPublication' => $isSecondaryPublication,
         ];
     }
 
@@ -966,6 +994,15 @@ class LandingPageAssembler
         }
         $timestamp = strtotime($date);
         return $timestamp !== false && $timestamp > time();
+    }
+
+    /**
+     * "yyyy-mm-dd" or "yyyy-mm" only - strtotime() doesn't treat a bare
+     * year as one, so anything else can't drive the future/past decision.
+     */
+    private function isCleanDate(string $date): bool
+    {
+        return (bool)preg_match('/^\d{4}-\d{2}(-\d{2})?$/', $date);
     }
 
     /**
