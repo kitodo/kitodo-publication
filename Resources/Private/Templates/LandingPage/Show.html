@@ -6,7 +6,15 @@
                 <div class="tx-dpf-embargo tx-dpf-metadata tx-dlf-metadata">
                     <dl>
                         <dt>Zugangsstatus</dt>
-                        <dd>Embargoed Access (bis {embargoInfo.embargoDate})</dd>
+                        <dd>Embargoed Access<f:if condition="{embargoInfo.embargoDate}"> (bis {embargoInfo.embargoDate})</f:if></dd>
+                    </dl>
+                </div>
+            </f:if>
+
+            <f:if condition="{embargoInfo.isSecondaryPublication}">
+                <div class="tx-dpf-collection tx-dpf-metadata tx-dlf-metadata">
+                    <dl>
+                        <dd>Zweitveröffentlichung</dd>
                     </dl>
                 </div>
             </f:if>

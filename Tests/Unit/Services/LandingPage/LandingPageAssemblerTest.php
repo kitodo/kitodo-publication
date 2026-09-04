@@ -144,6 +144,106 @@ XML;
     }
 
     /**
+     * #2047: an incomplete embargo date (e.g. bare year "2031") must not be
+     * fed to strtotime() for the future/past decision - strtotime("2031")
+     * silently misparses it as a time-of-day (20:31 today), not a year,
+     * making isEmbargoed flip on/off depending on when the page happens to
+     * render. A clean "yyyy-mm-dd"/"yyyy-mm" date still drives the normal
+     * future/past gate; anything else is treated as still-embargoed (status
+     * shown, no end date) since we genuinely don't know.
+     */
+    private function stubEmbargoDate(?string $embargoDate, array $collections = []): void
+    {
+        $es = $this->createMock(\EWW\Dpf\Services\ElasticSearch\PublicElasticSearch::class);
+        $document = $embargoDate === null
+            ? []
+            : ['_source' => ['embargoDate' => $embargoDate, 'collections' => $collections]];
+        $es->method('getDocument')->willReturn($document);
+        \TYPO3\CMS\Core\Utility\GeneralUtility::addInstance(
+            \EWW\Dpf\Services\ElasticSearch\PublicElasticSearch::class,
+            $es
+        );
+    }
+
+    public function testGetPublicIndexInfoShowsStatusWithoutDateWhenDateIsIncomplete()
+    {
+        $this->stubEmbargoDate('2031');
+        $assembler = new LandingPageAssembler();
+
+        $info = $assembler->getPublicIndexInfo('ubl-26-5064');
+
+        $this->assertTrue($info['isEmbargoed']);
+        $this->assertSame('', $info['embargoDate']);
+    }
+
+    public function testGetPublicIndexInfoShowsFormattedDateWhenDateIsCleanAndFuture()
+    {
+        $this->stubEmbargoDate(date('Y-m-d', strtotime('+5 years')));
+        $assembler = new LandingPageAssembler();
+
+        $info = $assembler->getPublicIndexInfo('ubl-26-5064');
+
+        $this->assertTrue($info['isEmbargoed']);
+        $this->assertNotSame('', $info['embargoDate']);
+    }
+
+    public function testGetPublicIndexInfoHidesStatusWhenCleanDateIsPast()
+    {
+        $this->stubEmbargoDate('2000-01-01');
+        $assembler = new LandingPageAssembler();
+
+        $info = $assembler->getPublicIndexInfo('ubl-26-5064');
+
+        $this->assertFalse($info['isEmbargoed']);
+    }
+
+    public function testGetPublicIndexInfoHidesStatusWhenDateIsEmpty()
+    {
+        $this->stubEmbargoDate('');
+        $assembler = new LandingPageAssembler();
+
+        $info = $assembler->getPublicIndexInfo('ubl-26-5064');
+
+        $this->assertFalse($info['isEmbargoed']);
+    }
+
+    /**
+     * #2047: "collections" is populated by PublicDocumentMapper straight
+     * from the METS built for the current publish request - no Fedora
+     * RELS-EXT round trip, no indexing-order race (confirmed via recon).
+     */
+    public function testGetPublicIndexInfoDetectsSecondaryPublication()
+    {
+        $this->stubEmbargoDate('', ['fulltext', 'secondary']);
+        $assembler = new LandingPageAssembler();
+
+        $info = $assembler->getPublicIndexInfo('ubl-26-5064');
+
+        $this->assertTrue($info['isSecondaryPublication']);
+    }
+
+    public function testGetPublicIndexInfoIsNotSecondaryPublicationWhenCollectionAbsent()
+    {
+        $this->stubEmbargoDate('', ['fulltext']);
+        $assembler = new LandingPageAssembler();
+
+        $info = $assembler->getPublicIndexInfo('ubl-26-5064');
+
+        $this->assertFalse($info['isSecondaryPublication']);
+    }
+
+    public function testGetPublicIndexInfoCombinesEmbargoAndSecondaryPublicationFromOneLookup()
+    {
+        $this->stubEmbargoDate(date('Y-m-d', strtotime('+5 years')), ['secondary']);
+        $assembler = new LandingPageAssembler();
+
+        $info = $assembler->getPublicIndexInfo('ubl-26-5064');
+
+        $this->assertTrue($info['isEmbargoed']);
+        $this->assertTrue($info['isSecondaryPublication']);
+    }
+
+    /**
      * #2039/#2046: Vorgänger/Nachfolger are a sequence relation, not a
      * parent/container one - getParentItems() must not pick them up, and
      * getSequenceItems() must, with the correct German labels.
