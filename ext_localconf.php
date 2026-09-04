@@ -389,6 +389,9 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddAuthor
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddRelationDetailFields'] =
     \EWW\Dpf\Updates\AddRelationDetailFieldsUpdate::class;
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfHideDuplicateSequenceRows'] =
+    \EWW\Dpf\Updates\HideDuplicateSequenceRowsUpdate::class;
+
 // Public search results vary per request and are never page-cached (plugin runs as USER_INT),
 // so its GET parameters carry no caching risk and don't need a cHash.
 // CacheHashCalculator::isExcludedParameter() does an exact match per key, no wildcards.
@@ -412,5 +415,9 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'] = array_mer
         'tx_dpf_frontendsearch[query][doctype]',
         'tx_dpf_frontendsearch[query][from]',
         'tx_dpf_frontendsearch[query][till]',
+        // Vorgänger/Nachfolger link to another landing page (#2046) - qid always
+        // resolves to a real document or renders nothing, no cache-pollution
+        // payoff for an attacker; excluding it just drops the ugly cHash param.
+        'tx_dpf_landingpage[qid]',
     ]
 );

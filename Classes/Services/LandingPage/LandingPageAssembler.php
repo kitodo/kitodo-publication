@@ -487,8 +487,13 @@ class LandingPageAssembler
     private function buildRelatedItemUrl(ContentObjectRenderer $cObj, array $item, int $landingPage): ?string
     {
         if ($item['type'] === 'local') {
+            // No 'useCacheHash' key here: it's not a real typoLink_URL() config
+            // option in this TYPO3 version (only ever internally overwritten from
+            // the current request's own cHash, never settable by a caller - see
+            // ContentObjectRenderer::typoLink()). The actual fix for the
+            // Vorgänger/Nachfolger link's cHash (#2046) is
+            // tx_dpf_landingpage[qid]'s cacheHash.excludedParameters entry below.
             return $cObj->typoLink_URL([
-                'useCacheHash'     => 1,
                 'parameter'        => $landingPage,
                 'additionalParams' => '&tx_dpf_landingpage[qid]=' . rawurlencode(strtolower($item['docId'])),
                 'forceAbsoluteUrl' => true,
