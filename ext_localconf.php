@@ -374,6 +374,21 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddMissin
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddDocumentTypeToPublikationstypPill'] =
     \EWW\Dpf\Updates\AddDocumentTypeToPublikationstypPillUpdate::class;
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddProjectTitleEnglishRows'] =
+    \EWW\Dpf\Updates\AddProjectTitleEnglishRowsUpdate::class;
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddSourceCitationPersonInstitutionRoles'] =
+    \EWW\Dpf\Updates\AddSourceCitationPersonInstitutionRolesUpdate::class;
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddPreprintSourceCitationRow'] =
+    \EWW\Dpf\Updates\AddPreprintSourceCitationRowUpdate::class;
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddAuthorTranslatorToMediaContributionQuellenangabe'] =
+    \EWW\Dpf\Updates\AddAuthorTranslatorToMediaContributionQuellenangabeUpdate::class;
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddRelationDetailFields'] =
+    \EWW\Dpf\Updates\AddRelationDetailFieldsUpdate::class;
+
 // Public search results vary per request and are never page-cached (plugin runs as USER_INT),
 // so its GET parameters carry no caching risk and don't need a cHash.
 // CacheHashCalculator::isExcludedParameter() does an exact match per key, no wildcards.
