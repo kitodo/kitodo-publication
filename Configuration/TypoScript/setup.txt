@@ -377,33 +377,40 @@ module.tx_dpf {
 # Document type labels for the landing-page Metadata plugin
 # (seeded from tx_dlf_structures; replaces DLF's table-based translation)
 plugin.tx_dpf_metadata.labels.type {
-    article = Artikel
-    bachelor_thesis = Bachelorarbeit
-    book = Buch
-    monograph = Buch
-    report = Bericht
+    article = Zeitschriftenartikel
+    bachelor_thesis = Abschlussarbeit (Bachelor)
+    book = Monographie
+    monograph = Monographie
+    report = Forschungsbericht / Report
     contained_work = Buchbeitrag
     in_book = Buchbeitrag
-    diploma_thesis = Diplomarbeit
+    diploma_thesis = Abschlussarbeit (Diplom)
     doctoral_thesis = Dissertation
-    research_paper = Forschungsbericht
-    habilitation_thesis = Habilitation
-    musical_notation = Komposition
-    composition = Komposition
+    research_paper = Working Paper
+    habilitation_thesis = Habilitationsschrift
+    musical_notation = Noten (Musik)
+    composition = Noten (Musik)
     proceeding = Konferenzband
-    in_proceeding = Konferenzbeitrag
+    in_proceeding = Beitrag in Konferenzband
     magister_thesis = Magisterarbeit
     master_thesis = Masterarbeit / Staatsexamensarbeit
     multivolume_work = Mehrbändiges Werk
     preprint = Preprint
     series = Schriftenreihe
-    text = Sonstige Veröffentlichung
-    study = Sonstige Veröffentlichung
+    text = anderer Publikationstyp
+    study = anderer Publikationstyp
     paper = Studienarbeit
-    lecture = Vorlesung/Vortrag
+    lecture = Wissenschaftliche Vortragsfolien
     journal = Zeitschrift/Zeitung
-    periodical = Zeitschrift / Periodikum
-    issue = Zeitschriftenheft / Teil eines Periodikums
+    periodical = Zeitschrift
+    issue = Zeitschriftenheft
     in_encyclopedia = Beitrag in Nachschlagewerk
     contributionToPeriodical = Beitrag/Interview in nicht-wiss. Medien
+    editedCollection = Sammelband
+    partOfADynamicWebResource = Beitrag in wissenschaftlichen Blogs
+    researchData = Forschungsdaten
+    encyclopdia = Nachschlagewerk
+    conferencePoster = Poster
+    sourceEdition = Quellenedition
+    specialIssue = Sonderheft einer Zeitschrift
 }
