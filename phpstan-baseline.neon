@@ -457,6 +457,12 @@ parameters:
 			path: Classes/Helper/FormDataReader.php
 
 		-
+			message: '#^Parameter \#1 \$finfo of function finfo_file expects resource, resource\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Classes/Helper/FormDataReader.php
+
+		-
 			message: '#^Parameter \#1 \$prefix of function uniqid expects string, int\<1, max\> given\.$#'
 			identifier: argument.type
 			count: 1
@@ -601,7 +607,7 @@ parameters:
 			path: Classes/Services/Identifier/UrnBuilder.php
 
 		-
-			message: '#^Parameter \#2 \$replace of function preg_replace expects array\<float\|int\|string\>\|string, int given\.$#'
+			message: '#^Parameter \#2 \$replacement of function preg_replace expects array\<float\|int\|string\>\|string, int given\.$#'
 			identifier: argument.type
 			count: 1
 			path: Classes/Services/Identifier/UrnBuilder.php
