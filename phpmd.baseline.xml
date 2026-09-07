@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<phpmd-baseline>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Command/ReplaceFileCommand.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Command/ReplaceFileCommand.php"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Command/ReplaceFileCommand.php" method="execute"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Command/ReplaceFileCommand.php" method="execute"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Command/ReplaceFileCommand.php" method="execute"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Controller/AbstractController.php"/>
+  <violation rule="PHPMD\Rule\Design\TooManyPublicMethods" file="Classes/Controller/AbstractDocumentFormController.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/AbstractDocumentFormController.php"/>
+  <violation rule="PHPMD\Rule\Design\ExitExpression" file="Classes/Controller/AbstractDocumentFormController.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Controller/AbstractDocumentFormController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\IfStatementAssignment" file="Classes/Controller/AbstractSearchController.php" method="extendedSearch"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/AbstractSearchController.php" method="extendedSearch"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Controller/AbstractSearchController.php" method="resultsFilter"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Controller/AbstractSearchController.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Controller/AjaxDocumentFormController.php"/>
+  <violation rule="PHPMD\Rule\Design\TooManyPublicMethods" file="Classes/Controller/DocumentController.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/DocumentController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Controller/DocumentController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Controller/DocumentFormBEController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Controller/DocumentFormController.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Controller/GetFileController.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Controller/GetFileController.php"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Controller/GetFileController.php" method="dispatchAction"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/GetFileController.php" method="dispatchAction"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Controller/GetFileController.php" method="attachmentAction"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Controller/GetFileController.php" method="attachmentAction"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/GetFileController.php" method="attachmentAction"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Controller/GetFileController.php" method="metsAction"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/GetFileController.php" method="metsAction"/>
+  <violation rule="PHPMD\Rule\Design\ExitExpression" file="Classes/Controller/GetFileController.php"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Controller/GetFileController.php" method="fetchFedoraDatastreamList"/>
+  <violation rule="PHPMD\Rule\CleanCode\ErrorControlOperator" file="Classes/Controller/GetFileController.php" method="fetchFedoraDatastreamList"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Controller/GetFileController.php" method="fetchFedoraDatastreamList"/>
+  <violation rule="PHPMD\Rule\CleanCode\ErrorControlOperator" file="Classes/Controller/GetFileController.php" method="fedoraObjectState"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Controller/SearchController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Controller/SearchController.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Controller/SearchFEController.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Controller/SearchFEController.php"/>
+  <violation rule="PHPMD\Rule\ExcessivePublicCount" file="Classes/Domain/Model/Client.php"/>
+  <violation rule="PHPMD\Rule\Design\TooManyFields" file="Classes/Domain/Model/Client.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Domain/Model/Client.php"/>
+  <violation rule="PHPMD\Rule\ExcessivePublicCount" file="Classes/Domain/Model/Document.php"/>
+  <violation rule="PHPMD\Rule\Design\TooManyFields" file="Classes/Domain/Model/Document.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Domain/Model/Document.php"/>
+  <violation rule="PHPMD\Rule\Design\TooManyFields" file="Classes/Domain/Model/MetadataObject.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Helper/DataCiteXml.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Helper/DocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Helper/DocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Helper/DocumentMapper.php" method="getDocumentForm"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Helper/DocumentMapper.php" method="getDocumentForm"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Helper/DocumentMapper.php" method="getDocumentForm"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Helper/DocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Helper/DocumentMapper.php"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Helper/DocumentMapper.php" method="getMetadata"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Helper/DocumentMapper.php" method="getMetadata"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Helper/FormDataReader.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Helper/FormDataReader.php"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Helper/FormDataReader.php" method="getNewAndUpdatedFiles"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Helper/FormDataReader.php" method="getNewAndUpdatedFiles"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Helper/FormDataReader.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\ErrorControlOperator" file="Classes/Helper/Mods.php" method="setModsXml"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Plugins/Coins/Coins.php"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Plugins/Coins/Coins.php" method="generateCoins"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Plugins/Coins/Coins.php" method="generateCoins"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Plugins/Coins/Coins.php" method="generateCoins"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Plugins/DownloadTool/DownloadTool.php" method="main"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Plugins/DownloadTool/DownloadTool.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Plugins/DownloadTool/DownloadTool.php"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Plugins/MetaTags/MetaTags.php" method="printMetaTags"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Plugins/MetaTags/MetaTags.php" method="printMetaTags"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Plugins/MetaTags/MetaTags.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Plugins/RelatedListTool/RelatedListTool.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Plugins/RelatedListTool/RelatedListTool.php"/>
+  <violation rule="PHPMD\Rule\UnusedPrivateMethod" file="Classes/Plugins/RelatedListTool/RelatedListTool.php" method="compareByOrderVolumeTitle"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Services/ElasticSearch.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/Services/Email/Notifier.php"/>
+  <violation rule="PHPMD\Rule\Design\EmptyCatchBlock" file="Classes/Services/Email/Notifier.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Services/Email/Notifier.php"/>
+  <violation rule="PHPMD\Rule\Design\TooManyPublicMethods" file="Classes/Services/MetsExporter.php"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Services/MetsExporter.php"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/MetsExporter.php" method="buildModsFromForm"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Services/MetsExporter.php"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/MetsExporter.php" method="customXPath"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/MetsExporter.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/MetsExporter.php" method="customXPath"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/MetsExporter.php" method="customXPathSlub"/>
+  <violation rule="PHPMD\Rule\CleanCode\ErrorControlOperator" file="Classes/Services/MetsExporter.php" method="customXPathSlub"/>
+  <violation rule="PHPMD\Rule\CleanCode\ErrorControlOperator" file="Classes/Services/MetsExporter.php" method="setMods"/>
+  <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Services/Transfer/DocumentTransferManager.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Services/Transfer/DocumentTransferManager.php"/>
+  <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/Transfer/DocumentTransferManager.php" method="resolveFedoraPid"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/Transfer/DocumentTransferManager.php" method="resolveFedoraPid"/>
+  <violation rule="PHPMD\Rule\CleanCode\ErrorControlOperator" file="Classes/Services/Transfer/DocumentTransferManager.php" method="fetchFindObjectsXml"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/Services/Transfer/ElasticsearchRepository.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="Classes/Services/Transfer/FedoraRepository.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/XPathXMLGenerator.php" method="generateXmlFromXPath"/>
+  <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/ViewHelpers/Format/JsonViewHelper.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/ViewHelpers/Link/DataCiteViewHelper.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/ViewHelpers/Link/DataCiteViewHelper.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/ViewHelpers/Link/PreviewViewHelper.php"/>
+  <violation rule="PHPMD\Rule\CleanCode\UndefinedVariable" file="Classes/ViewHelpers/Link/PreviewViewHelper.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/ViewHelpers/ShowStateViewHelper.php"/>
+  <violation rule="PHPMD\Rule\UnusedLocalVariable" file="Classes/ViewHelpers/Widget/Controller/PaginateController.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/ViewHelpers/Widget/PaginateViewHelper.php"/>
+</phpmd-baseline>

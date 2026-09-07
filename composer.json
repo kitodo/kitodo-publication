@@ -41,7 +41,11 @@
     "require-dev": {
         "nimut/testing-framework": "*",
         "phpstan/phpstan": "^2.0",
-        "kitodo/presentation": "~v3.2.3"
+        "phpmd/phpmd": "^2.15",
+        "kitodo/presentation": "~v3.2.3",
+        "squizlabs/php_codesniffer": "^3.13",
+        "phpcompatibility/php-compatibility": "^9.3",
+        "dealerdirect/phpcodesniffer-composer-installer": "*"
     },
     "replace": {
         "typo3-ter/dpf": "self.version"
@@ -64,7 +68,11 @@
         },
         "allow-plugins": {
             "typo3/cms-composer-installers": false,
-            "typo3/class-alias-loader": false
+            "typo3/class-alias-loader": false,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
+    },
+    "scripts": {
+        "mess": "@php vendor/bin/phpmd Classes/ text phpmd.xml --baseline-file phpmd.baseline.xml"
     }
 }
