@@ -132,6 +132,18 @@ class LandingPageAssembler
             }
         }
 
+        // #2040 item 5: some doctypes' host relatedItem carries no titleInfo in this
+        // document's own METS - the title lives only on the target record and is
+        // resolved via ES by getParentItems()/extractRelatedItems(). Fall back to that
+        // already-resolved title so the Quellenangabe prose row's {field:original_title}
+        // link text isn't left empty (and hostAlreadyInProse below can trigger correctly).
+        if (empty($metadata['original_title'][0] ?? null)) {
+            $resolvedHostItem = $this->firstByRelation($parentItems, 'host');
+            if ($resolvedHostItem !== null && !empty($resolvedHostItem['title'])) {
+                $metadata['original_title'] = [$resolvedHostItem['title']];
+            }
+        }
+
         // Load metadata values into cObj data for stdWrap field references
         foreach ($metadata as $indexName => $value) {
             if (is_array($value)) {
