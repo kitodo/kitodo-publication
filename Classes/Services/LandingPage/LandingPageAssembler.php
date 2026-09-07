@@ -73,6 +73,25 @@ class LandingPageAssembler
     private const SERIES_PLACEHOLDER_INDEX_NAME = 'series0';
 
     /**
+     * Second-look identifier fields for a person's mods:name node (#2047,
+     * UBL-26-5007): label => xpath relative to that name node. Order is
+     * display order in the title="" tooltip.
+     */
+    private const PERSON_TOOLTIP_FIELDS = [
+        'Institutionszugehörigkeit' => 'mods:affiliation',
+        'ORCID' => 'mods:nameIdentifier[@type="ORCID"]',
+        'ResearcherID' => 'mods:nameIdentifier[@type="ResearcherID"]',
+        'GND-ID' => 'mods:nameIdentifier[@type="gnd"]',
+        'Scopus Author ID' => 'mods:nameIdentifier[@type="ScopusAuthorID"]',
+    ];
+
+    /** Same as PERSON_TOOLTIP_FIELDS, for an institution's mods:name node. */
+    private const INSTITUTION_TOOLTIP_FIELDS = [
+        'GND-ID' => 'mods:nameIdentifier[@type="gnd"]',
+        'ROR-ID' => 'mods:nameIdentifier[@type="ROR"]',
+    ];
+
+    /**
      * Render the metadata <dl> block — mirrors Metadata::printMetadata().
      *
      * The tx_dpf_metadata wrap TS (key./value./all.) is applied via
@@ -144,6 +163,8 @@ class LandingPageAssembler
             }
         }
 
+        $institutionTooltips = $this->injectNameIdentifierTooltips($doc, $metadata);
+
         // Load metadata values into cObj data for stdWrap field references
         foreach ($metadata as $indexName => $value) {
             if (is_array($value)) {
@@ -161,7 +182,8 @@ class LandingPageAssembler
         $inner = '';
         foreach ($metaList as $indexName => $metaConf) {
             $fieldwrap   = $this->parseTS($metaConf['wrap']);
-            $parsedValue = $this->parseFieldValue($cObj, $local, $indexName, $fieldwrap, $settings);
+            $tooltips    = $institutionTooltips[$indexName] ?? [];
+            $parsedValue = $this->parseFieldValue($cObj, $local, $indexName, $fieldwrap, $settings, $tooltips);
 
             if (!empty($parsedValue)) {
                 $field  = $cObj->stdWrap(htmlspecialchars($metaConf['label']), $fieldwrap['key.'] ?? []);
@@ -198,19 +220,22 @@ class LandingPageAssembler
      * @param array $local metadata values, consumed via array_shift as repeatable fields are read
      * @param array $fieldwrap parsed TypoScript for this field (key./value./all.)
      * @param array $settings Extbase settings, needed by translateValue()
+     * @param string[] $tooltips per-position title="" text (#2047), consumed alongside $local
      */
     private function parseFieldValue(
         ContentObjectRenderer $cObj,
         array &$local,
         string $indexName,
         array $fieldwrap,
-        array $settings
+        array $settings,
+        array $tooltips = []
     ): string {
         $parsedValue = '';
         do {
             // Mirrors PI plugin: @array_shift on potentially non-array key (e.g. 'authors'
             // has no XPath rule; value comes from cObj->data via value.override.insertData)
-            $value = is_array($local[$indexName] ?? null) ? array_shift($local[$indexName]) : null;
+            $value   = is_array($local[$indexName] ?? null) ? array_shift($local[$indexName]) : null;
+            $tooltip = array_shift($tooltips);
             if ($indexName === 'title') {
                 $value = !empty($value) ? htmlspecialchars((string)$value) : '';
             } elseif (in_array($indexName, ['owner', 'type', 'collection', 'language', 'peer_review'], true) && !empty($value)) {
@@ -218,13 +243,27 @@ class LandingPageAssembler
             } elseif (!empty($value)) {
                 $value = htmlspecialchars((string)$value);
             }
-            $value = $cObj->stdWrap($value ?? '', $fieldwrap['value.'] ?? []);
+            $value = $this->wrapWithTooltip((string)$value, $tooltip);
+            $value = $cObj->stdWrap($value, $fieldwrap['value.'] ?? []);
             if (!empty($value)) {
                 $parsedValue .= $value;
             }
         } while (!empty($local[$indexName]));
 
         return $parsedValue;
+    }
+
+    /**
+     * #2047: wraps an already-escaped field value in a title="" tooltip span, or returns it
+     * unchanged when there's nothing to show (no value, or no tooltip for this position).
+     */
+    private function wrapWithTooltip(string $value, ?string $tooltip): string
+    {
+        if (empty($value) || empty($tooltip)) {
+            return $value;
+        }
+
+        return '<span title="' . $tooltip . '">' . $value . '</span>';
     }
 
     /**
@@ -724,6 +763,83 @@ class LandingPageAssembler
     {
         $result = $node->xpath($xpath);
         return !empty($result) ? (string)$result[0] : '';
+    }
+
+    /**
+     * #2047 (UBL-26-5007): affiliation/ORCID/ResearcherID/GND-ID/Scopus Author ID (person) and
+     * GND-ID/ROR-ID (institution) should be visible on second look, not inline - a native title=""
+     * tooltip on the name. mods:nameIdentifier/mods:affiliation nest inside each mods:name node, so
+     * they're correlated per-position, not a flat field. Personal roles (author/publisher) render
+     * via a numbered value.override chain in their wrap - writes positions 1-3 into $metadata as
+     * authorIds1../publisherIds1.. pseudo-fields, matching this codebase's existing slot-depth
+     * convention. Institution roles (corporation_author/_editor) render via parseFieldValue()'s
+     * plain array_shift loop instead, so their tooltips are returned for the caller to shift in
+     * directly there (all positions, not capped at 3).
+     *
+     * @param array $metadata mutated in place with the authorIds1../publisherIds1.. pseudo-fields
+     * @return array{corporation_author: string[], corporation_editor: string[]}
+     */
+    private function injectNameIdentifierTooltips(MetsDocument $doc, array &$metadata): array
+    {
+        // //mods:mods/mods:name (direct children of the mods root) - not .//mods:name, which would
+        // also match names nested under mods:relatedItem (a Quellenangabe's own author/editor), a
+        // different role entirely with its own original_author/original_publisher rows.
+        foreach ([
+            'authorIds' => ['//mods:mods/mods:name[@type="personal"][mods:role/mods:roleTerm="aut"]', self::PERSON_TOOLTIP_FIELDS, 3],
+            'publisherIds' => ['//mods:mods/mods:name[@type="personal"][mods:role/mods:roleTerm="edt"]', self::PERSON_TOOLTIP_FIELDS, 3],
+        ] as $fieldPrefix => [$nameXpath, $tooltipFields, $limit]) {
+            foreach ($this->buildNameIdentifierTooltips($doc, $nameXpath, $tooltipFields, $limit) as $i => $tooltip) {
+                $metadata[$fieldPrefix . ($i + 1)] = [$tooltip];
+            }
+        }
+
+        return [
+            'corporation_author' => $this->buildNameIdentifierTooltips(
+                $doc,
+                '//mods:mods/mods:name[@type="corporate"][mods:role/mods:roleTerm="aut"]',
+                self::INSTITUTION_TOOLTIP_FIELDS
+            ),
+            'corporation_editor' => $this->buildNameIdentifierTooltips(
+                $doc,
+                '//mods:mods/mods:name[@type="corporate"][mods:role/mods:roleTerm="edt"]',
+                self::INSTITUTION_TOOLTIP_FIELDS
+            ),
+        ];
+    }
+
+    /**
+     * Builds one title="" tooltip string per mods:name node matched by
+     * $nameXpath, from that node's own nested fields (#2047) - affiliation
+     * and nameIdentifiers sit inside each mods:name, correlated per person/
+     * institution, not a flat list. Empty for a position with no such data.
+     *
+     * @param MetsDocument $doc
+     * @param string $nameXpath selects the ordered mods:name nodes for one role
+     * @param array $fields label => xpath relative to each name node (PERSON_TOOLTIP_FIELDS / INSTITUTION_TOOLTIP_FIELDS)
+     * @param int $limit max positions to build (institution roles: unbounded)
+     * @return string[] 0-indexed, in document order; htmlspecialchars'd for use in a title attribute
+     */
+    private function buildNameIdentifierTooltips(MetsDocument $doc, string $nameXpath, array $fields, int $limit = PHP_INT_MAX): array
+    {
+        $nodes = $doc->mets->xpath($nameXpath);
+        if (!is_array($nodes)) {
+            return [];
+        }
+
+        $tooltips = [];
+        foreach (array_slice($nodes, 0, $limit) as $node) {
+            $node->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
+            $parts = [];
+            foreach ($fields as $label => $relativeXpath) {
+                $value = $this->firstXPathValue($node, $relativeXpath);
+                if ($value !== '') {
+                    $parts[] = $label . ': ' . $value;
+                }
+            }
+            $tooltips[] = !empty($parts) ? htmlspecialchars(implode('; ', $parts), ENT_QUOTES) : '';
+        }
+
+        return $tooltips;
     }
 
     /**
