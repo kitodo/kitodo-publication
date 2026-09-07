@@ -213,7 +213,7 @@ class LandingPageAssembler
             $value = is_array($local[$indexName] ?? null) ? array_shift($local[$indexName]) : null;
             if ($indexName === 'title') {
                 $value = !empty($value) ? htmlspecialchars((string)$value) : '';
-            } elseif (in_array($indexName, ['owner', 'type', 'collection', 'language'], true) && !empty($value)) {
+            } elseif (in_array($indexName, ['owner', 'type', 'collection', 'language', 'peer_review'], true) && !empty($value)) {
                 $value = htmlspecialchars($this->translateValue($indexName, (string)$value, $settings));
             } elseif (!empty($value)) {
                 $value = htmlspecialchars((string)$value);
