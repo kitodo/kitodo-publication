@@ -117,6 +117,43 @@ XML
         );
     }
 
+    public function testCorporateEditorBecomesCreatorWhenNoPersonalAuthor(): void
+    {
+        $mets = $this->mets(<<<XML
+<mods:name type="corporate">
+    <mods:namePart>Unfallkasse Sachsen</mods:namePart>
+    <mods:role><mods:roleTerm type="code">edt</mods:roleTerm></mods:role>
+</mods:name>
+<mods:name type="corporate">
+    <mods:namePart>SLUB Dresden</mods:namePart>
+    <mods:role><mods:roleTerm type="code">prv</mods:roleTerm></mods:role>
+</mods:name>
+XML
+        );
+
+        $xpath = $this->loadDataCite($mets);
+        $creator = $xpath->query('//dc:creators/dc:creator')->item(0);
+        $this->assertNotNull($creator);
+        $this->assertSame('Unfallkasse Sachsen', $xpath->query('.//dc:creatorName', $creator)->item(0)->nodeValue);
+        $this->assertSame(
+            'Organizational',
+            $xpath->query('.//dc:creatorName', $creator)->item(0)->getAttribute('nameType')
+        );
+    }
+
+    public function testProviderOnlyCorporateNameDoesNotBecomeCreator(): void
+    {
+        $mets = $this->mets(
+            '<mods:name type="corporate">
+                <mods:namePart>SLUB Dresden</mods:namePart>
+                <mods:role><mods:roleTerm type="code">prv</mods:roleTerm></mods:role>
+            </mods:name>'
+        );
+
+        $xpath = $this->loadDataCite($mets);
+        $this->assertSame(0, $xpath->query('//dc:creators/dc:creator')->length);
+    }
+
     public function testPublicationDateBecomesIssuedDate(): void
     {
         $mets = $this->mets(

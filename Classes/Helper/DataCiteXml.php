@@ -61,6 +61,15 @@ class DataCiteXml
         'ths' => 'Supervisor',
     ];
 
+    /**
+     * MARC relator codes for corporate names that qualify as creator when no
+     * personal author exists. Provider/repository roles (e.g. "prv") are
+     * deliberately excluded -- hosting a record doesn't make it its creator.
+     *
+     * @var string[]
+     */
+    private static $corporateCreatorRoles = ['aut', 'cmp', 'edt', 'cre'];
+
     private static $relatedItemRelationMap = [
         'host' => 'IsPartOf',
         'series' => 'IsPartOf',
@@ -263,6 +272,25 @@ class DataCiteXml
             $seen[$key] = true;
             self::appendNameElement($dom, $creators, 'creator', $nameData);
             $usedNames[] = $name;
+        }
+
+        // No personal author found (institution-only record): fall back to the
+        // first corporate name actually responsible for the content. Provider/
+        // repository roles (e.g. "prv") are excluded -- SLUB hosting the record
+        // isn't its creator.
+        if (empty($seen)) {
+            foreach (self::queryElements($xpath, "//mods:name[@type='corporate']") as $name) {
+                if (!self::nameHasRole($xpath, $name, self::$corporateCreatorRoles)) {
+                    continue;
+                }
+                $nameData = self::buildNameData($xpath, $name);
+                if ($nameData['name'] === '') {
+                    continue;
+                }
+                self::appendNameElement($dom, $creators, 'creator', $nameData);
+                $usedNames[] = $name;
+                break;
+            }
         }
 
         $resource->appendChild($creators);
