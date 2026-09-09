@@ -73,6 +73,23 @@ class LandingPageAssembler
     private const SERIES_PLACEHOLDER_INDEX_NAME = 'series0';
 
     /**
+     * #2047 (UBL-26-5088): sub-field suffix => display label, or null for the
+     * one field (note) that's shown unprefixed. Same shape for both the host
+     * ("multivolume_*") and series ("series_*") relatedItem, so one field list
+     * drives both — see relationDetailLines(). Order matches the ticket's
+     * "Soll" example and AddRelationDetailFieldsUpdate's own field order.
+     */
+    private const RELATION_DETAIL_FIELDS = [
+        'note'   => null,
+        'url'    => 'URL',
+        'doi'    => 'DOI',
+        'handle' => 'Handle',
+        'isbn'   => 'ISBN',
+        'issn'   => 'ISSN',
+        'zdb'    => 'ZDB-ID',
+    ];
+
+    /**
      * Second-look identifier fields for a person's mods:name node (#2047,
      * UBL-26-5007): label => xpath relative to that name node. Order is
      * display order in the title="" tooltip.
@@ -178,6 +195,8 @@ class LandingPageAssembler
         $local = $metadata;
 
         [$hostItem, $seriesItem, $embedded] = $this->resolveEmbeddableParentItems($parentItems, $hostUrl, $metadata);
+        $hostDetailLines   = $this->relationDetailLines($metadata, 'multivolume_');
+        $seriesDetailLines = $this->relationDetailLines($metadata, 'series_');
 
         $inner = '';
         foreach ($metaList as $indexName => $metaConf) {
@@ -194,19 +213,26 @@ class LandingPageAssembler
                 && !$embedded['host']
                 && in_array($indexName, self::HOST_PLACEHOLDER_INDEX_NAMES, true)
             ) {
-                $inner .= $this->renderEmbeddedParentItemRow($hostItem);
+                $inner .= $this->renderEmbeddedParentItemRow($hostItem, $hostDetailLines);
                 $embedded['host'] = true;
             } elseif (
                 $seriesItem !== null
                 && !$embedded['series']
                 && $indexName === self::SERIES_PLACEHOLDER_INDEX_NAME
             ) {
-                $inner .= $this->renderEmbeddedParentItemRow($seriesItem);
+                $inner .= $this->renderEmbeddedParentItemRow($seriesItem, $seriesDetailLines);
                 $embedded['series'] = true;
             }
         }
 
-        [$inner, $embedded] = $this->appendUnplacedParentItems($inner, $hostItem, $seriesItem, $embedded);
+        [$inner, $embedded] = $this->appendUnplacedParentItems(
+            $inner,
+            $hostItem,
+            $seriesItem,
+            $embedded,
+            $hostDetailLines,
+            $seriesDetailLines
+        );
 
         $html = '<div class="tx-dpf-metadata tx-dlf-metadata"><div><dl>' . $inner . '</dl></div></div>';
         return ['html' => $html, 'embeddedRelations' => $embedded];
@@ -297,17 +323,50 @@ class LandingPageAssembler
      *
      * @return array{0: string, 1: array{host: bool, series: bool}}
      */
-    private function appendUnplacedParentItems(string $inner, ?array $hostItem, ?array $seriesItem, array $embedded): array
-    {
+    private function appendUnplacedParentItems(
+        string $inner,
+        ?array $hostItem,
+        ?array $seriesItem,
+        array $embedded,
+        string $hostDetailLines = '',
+        string $seriesDetailLines = ''
+    ): array {
         if ($hostItem !== null && !$embedded['host']) {
-            $inner .= $this->renderEmbeddedParentItemRow($hostItem);
+            $inner .= $this->renderEmbeddedParentItemRow($hostItem, $hostDetailLines);
             $embedded['host'] = true;
         }
         if ($seriesItem !== null && !$embedded['series']) {
-            $inner .= $this->renderEmbeddedParentItemRow($seriesItem);
+            $inner .= $this->renderEmbeddedParentItemRow($seriesItem, $seriesDetailLines);
             $embedded['series'] = true;
         }
         return [$inner, $embedded];
+    }
+
+    /**
+     * #2047 (UBL-26-5088): renders the Bemerkung/URL/DOI/Handle/ISBN/ISSN/
+     * ZDB-ID sub-fields of a host or series relatedItem as extra <dd> lines,
+     * so renderEmbeddedParentItemRow() can merge them into the same
+     * "Erschienen in"/"Schriftenreihe" block instead of each living in its
+     * own standalone tx_dpf_metadata row (AddRelationDetailFieldsUpdate).
+     * Those standalone rows stay hidden=1 (HideRelationDetailStandaloneRowsUpdate)
+     * so they keep feeding $metadata without also rendering their own <dt>.
+     *
+     * @param array $metadata return value of MetsDocument::getTitleData()
+     * @param string $prefix 'multivolume_' (host) or 'series_' (series)
+     */
+    private function relationDetailLines(array $metadata, string $prefix): string
+    {
+        $lines = '';
+        foreach (self::RELATION_DETAIL_FIELDS as $suffix => $label) {
+            foreach ((array)($metadata[$prefix . $suffix] ?? []) as $value) {
+                if ($value === '' || $value === null) {
+                    continue;
+                }
+                $text   = htmlspecialchars((string)$value);
+                $lines .= '<dd>' . ($label !== null ? $label . ':&nbsp;' : '') . $text . '</dd>';
+            }
+        }
+        return $lines;
     }
 
     /**
@@ -328,9 +387,16 @@ class LandingPageAssembler
      * standalone parent-link partial (Show.html) used to produce, so embedding it
      * into the metadata <dl> is visually identical to the block it replaces.
      *
-     * @param array $item one entry from getParentItems() (keys: title, url, relationLabel)
+     * #2047 (UBL-26-5088): also appends the target's volume/Bandzählung
+     * inline after the title (ticket's "Soll": "Titel, Band") and, when
+     * $detailLines is given, the relatedItem's Bemerkung/URL/DOI/Handle/
+     * ISBN/ISSN/ZDB-ID as further <dd> lines in the same block — see
+     * relationDetailLines().
+     *
+     * @param array $item one entry from getParentItems() (keys: title, url, relationLabel, volume)
+     * @param string $detailLines pre-rendered <dd> lines from relationDetailLines(), or ''
      */
-    private function renderEmbeddedParentItemRow(array $item): string
+    private function renderEmbeddedParentItemRow(array $item, string $detailLines = ''): string
     {
         $label = htmlspecialchars($item['relationLabel']);
         $title = htmlspecialchars($item['title']);
@@ -338,7 +404,10 @@ class LandingPageAssembler
         if (!empty($item['url'])) {
             $value = '<a href="' . htmlspecialchars($item['url']) . '">' . $title . '</a>';
         }
-        return '<dt>' . $label . '</dt><dd>' . $value . '</dd>';
+        if (!empty($item['volume'])) {
+            $value .= ', ' . htmlspecialchars((string)$item['volume']);
+        }
+        return '<dt>' . $label . '</dt><dd>' . $value . '</dd>' . $detailLines;
     }
 
     /**
@@ -523,6 +592,7 @@ class LandingPageAssembler
                 'type'          => $item['type'],
                 'relation'      => $item['relation'],
                 'relationLabel' => $this->relationLabel($item['relation']),
+                'volume'        => $item['volume'],
             ];
         }
 

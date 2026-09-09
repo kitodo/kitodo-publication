@@ -248,10 +248,11 @@
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ImportExternalMetadata/RisReader.php" method="risRecordToXML"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/ImportExternalMetadata/RisWosFileImporter.php" method="loadFile"/>
   <violation rule="PHPMD\Rule\CleanCode\BooleanArgumentFlag" file="Classes/Services/ImportExternalMetadata/RisWosFileImporter.php"/>
+  <violation rule="PHPMD\Rule\Design\TooManyMethods" file="Classes/Services/LandingPage/LandingPageAssembler.php"/>
   <violation rule="PHPMD\Rule\Design\WeightedMethodCount" file="Classes/Services/LandingPage/LandingPageAssembler.php"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getMetadataHtml"/>
   <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getMetadataHtml"/>
-  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="Classes/Services/LandingPage/LandingPageAssembler.php"/>
+  <violation rule="PHPMD\Rule\Design\LongMethod" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getMetadataHtml"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="extractRelatedItems"/>
   <violation rule="PHPMD\Rule\Design\NpathComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="extractRelatedItems"/>
   <violation rule="PHPMD\Rule\CyclomaticComplexity" file="Classes/Services/LandingPage/LandingPageAssembler.php" method="getCoinsHtml"/>

@@ -714,6 +714,79 @@ XML;
     }
 
     /**
+     * #2047 (UBL-26-5088): the target's volume/Bandzählung must render inline
+     * after the title, and any given $detailLines must be appended after the
+     * title <dd>, matching the ticket's "Soll" shape.
+     */
+    public function testRenderEmbeddedParentItemRowAppendsVolumeAndDetailLines()
+    {
+        $assembler = new LandingPageAssembler();
+        $method = new \ReflectionMethod(LandingPageAssembler::class, 'renderEmbeddedParentItemRow');
+        $method->setAccessible(true);
+
+        $html = $method->invoke(
+            $assembler,
+            [
+                'relationLabel' => 'Erschienen in',
+                'title' => 'Überordnung Titel',
+                'url' => 'https://nbn-resolving.de/Überordnung',
+                'volume' => 'Überordnung Band',
+            ],
+            '<dd>ÜberordnungBemerkung 1</dd><dd>DOI:&nbsp;Überordnung DOI</dd>'
+        );
+
+        $this->assertSame(
+            '<dt>Erschienen in</dt>'
+                . '<dd><a href="https://nbn-resolving.de/Überordnung">Überordnung Titel</a>, Überordnung Band</dd>'
+                . '<dd>ÜberordnungBemerkung 1</dd><dd>DOI:&nbsp;Überordnung DOI</dd>',
+            $html
+        );
+    }
+
+    /**
+     * relationDetailLines() (#2047, UBL-26-5088) must render "note" unprefixed
+     * but every other sub-field prefixed with its label, skip empty/missing
+     * values, and read repeatable fields (multiple URLs) as one <dd> each -
+     * matching the ticket's "Soll" example verbatim.
+     */
+    public function testRelationDetailLinesRendersNoteUnprefixedAndOthersLabelled()
+    {
+        $assembler = new LandingPageAssembler();
+        $method = new \ReflectionMethod(LandingPageAssembler::class, 'relationDetailLines');
+        $method->setAccessible(true);
+
+        $metadata = [
+            'multivolume_note' => ['ÜberordnungBemerkung 1', 'ÜberordnungBemerkung 2'],
+            'multivolume_url' => ['Überordnung URL 1', 'Überordnung URL 2'],
+            'multivolume_doi' => ['Überordnung DOI'],
+            'multivolume_handle' => ['Überordnung Handle'],
+            'multivolume_isbn' => ['Überordnung ISBN'],
+            'multivolume_issn' => ['Überordnung ISSN'],
+            'multivolume_zdb' => ['Überordnung ZDB'],
+        ];
+
+        $this->assertSame(
+            '<dd>ÜberordnungBemerkung 1</dd><dd>ÜberordnungBemerkung 2</dd>'
+                . '<dd>URL:&nbsp;Überordnung URL 1</dd><dd>URL:&nbsp;Überordnung URL 2</dd>'
+                . '<dd>DOI:&nbsp;Überordnung DOI</dd>'
+                . '<dd>Handle:&nbsp;Überordnung Handle</dd>'
+                . '<dd>ISBN:&nbsp;Überordnung ISBN</dd>'
+                . '<dd>ISSN:&nbsp;Überordnung ISSN</dd>'
+                . '<dd>ZDB-ID:&nbsp;Überordnung ZDB</dd>',
+            $method->invoke($assembler, $metadata, 'multivolume_')
+        );
+    }
+
+    public function testRelationDetailLinesReturnsEmptyStringWhenNoFieldsPresent()
+    {
+        $assembler = new LandingPageAssembler();
+        $method = new \ReflectionMethod(LandingPageAssembler::class, 'relationDetailLines');
+        $method->setAccessible(true);
+
+        $this->assertSame('', $method->invoke($assembler, [], 'series_'));
+    }
+
+    /**
      * resolveEmbeddableParentItems() must only pre-embed 'host' for the
      * doctypes whose Quellenangabe wrap row actually consumes {field:host_url}
      * (article, in_proceeding, contained_work — EmbedHostLinkInQuellenangabeUpdate
