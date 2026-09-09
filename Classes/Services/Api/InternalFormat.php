@@ -906,48 +906,82 @@ class InternalFormat
     }
 
     /**
+     * #2049: the peer-review search value is the merge of two independent
+     * MODS xpaths (this record's own field, and its "other version"'s field),
+     * each of which can be true/false/unknown or simply absent. Every
+     * present value is collected as a "vote"; mergePeerReviewVotes() then
+     * picks true over false over unknown, so a single present value is
+     * never discarded just because the other xpath has nothing.
+     *
      * @return string
      */
     public function getPeerReviewForSearch(): string
     {
-        $xpath = $this->getXpath();
-
-        $peerReviewOtherVersionXpath = $this->clientConfigurationManager->getPeerReviewOtherVersionXpath();
-
-        if (!$peerReviewOtherVersionXpath) {
+        $peerReviewValues = $this->clientConfigurationManager->getPeerReviewValues();
+        if (!is_array($peerReviewValues)) {
+            // Not every client/context configures peerReviewValues - nothing to
+            // compare against, so there's no vote to normalize (was previously a
+            // silent array-offset-on-null warning, not a crash).
             return self::VALUE_UNKNOWN;
         }
+        $votes = [];
 
-        $peerReviewOtherVersionElements = $xpath->query(self::rootNode . trim($peerReviewOtherVersionXpath));
+        $peerReview = $this->getValue($this->clientConfigurationManager->getPeerReviewXpath());
+        if ($peerReview !== '') {
+            $votes[] = $this->normalizePeerReviewVote($peerReview, $peerReviewValues);
+        }
 
-        $peerReviewValues = $this->clientConfigurationManager->getPeerReviewValues();
-
-        if ($peerReviewOtherVersionElements) {
-            foreach ($peerReviewOtherVersionElements as $element) {
-                if (strtolower(trim($element->nodeValue) === strtolower($peerReviewValues['true']))) {
-                    return self::VALUE_TRUE;
+        $peerReviewOtherVersionXpath = $this->clientConfigurationManager->getPeerReviewOtherVersionXpath();
+        if ($peerReviewOtherVersionXpath) {
+            $elements = $this->getXpath()->query(self::rootNode . trim($peerReviewOtherVersionXpath));
+            if ($elements) {
+                foreach ($elements as $element) {
+                    $value = trim((string) $element->nodeValue);
+                    if ($value !== '') {
+                        $votes[] = $this->normalizePeerReviewVote($value, $peerReviewValues);
+                    }
                 }
             }
         }
 
-        $peerReviewXpath = $this->clientConfigurationManager->getPeerReviewXpath();
-        $peerReview = $this->getValue($peerReviewXpath);
-        if (strtolower($peerReview) === strtolower($peerReviewValues['true'])) {
+        return $this->mergePeerReviewVotes($votes);
+    }
+
+    /**
+     * Normalizes one raw MODS value against the client's configured
+     * true/false vocabulary (#2049), defaulting to "unknown" for anything
+     * that matches neither - mirrors the case-insensitive comparison the
+     * previous implementation already did.
+     */
+    private function normalizePeerReviewVote(string $value, array $peerReviewValues): string
+    {
+        $value = strtolower($value);
+        if ($value === strtolower($peerReviewValues['true'] ?? '')) {
             return self::VALUE_TRUE;
         }
-
-        if ($peerReviewOtherVersionElements) {
-            foreach ($peerReviewOtherVersionElements as $element) {
-                if (strtolower(trim($element->nodeValue) === strtolower($peerReviewValues['false']))) {
-                    return self::VALUE_FALSE;
-                }
-            }
-        }
-
-        if (strtolower($peerReview) === strtolower($peerReviewValues['false'])) {
+        if ($value === strtolower($peerReviewValues['false'] ?? '')) {
             return self::VALUE_FALSE;
         }
+        return self::VALUE_UNKNOWN;
+    }
 
+    /**
+     * #2049: true beats false beats unknown; an empty vote list (both
+     * xpaths absent/empty) falls back to unknown. Reproduces the ticket's
+     * truth table (j+j=j, j+n=j, n+n=n, u+j=j, u+n=n, u+u=u) and extends it
+     * for the "0" (absent) case the ticket flagged as never having been
+     * considered: absent contributes no vote at all, so e.g. u+0 correctly
+     * stays unknown instead of the old code's unrelated paren bug making
+     * the other-version branch never match and silently defaulting wrong.
+     */
+    private function mergePeerReviewVotes(array $votes): string
+    {
+        if (in_array(self::VALUE_TRUE, $votes, true)) {
+            return self::VALUE_TRUE;
+        }
+        if (in_array(self::VALUE_FALSE, $votes, true)) {
+            return self::VALUE_FALSE;
+        }
         return self::VALUE_UNKNOWN;
     }
 
