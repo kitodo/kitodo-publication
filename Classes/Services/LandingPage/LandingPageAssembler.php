@@ -187,6 +187,12 @@ class LandingPageAssembler
             if (is_array($value)) {
                 $value = self::joinValues($value, $separator);
             }
+            // #2050: document_type (mods:genre) is hidden=1 and spliced into the
+            // Publikationstyp pill via {field:document_type}, bypassing
+            // parseFieldValue()/translateValue() entirely - translate it here instead.
+            if ($indexName === 'document_type' && $value !== '') {
+                $value = $this->translateValue($indexName, (string)$value, $settings);
+            }
             $cObj->data[$indexName] = $value;
         }
         $cObj->data['host_url'] = $hostUrl;
