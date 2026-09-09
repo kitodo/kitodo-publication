@@ -14,6 +14,7 @@ namespace EWW\Dpf\Updates;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
@@ -114,13 +115,7 @@ class AddRelationDetailFieldsUpdate implements UpgradeWizardInterface
             return false;
         }
 
-        $existing = $connection->count(
-            'uid',
-            'tx_dpf_metadata',
-            ['deleted' => 0, 'index_name' => 'series_note']
-        );
-
-        return $existing === 0;
+        return $this->countByIndexName($connection, 'series_note') === 0;
     }
 
     public function executeUpdate(): bool
@@ -129,16 +124,30 @@ class AddRelationDetailFieldsUpdate implements UpgradeWizardInterface
             ->getConnectionForTable('tx_dpf_metadata');
 
         foreach ($this->getNewRows() as $row) {
-            $exists = $connection->count(
-                'uid',
-                'tx_dpf_metadata',
-                ['deleted' => 0, 'index_name' => $row['index_name']]
-            );
-            if ($exists === 0) {
+            if ($this->countByIndexName($connection, $row['index_name']) === 0) {
                 $connection->insert('tx_dpf_metadata', $row);
             }
         }
 
         return true;
+    }
+
+    /**
+     * Counts non-deleted rows for one index_name via a raw query, not
+     * Connection::count() - tx_dpf_metadata's TCA declares hidden as its
+     * enablecolumns.disabled field, so Connection::count()'s QueryBuilder
+     * silently applies a HiddenRestriction on top of the caller's own WHERE.
+     * A hidden=1 row (e.g. HideRelationDetailStandaloneRowsUpdate, #2047)
+     * then reads back as 0, and this wizard wrongly re-inserts it - found
+     * live when re-running this wizard duplicated all 15 rows. Same
+     * restriction-bypass MetadataMappingRepository::findExtractionRules()
+     * already documents and uses for the same table.
+     */
+    private function countByIndexName(Connection $connection, string $indexName): int
+    {
+        return (int) $connection->executeQuery(
+            'SELECT COUNT(*) FROM tx_dpf_metadata WHERE deleted = 0 AND index_name = ?',
+            [$indexName]
+        )->fetchColumn(0);
     }
 }
