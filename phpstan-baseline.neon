@@ -559,12 +559,6 @@ parameters:
 			path: Classes/Services/Api/InternalFormat.php
 
 		-
-			message: '#^Parameter \#1 \$str of function strtolower expects string, bool given\.$#'
-			identifier: argument.type
-			count: 2
-			path: Classes/Services/Api/InternalFormat.php
-
-		-
 			message: '#^Parameter \#3 \$value of method EWW\\Dpf\\Services\\Api\\InternalFormat\:\:updateChildNode\(\) expects string, bool given\.$#'
 			identifier: argument.type
 			count: 1
