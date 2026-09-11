@@ -226,10 +226,18 @@ class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         ]);
     }
 
+    // #2048: excluded from the search-form dropdown only - LeuPub does not
+    // publish these types, but existing tx_dpf_domain_model_documenttype
+    // rows stay untouched (still valid for already-published documents).
+    private const DROPDOWN_EXCLUDED_TYPES = ['researchData', 'software'];
+
     private function getDocTypes(): array
     {
         $docTypes = [];
         foreach ($this->documentTypeRepository->findAllSorted() as $docType) {
+            if (in_array($docType->getName(), self::DROPDOWN_EXCLUDED_TYPES, true)) {
+                continue;
+            }
             $docTypes[$docType->getName()] = $docType->getDisplayName();
         }
         return $docTypes;
