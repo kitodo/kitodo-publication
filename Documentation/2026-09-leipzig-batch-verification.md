@@ -45,7 +45,7 @@ anything here before checking bucket status first.
 | Issue | Row | Example ID | Verify | Bucket |
 |---|---|---|---|---|
 | #2040 | Erschienen in / Sammelband merge into one `<dt>Sammelband</dt>` | qucosa-33781 | `curl -s .../landing-page/qucosa-33781 \| grep -F '<dt>Sammelband</dt>'` | **A** (confirmed live) |
-| #2040 | Erscheinungsort right after Verlag (standalone works) | qucosa-14538, qucosa-11825, qucosa-14961 | `curl -s .../landing-page/qucosa-14538 \| grep -oE '<dt>[^<]*</dt>'` — Erscheinungsort should follow Verlag immediately | B (this session's wizard, needs step 3) |
+| #2040 | Erscheinungsort right after Verlag (standalone works) | qucosa-14538, qucosa-11825, qucosa-14961 | `curl -s .../landing-page/qucosa-14538 \| grep -oE '<dt>[^<]*</dt>'` — Erscheinungsort should follow Verlag immediately | **A** (deployed 2026-09-11, all 3 examples confirmed) |
 | #2040 | Underline gap between license icon and text not underlined | qucosa-80960 | visual, no curl check — CSS, needs screenshot review | C (not investigated this session) |
 | #2040 | Institution-as-AutorIn styled same as Institution-as-HerausgeberIn | UBL-26-5007 | visual — dt small/grey, dd bold/black for `dt.author`/`dd.author` on an institution row | C (not investigated this session — may overlap #2047's Institution:Rolle row) |
 | #2040 | Beziehungen clickable-area vertical spacing too large | qucosa-75289 | visual — this record currently renders **no relation block at all** on stale deploy; re-check after deploy which record actually exercises it | C |
@@ -58,12 +58,12 @@ anything here before checking bucket status first.
 | #2047 | Zugangsstatus "Embargoed Access" must show even when embargo date can't be parsed (e.g. "2031") | ubl-26-5064, UBL-26-5152, UBL-26-5149 | check embargo status renders regardless of date-parse success | C |
 | #2047 | Title/abstract/keywords missing for Georgian/Macedonian/Swedish/Catalan; language label inconsistent (ITA vs Katalanisch) | ubl-26-5006 | visual + `curl ... \| grep -F 'Katalanisch'` vs `'ITA'` — standardize to one form | C |
 | #2047 | English project title row misplaced ("1. Projekt (Englisch)" should not be its own row — must merge into "Titel des Projekts / Titel des Projekts (Englisch)") | ubl-26-5006 | `curl ... \| grep -F '1. Projekt (Englisch)'` should return nothing once fixed | C |
-| #2048 | Nachschlagewerk pill (encyclopedia typo) | ubl-26-5156 | `curl -s .../landing-page/ubl-26-5156 \| grep -F 'Nachschlagewerk'` | **B** (fixed this session, commit 8db12808/2648dd7) |
-| #2048 | Dokumententyp → Publikationstyp dropdown label | n/a (search form) | `curl -s https://test.leupub.qucosa.de/suche \| grep -F 'Publikationstyp'` | **B** (fixed this session) |
-| #2048 | researchData/software excluded from dropdown | n/a | `curl -s https://test.leupub.qucosa.de/suche \| grep -F 'Forschungsdaten'` should return nothing | **B** (fixed this session) |
-| #2048 | report sorts after monograph in dropdown | n/a | check dropdown option order | **B** (fixed this session, wizard needs step 3) |
-| #2048 | contained_work/magister/master_thesis/text landing-page pill labels | qucosa-12055 (contained_work), qucosa-74994 (magister), qucosa-12098 (master) | `curl ... \| grep -F 'Beitrag in Sammelband'` etc. | **B** (fixed this session — found by systematic DB-vs-TS diff, not itemized by Leipzig; sanity-check intent) |
-| #2049 | Peer Review search merge (j/n/u + absent) | UBL-PUBMAN-122006 | already fixed on `main` before this session (commit f5f09c71), test covers exact `u+0` case | **B** — code correct, deploy-verify only |
+| #2048 | Nachschlagewerk pill (encyclopedia typo) | ubl-26-5156 | `curl -s .../landing-page/ubl-26-5156 \| grep -F 'Nachschlagewerk'` | **A** (deployed 2026-09-11, confirmed) |
+| #2048 | Dokumententyp → Publikationstyp dropdown label | n/a (search form) | `curl -s https://test.leupub.qucosa.de/suche \| grep -F 'Publikationstyp'` | **A** (confirmed) |
+| #2048 | researchData/software excluded from dropdown | n/a | `curl -s https://test.leupub.qucosa.de/suche \| grep -F 'Forschungsdaten'` should return nothing | **A** (confirmed) |
+| #2048 | report sorts after monograph in dropdown | n/a | check dropdown option order | **A** (confirmed: Monographie, Forschungsbericht / Report, Working Paper) |
+| #2048 | contained_work/magister/master_thesis/text landing-page pill labels | qucosa-12055 (contained_work), qucosa-74994 (magister), qucosa-12098 (master) | `curl ... \| grep -F 'Beitrag in Sammelband'` etc. | **A** (confirmed all 3 — found by systematic DB-vs-TS diff, not itemized by Leipzig; sanity-check intent) |
+| #2049 | Peer Review search merge (j/n/u + absent) | UBL-PUBMAN-122006 | already fixed on `main` before this session (commit f5f09c71), test covers exact `u+0` case | B — code correct and deployed, but merge result only visible via ES reindex + search, not a landing-page curl; needs a reindex to verify end-to-end |
 
 ## Notes
 
