@@ -341,6 +341,9 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddEditor
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfFixSammelbandHostLinkAndFieldOrder'] =
     \EWW\Dpf\Updates\FixSammelbandHostLinkAndFieldOrderUpdate::class;
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfRemoveLicenceIconGapUnderline'] =
+    \EWW\Dpf\Updates\RemoveLicenceIconGapUnderlineUpdate::class;
+
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfMoveEditorGroupsAboveTitle'] =
     \EWW\Dpf\Updates\MoveEditorGroupsAboveTitleUpdate::class;
 
