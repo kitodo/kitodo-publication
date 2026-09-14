@@ -126,10 +126,25 @@ class ParserGenerator
 
             $attributeXPath = '';
             $extensionAttribute = '';
+            // Two fields mapped to the same attribute (e.g. a misconfigured or
+            // superseded field left active alongside its replacement) would
+            // otherwise produce [@x="a"][@x="a2"] on one element - not
+            // well-formed XML, which crashes DOMDocument::loadXML() downstream.
+            // Last value for a given attribute wins.
+            $seenAttributeMappings = [];
             foreach ($attributes as $attribute) {
                 $escapedAttributeValue = XPathValue::escape($attribute['value']);
                 if (!$attribute["modsExtension"]) {
-                    $attributeXPath .= '[' . $attribute['mapping'] . '="' . $escapedAttributeValue . '"]';
+                    if (isset($seenAttributeMappings[$attribute['mapping']])) {
+                        $attributeXPath = str_replace(
+                            $seenAttributeMappings[$attribute['mapping']],
+                            '',
+                            $attributeXPath
+                        );
+                    }
+                    $predicate = '[' . $attribute['mapping'] . '="' . $escapedAttributeValue . '"]';
+                    $seenAttributeMappings[$attribute['mapping']] = $predicate;
+                    $attributeXPath .= $predicate;
                 } else {
                     $extensionAttribute .= '[' . $attribute['mapping'] . '="' . $escapedAttributeValue . '"]';
                 }
