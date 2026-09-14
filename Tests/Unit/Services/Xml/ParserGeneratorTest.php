@@ -130,4 +130,37 @@ class ParserGeneratorTest extends UnitTestCase
         $this->assertStringContainsString('given="false"', $xml);
         $this->assertStringNotContainsString('given="true"', $xml);
     }
+
+    /**
+     * Not every way to end up with a null $docXML->documentElement is a
+     * duplicate attribute (e.g. an empty group mapping produces a bare
+     * predicate that XMLFragmentGenerator can't turn into valid XML at
+     * all). Whatever the cause, this must fail with a clear exception
+     * naming the offending xpath - never the bare
+     * "importNode(): Argument 1 ... null given" TypeError.
+     */
+    public function testBuildXmlFromFormThrowsClearExceptionInsteadOfCrashingOnUnbuildableFragment()
+    {
+        $this->stubNamespaceLookup('mods=http://www.loc.gov/mods/v3');
+        $instance = $this->newInstance(' xmlns:mods="http://www.loc.gov/mods/v3"');
+
+        $form = [
+            'metadata' => [
+                [
+                    'mapping' => '', // empty group mapping - no element to attach the attribute to
+                    'modsExtensionMapping' => '',
+                    'modsExtensionReference' => '',
+                    'values' => [],
+                    'attributes' => [
+                        ['mapping' => '@type', 'value' => 'host', 'modsExtension' => false],
+                    ],
+                ],
+            ],
+        ];
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageRegExp('/could not build XML fragment for xpath/');
+
+        $instance->buildXmlFromForm($form);
+    }
 }
