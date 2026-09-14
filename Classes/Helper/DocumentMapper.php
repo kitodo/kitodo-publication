@@ -651,7 +651,17 @@ class DocumentMapper
                         $item['values'] = array();
                     }
 
-                    if ($groupItem->getMandatory() || $defaultValueCount < $fieldValueCount || $defaultValueCount == $fieldCount) {
+                    // $defaultValueCount == $fieldCount means "every configured field still
+                    // holds its default value" - keep the group. With zero fields configured
+                    // (e.g. a display-only Infotext group with mapping "." and no metadata
+                    // objects), 0 == 0 is vacuously true and wrongly keeps a group with
+                    // nothing to write, which then crashes ParserGenerator on a bare "."
+                    // mapping. Require at least one field for that clause to apply.
+                    if (
+                        $groupItem->getMandatory()
+                        || $defaultValueCount < $fieldValueCount
+                        || ($fieldCount > 0 && $defaultValueCount == $fieldCount)
+                    ) {
                         $form['mods'][] = $item;
                     }
 
