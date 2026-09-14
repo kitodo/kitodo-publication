@@ -434,6 +434,9 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddPositi
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddVerweisRelationDetailFields'] =
     \EWW\Dpf\Updates\AddVerweisRelationDetailFieldsUpdate::class;
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddAffiliationToEditorSlots'] =
+    \EWW\Dpf\Updates\AddAffiliationToEditorSlotsUpdate::class;
+
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfMergeProjectEnglishTitleIntoFunding'] =
     \EWW\Dpf\Updates\MergeProjectEnglishTitleIntoFundingUpdate::class;
 
