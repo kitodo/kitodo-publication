@@ -388,6 +388,16 @@ class ParserGenerator
 
             $node = $docXML->documentElement;
 
+            if ($node === null) {
+                $libxmlErrors = implode('; ', array_map(function ($error) {
+                    return trim($error->message);
+                }, libxml_get_errors()));
+                libxml_clear_errors();
+                throw new Exception(
+                    'ParserGenerator: could not build XML fragment for xpath "' . $xPath . '": ' . $libxmlErrors
+                );
+            }
+
             $nodeAppendModsData = $this->xmlData->importNode($node, true);
             $domNode->item($domNode->length - 1)->appendChild($nodeAppendModsData);
 
