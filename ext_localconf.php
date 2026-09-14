@@ -425,6 +425,9 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfReorderPl
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfHideOtherVersionTitleNoteRow'] =
     \EWW\Dpf\Updates\HideOtherVersionTitleNoteRowUpdate::class;
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfMoveInstitutionContributorAfterContributor'] =
+    \EWW\Dpf\Updates\MoveInstitutionContributorAfterContributorUpdate::class;
+
 // Public search results vary per request and are never page-cached (plugin runs as USER_INT),
 // so its GET parameters carry no caching risk and don't need a cHash.
 // CacheHashCalculator::isExcludedParameter() does an exact match per key, no wildcards.
