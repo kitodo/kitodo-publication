@@ -91,7 +91,8 @@ class AddAffiliationToEditorSlotsUpdate implements UpgradeWizardInterface
     {
         $connection = $this->getConnection();
         $count = $connection->executeQuery(
-            "SELECT COUNT(*) FROM tx_dpf_metadata WHERE label LIKE 'AffiliationEditor%'"
+            "SELECT COUNT(*) FROM tx_dpf_metadata WHERE index_name IN "
+                . "('affiliationEditor1', 'affiliationEditor2', 'affiliationEditor3')"
         )->fetchColumn();
 
         return ((int) $count) >= 3;
@@ -155,6 +156,7 @@ class AddAffiliationToEditorSlotsUpdate implements UpgradeWizardInterface
                 foreach ([1, 2, 3] as $position) {
                     $data = $template;
                     $data['label'] = 'AffiliationEditor' . $position;
+                    $data['index_name'] = 'affiliationEditor' . $position;
                     $data['xpath'] = sprintf(self::AFFILIATION_EDITOR_XPATH, $position);
                     $data['sorting'] = (int) $template['sorting'] + 100000 + $position;
                     $connection->insert('tx_dpf_metadata', $data);
