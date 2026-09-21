@@ -56,6 +56,7 @@ class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
     public function showSearchFormAction(): void
     {
         $this->view->assign('docTypes', $this->getDocTypes());
+        $this->view->assign('searchDocTypes', $this->getSearchDocTypes());
     }
 
     // ── private ──────────────────────────────────────────────────────────────
@@ -186,6 +187,7 @@ class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
             'pagination'      => $pagination,
             'aggregations'    => $aggregations,
             'docTypes'        => $this->getDocTypes(),
+            'searchDocTypes'  => $this->getSearchDocTypes(),
             'landingPage'     => (int) ($this->settings['landingPage'] ?? 0),
             // slub_web_qucosa template expects these names
             'resultList'      => ['total' => $totalHits, 'hits' => $documents],
@@ -215,6 +217,7 @@ class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
             'pagination'       => $pagination,
             'aggregations'     => [],
             'docTypes'         => $this->getDocTypes(),
+            'searchDocTypes'   => $this->getSearchDocTypes(),
             'landingPage'      => (int) ($this->settings['landingPage'] ?? 0),
             'resultList'       => ['total' => 0, 'hits' => []],
             'paginatedResults' => [],
@@ -241,5 +244,27 @@ class SearchFEController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
             $docTypes[$docType->getName()] = $docType->getDisplayName();
         }
         return $docTypes;
+    }
+
+    /**
+     * Document types offered in the search dropdown. Excluded types keep their
+     * label in docTypes, so existing documents of that type still show it.
+     */
+    private function getSearchDocTypes(): array
+    {
+        return self::withoutExcludedDocTypes(
+            $this->getDocTypes(),
+            (string) ($this->settings['searchExcludedDocTypes'] ?? '')
+        );
+    }
+
+    /**
+     * @param array $docTypes Display names keyed by type name
+     * @param string $excluded Comma-separated type names
+     */
+    public static function withoutExcludedDocTypes(array $docTypes, string $excluded): array
+    {
+        $names = array_filter(array_map('trim', explode(',', $excluded)));
+        return array_diff_key($docTypes, array_flip($names));
     }
 }

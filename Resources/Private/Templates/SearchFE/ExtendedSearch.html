@@ -1,7 +1,7 @@
 <f:layout name="Default"/>
 <f:section name="main">
     <div class="dpf-public-search dpf-public-search--extended">
-        <f:render partial="SearchFE/SearchForm" arguments="{criteria: criteria, docTypes: docTypes, extended: true}"/>
+        <f:render partial="SearchFE/SearchForm" arguments="{criteria: criteria, docTypes: docTypes, searchDocTypes: searchDocTypes, extended: true}"/>
         <f:if condition="{documentCount}">
             <p>{documentCount} Ergebnisse</p>
             <f:render partial="SearchFE/ResultList" arguments="{documents: documents, docTypes: docTypes}"/>
