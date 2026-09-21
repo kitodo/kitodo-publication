@@ -150,13 +150,13 @@ plugin.tx_dpf {
 
         peerReviewValues {
             # cat=plugin.tx_dpf/link; type=string; label=Peer review value for 'yes'
-            true = ja
+            true = yes
 
             # cat=plugin.tx_dpf/link; type=string; label=Peer review value for 'no'
-            false = nein
+            false = no
 
             # cat=plugin.tx_dpf/link; type=string; label=Peer review value for 'unknown'
-            unknown = unbekannt
+            unknown = unknown
         }
 
         openAccessValues {

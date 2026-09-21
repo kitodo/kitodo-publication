@@ -425,13 +425,18 @@ class ClientConfigurationManager implements SingletonInterface
     public function getPeerReviewValues()
     {
         $settings = $this->getTypoScriptSettings();
-        return $settings['peerReviewValues'];
+        // CLI indexing runs without page context, so TypoScript settings are empty there.
+        return $settings['peerReviewValues'] ?? ['true' => 'yes', 'false' => 'no', 'unknown' => 'unknown'];
     }
 
     public function getOpenAccessValues()
     {
         $settings = $this->getTypoScriptSettings();
-        return $settings['openAccessValues'];
+        // CLI indexing runs without page context, so TypoScript settings are empty there.
+        return $settings['openAccessValues'] ?? [
+            'true' => 'Open Access',
+            'trueUri' => 'http://purl.org/coar/access_right/c_abf2',
+        ];
     }
 
     public function getUnpaywallOAValues()
