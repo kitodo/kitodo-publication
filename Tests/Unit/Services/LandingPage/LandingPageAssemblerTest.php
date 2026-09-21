@@ -31,6 +31,16 @@ class LandingPageAssemblerTest extends UnitTestCase
     }
 
     /**
+     * @test
+     */
+    public function nameListFieldsAreJoinedWithSemicolons()
+    {
+        $this->assertSame('; ', LandingPageAssembler::separatorFor('host_editors_all', ', '));
+        $this->assertSame('; ', LandingPageAssembler::separatorFor('host_authors_all', ', '));
+        $this->assertSame(', ', LandingPageAssembler::separatorFor('keywords', ', '));
+    }
+
+    /**
      * Empty MODS elements (e.g. <mods:subTitle/>) extract as empty strings;
      * joining them verbatim yields stray separators like "Das Lexikon : ,Jetzt
      * auch mit Untertitel" (seen live on ubl-26-5002). The join must skip
@@ -819,6 +829,41 @@ XML;
         [$hostItem, , $embedded] = $method->invoke($assembler, $parentItems, 'https://example.org/host', $metadata);
         $this->assertSame($parentItems[0], $hostItem);
         $this->assertFalse($embedded['host']);
+    }
+
+    /**
+     * #2041: blog and interview contributions show their host only in the
+     * "Blog"/"Erschienen in" citation row, so the separate embedded
+     * "Erschienen in" group must go - even when the host has no link.
+     * A conference contribution likewise cites its series inside the
+     * "Konferenzband" row, so the separate "Schriftenreihe" group must go.
+     */
+    public function testResolveEmbeddableParentItemsSuppressesGroupsAlreadyInCitationRow()
+    {
+        $assembler = new LandingPageAssembler();
+        $method = new \ReflectionMethod(LandingPageAssembler::class, 'resolveEmbeddableParentItems');
+        $method->setAccessible(true);
+
+        $parentItems = [
+            ['relation' => 'host', 'url' => '', 'title' => 'Blog'],
+            ['relation' => 'series', 'url' => '', 'title' => 'Reihe'],
+        ];
+
+        foreach (['partOfADynamicWebResource', 'contributionToPeriodical'] as $type) {
+            [$hostItem, $seriesItem, $embedded] = $method->invoke($assembler, $parentItems, '', ['type' => [$type]]);
+            $this->assertNull($hostItem, $type);
+            $this->assertTrue($embedded['host'], $type);
+            $this->assertSame($parentItems[1], $seriesItem, $type);
+        }
+
+        [$hostItem, $seriesItem, $embedded] = $method->invoke($assembler, $parentItems, '', ['type' => ['in_proceeding']]);
+        $this->assertNull($seriesItem);
+        $this->assertTrue($embedded['series']);
+        $this->assertSame($parentItems[0], $hostItem);
+
+        [, $seriesItem, $embedded] = $method->invoke($assembler, $parentItems, '', ['type' => ['monograph']]);
+        $this->assertSame($parentItems[1], $seriesItem);
+        $this->assertFalse($embedded['series']);
     }
 
     public function testResolveEmbeddableParentItemsKeepsHostWhenProseGuardsUnmet()

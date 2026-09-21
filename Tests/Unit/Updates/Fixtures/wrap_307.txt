@@ -1,0 +1,139 @@
+key.wrap = <dt>|</dt>
+value.if.equals.field = type
+value.if.value = in_proceeding
+value.noTrimWrap = || 
+value.dataWrap = {field:original_title}
+value.dataWrap.typolink.parameter = {field:host_url}
+value.dataWrap.typolink.parameter.fieldRequired = host_url
+
+value.append = TEXT
+value.append {
+	value = {field:original_subtitle}
+	value.insertData = 1
+	value.noTrimWrap = | : | |
+	value.noTrimWrap.fieldRequired = original_subtitle
+	wrap = |<br />
+}
+value.append.append = TEXT
+value.append.append {
+	value = {field:original_publisher}
+	value.insertData = 1
+	value.noTrimWrap = |Herausgegeben von: | 
+	value.noTrimWrap.fieldRequired = original_publisher
+}
+value.append.append.append = TEXT
+value.append.append.append {
+	value = {field:original_publisher_1}
+	value.insertData = 1
+	value.noTrimWrap = |; | 
+	value.noTrimWrap.fieldRequired = original_publisher_1
+}
+value.append.append.append.append = TEXT
+value.append.append.append.append {
+	value = {field:original_publisher_2}
+	value.insertData = 1
+	value.noTrimWrap = |; | 
+	value.noTrimWrap.fieldRequired = original_publisher_2
+}
+value.append.append.append.append.append = TEXT
+value.append.append.append.append.append {
+	value = <br />
+	value.fieldRequired = original_publisher
+}
+value.append.append.append.append.append.append = TEXT
+value.append.append.append.append.append.append {
+	value = {field:original_place}
+	value.insertData = 1
+	value.noTrimWrap = |Erscheinungsort: | <br />
+	value.noTrimWrap.fieldRequired = original_place
+}
+value.append.append.append.append.append.append.append = TEXT
+value.append.append.append.append.append.append.append {
+	value = {field:publisher0}
+	value.insertData = 1
+	value.noTrimWrap = |Verlag: | <br />
+	value.noTrimWrap.fieldRequired = publisher0
+}
+value.append.append.append.append.append.append.append.append = TEXT
+value.append.append.append.append.append.append.append.append {
+	value = {field:original_date}
+	value.insertData = 1
+	value.replacement.1.search = /^([0-9]{4}).*/
+	value.replacement.1.replace = $1
+	value.replacement.1.useRegExp = 1
+	value.insertData = 1
+	value.noTrimWrap = |Erscheinungsjahr: | <br />
+	value.noTrimWrap.fieldRequired = original_date
+}
+value.append.append.append.append.append.append.append.append.append = TEXT
+value.append.append.append.append.append.append.append.append.append {
+	value = {field:series_title0}
+	value.insertData = 1
+	value.noTrimWrap = |Titel Schriftenreihe: | <br />
+	value.noTrimWrap.fieldRequired = series_title0
+}
+value.append.append.append.append.append.append.append.append.append.append = TEXT
+value.append.append.append.append.append.append.append.append.append.append {
+	value = {field:original_volume}
+	value.insertData = 1
+	value.noTrimWrap = |Bandnummer Schriftenreihe: | <br />
+	value.noTrimWrap.fieldRequired = original_volume
+}
+value.append.append.append.append.append.append.append.append.append.append.append = TEXT
+value.append.append.append.append.append.append.append.append.append.append.append {
+	value = {field:original_edition}
+	value.insertData = 1
+	value.noTrimWrap = | |
+	value.noTrimWrap.fieldRequired = original_edition
+}
+value.append.append.append.append.append.append.append.append.append.append.append.append = TEXT
+value.append.append.append.append.append.append.append.append.append.append.append.append {
+	value = {field:original_issue}
+	value.insertData = 1
+	value.noTrimWrap = |Heft: || <br />
+	value.noTrimWrap.fieldRequired = original_issue
+}
+value.append.append.append.append.append.append.append.append.append.append.append.append.append = TEXT
+value.append.append.append.append.append.append.append.append.append.append.append.append.append {
+	value = {field:original_pages}
+	value.insertData = 1
+	value.noTrimWrap = |Seiten:  |
+	value.noTrimWrap.fieldRequired = original_pages
+}
+value.append.append.append.append.append.append.append.append.append.append.append.append.append.append = TEXT
+value.append.append.append.append.append.append.append.append.append.append.append.append.append.append {
+	value = {field:original_pages2}
+	value.insertData = 1
+	value.noTrimWrap = |–| <br />
+	value.noTrimWrap.fieldRequired = original_pages2
+}
+value.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append = TEXT
+value.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append {
+	value = {field:original_issn}
+	value.insertData = 1
+	value.noTrimWrap = |ISSN: | <br />
+	value.noTrimWrap.fieldRequired = original_issn
+}
+value.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append = TEXT
+value.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append {
+	value = {field:original_isbn}
+	value.insertData = 1
+	value.noTrimWrap = |ISBN: | <br />
+	value.noTrimWrap.fieldRequired = original_isbn
+}
+value.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append = TEXT
+value.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append {
+	value = {field:original_articleid}
+	value.insertData = 1
+	value.noTrimWrap = |Artikelnummer: | <br />
+	value.noTrimWrap.fieldRequired = original_articleid
+}
+value.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append = TEXT
+value.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append.append {
+	value = {field:original_doi}
+	value.insertData = 1
+	value.noTrimWrap = |DOI: | <br />
+	value.noTrimWrap.fieldRequired = original_doi
+
+}
+

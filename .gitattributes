@@ -1,0 +1,2 @@
+# Wraps copied from the database keep their CRLF line endings.
+Tests/Unit/Updates/Fixtures/* -text

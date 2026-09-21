@@ -53,6 +53,27 @@ class LandingPageAssembler
     private const DOCTYPES_WITH_EMBEDDED_HOST_LINK = ['article', 'in_proceeding', 'contained_work', 'preprint'];
 
     /**
+     * Doctypes whose citation row ("Blog", "Erschienen in") already shows the
+     * host with its identifiers, so the separate embedded host group is left
+     * out (#2041). Unlike DOCTYPES_WITH_EMBEDDED_HOST_LINK this does not
+     * depend on a host link being present.
+     */
+    private const DOCTYPES_WITHOUT_HOST_GROUP = ['partOfADynamicWebResource', 'contributionToPeriodical'];
+
+    /**
+     * Doctypes whose citation row ("Konferenzband") already shows the series
+     * title, so the separate embedded series group is left out (#2041).
+     */
+    private const DOCTYPES_WITHOUT_SERIES_GROUP = ['in_proceeding'];
+
+    /**
+     * Fields whose values are names on one line. A name such as "Berti, Monica"
+     * or "Universität Leipzig, Institut für Informatik" holds a comma itself,
+     * so a comma between names would not tell them apart (#2041).
+     */
+    private const NAME_LIST_FIELDS = ['host_editors_all', 'host_authors_all', 'host_translators_all'];
+
+    /**
      * index_name of the dead "Erschienen in" placeholder rows (empty xpath,
      * kept only for their `sorting` value) — one per legacy doctype that
      * used to show a host link there. Does NOT include `original_in_media`
@@ -185,7 +206,7 @@ class LandingPageAssembler
         // Load metadata values into cObj data for stdWrap field references
         foreach ($metadata as $indexName => $value) {
             if (is_array($value)) {
-                $value = self::joinValues($value, $separator);
+                $value = self::joinValues($value, self::separatorFor($indexName, $separator));
             }
             // #2050: document_type (mods:genre) is hidden=1 and spliced into the
             // Publikationstyp pill via {field:document_type}, bypassing
@@ -316,9 +337,11 @@ class LandingPageAssembler
         $hostAlreadyInProse = $hostUrl !== ''
             && !empty($metadata['original_title'][0] ?? null)
             && in_array($type, self::DOCTYPES_WITH_EMBEDDED_HOST_LINK, true);
-        $hostItem   = $hostAlreadyInProse ? null : $this->firstByRelation($parentItems, 'host');
-        $seriesItem = $this->firstByRelation($parentItems, 'series');
-        return [$hostItem, $seriesItem, ['host' => $hostAlreadyInProse, 'series' => false]];
+        $hostInCitationRow = $hostAlreadyInProse || in_array($type, self::DOCTYPES_WITHOUT_HOST_GROUP, true);
+        $seriesInCitationRow = in_array($type, self::DOCTYPES_WITHOUT_SERIES_GROUP, true);
+        $hostItem   = $hostInCitationRow ? null : $this->firstByRelation($parentItems, 'host');
+        $seriesItem = $seriesInCitationRow ? null : $this->firstByRelation($parentItems, 'series');
+        return [$hostItem, $seriesItem, ['host' => $hostInCitationRow, 'series' => $seriesInCitationRow]];
     }
 
     /**
@@ -1212,6 +1235,12 @@ class LandingPageAssembler
     private function isCleanDate(string $date): bool
     {
         return (bool)preg_match('/^\d{4}-\d{2}(-\d{2})?$/', $date);
+    }
+
+    /** The separator for the values of one field: "; " for name lists, else the configured one. */
+    public static function separatorFor(string $indexName, string $default): string
+    {
+        return in_array($indexName, self::NAME_LIST_FIELDS, true) ? '; ' : $default;
     }
 
     /**

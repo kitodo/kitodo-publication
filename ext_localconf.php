@@ -428,6 +428,21 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfReorderPl
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfHideOtherVersionTitleNoteRow'] =
     \EWW\Dpf\Updates\HideOtherVersionTitleNoteRowUpdate::class;
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfMergeHostRoleLines'] =
+    \EWW\Dpf\Updates\MergeHostRoleLinesUpdate::class;
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAddHostHandleZdbToSourceCitation'] =
+    \EWW\Dpf\Updates\AddHostHandleZdbToSourceCitationUpdate::class;
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfMoveTranslatedTitleAfterAlternativeTitle'] =
+    \EWW\Dpf\Updates\MoveTranslatedTitleAfterAlternativeTitleUpdate::class;
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfMoveDoiQucosaAfterUrnQucosa'] =
+    \EWW\Dpf\Updates\MoveDoiQucosaAfterUrnQucosaUpdate::class;
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfRenameNewLanguageLabelsToCodes'] =
+    \EWW\Dpf\Updates\RenameNewLanguageLabelsToCodesUpdate::class;
+
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfMoveInstitutionContributorAfterContributor'] =
     \EWW\Dpf\Updates\MoveInstitutionContributorAfterContributorUpdate::class;
 
