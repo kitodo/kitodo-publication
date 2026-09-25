@@ -39,7 +39,6 @@
 		"ext-iconv": "*",
 		"ext-xsl": "*",
 		"typo3/cms-core": "^9.5.0",
-		"nategood/httpful": "^0.3.2",
 		"guzzlehttp/guzzle": "^6.3",
 		"elasticsearch/elasticsearch": "^7.6",
 		"symfony/workflow": "~4.3.11",
@@ -60,7 +59,8 @@
     },
     "autoload": {
         "psr-4": {
-            "EWW\\Dpf\\": "Classes/"
+            "EWW\\Dpf\\": "Classes/",
+            "Httpful\\": "Classes/ThirdParty/Httpful/"
         }
     },
     "scripts": {
