@@ -664,7 +664,7 @@ class MetsExporter
     public function setMods($value = '')
     {
         $domDocument = new \DOMDocument();
-        if (is_null(@\EWW\Dpf\Helper\XPath::loadXml($domDocument, $value))) {
+        if (!empty($value) && false === @\EWW\Dpf\Helper\XPath::loadXml($domDocument, $value)) {
             throw new \Exception("Couldn't load MODS data");
         }
         $this->modsData = $domDocument;
