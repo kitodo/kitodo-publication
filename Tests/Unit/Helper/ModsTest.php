@@ -134,4 +134,15 @@ XML;
         $mods = new Mods($xml);
         $this->assertNull($mods->getHostUrn());
     }
+
+    public function testConstructorThrowsOnMalformedXml()
+    {
+        $this->expectException(\Exception::class);
+        new Mods('not valid xml <<<');
+    }
+
+    public function testConstructorAcceptsEmptyXml()
+    {
+        $this->assertInstanceOf(Mods::class, new Mods(''));
+    }
 }
