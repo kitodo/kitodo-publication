@@ -548,7 +548,7 @@ class MetsExporter
                 $xml1 = $this->parseXPath($newPath[0]);
 
                 $doc1 = new \DOMDocument();
-                if (is_null(@\EWW\Dpf\Helper\XPath::loadXml($doc1, $this->wrapSlub($xml1)))) {
+                if (false === @\EWW\Dpf\Helper\XPath::loadXml($doc1, $this->wrapSlub($xml1))) {
                     throw new \Exception("Couldn't load xml in function customXPathSlub!");
                 }
 
@@ -559,7 +559,7 @@ class MetsExporter
                 $xml2 = $this->parseXPath($path . $newPath[1]);
 
                 $doc2 = new \DOMDocument();
-                if (is_null(@\EWW\Dpf\Helper\XPath::loadXml($doc2, $this->wrapSlub($xml2)))) {
+                if (false === @\EWW\Dpf\Helper\XPath::loadXml($doc2, $this->wrapSlub($xml2))) {
                     throw new \Exception("Couldn't load xml in customXPathSlub!");
                 }
 

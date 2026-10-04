@@ -19,6 +19,31 @@ class MetsExporterTest extends TestCase
         $this->assertInstanceOf(MetsExporter::class, $exporter);
     }
 
+    private function exporterWithSlubData(): MetsExporter
+    {
+        $slubData = new \DOMDocument();
+        $slubData->loadXML('<slub:info xmlns:slub="http://slub-dresden.de/"/>');
+
+        $exporter = new MetsExporter();
+        $property = new \ReflectionProperty(MetsExporter::class, 'xmlData');
+        $property->setAccessible(true);
+        $property->setValue($exporter, $slubData);
+
+        return $exporter;
+    }
+
+    public function testCustomXPathSlubThrowsOnMalformedFirstPart()
+    {
+        $this->expectException(\Exception::class);
+        $this->exporterWithSlubData()->customXPathSlub('a]%b', true);
+    }
+
+    public function testCustomXPathSlubThrowsOnMalformedSecondPart()
+    {
+        $this->expectException(\Exception::class);
+        $this->exporterWithSlubData()->customXPathSlub('a%b]', true);
+    }
+
     public function testSetModsAcceptsValidXml()
     {
         $exporter = new MetsExporter();
