@@ -7,30 +7,19 @@ It implements the user and administrator interfaces for a [document and publicat
 
 ### Running Tests
 
-The DDEV environment provides the canonical PHP 7.4 runtime. Run tests inside the container:
+Tests and static analysis run in a Docker container with PHP 7.4.33. You need `docker` with the `compose` plugin. You do not need PHP on the host.
 
 ```bash
-ddev test                        # PHPUnit unit tests
-ddev exec composer analyse       # PHPStan static analysis
-ddev exec composer mess          # PHPMD mess detection
+docker compose run --rm php composer install
+docker compose run --rm php composer test      # PHPUnit unit tests
+docker compose run --rm php composer analyse   # PHPStan static analysis
+docker compose run --rm php composer mess      # PHPMD mess detection
 ```
 
-Running tests outside DDEV requires PHP 7.4 on PATH — no further guidance is provided for that setup.
-
-### Local Environment (DDEV)
-
-A [DDEV](https://www.ddev.com)-based environment is available for local development.
-**A database fixture is required** — a blank TYPO3 instance provides no meaningful environment.
-See [`.ddev/README.md`](.ddev/README.md) for setup and fixture requirements.
-
-### Debugging
-
-Enable XDebug with `ddev xdebug on` (connects to host port 9003). Disable with `ddev xdebug off`.
-VS Code path mappings: `.vscode/launch.json`.
+The image is defined in `Build/Dockerfile`. It contains PHP and Composer. It does not contain TYPO3, a web server or a database.
 
 ## More information
 
-* https://ddev.readthedocs.io/en/stable/
 * https://www.kitodo.org/
 * http://www.b-i-t-online.de/sponsored/Kitodo
 
