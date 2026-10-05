@@ -18,6 +18,7 @@ use EWW\Dpf\Domain\Model\Document;
 use EWW\Dpf\Services\Email\Notifier;
 use EWW\Dpf\Services\Transfer\ElasticsearchRepository;
 use EWW\Dpf\Helper\DocumentMapper;
+use EWW\Dpf\Helper\DocumentTypeGuard;
 use EWW\Dpf\Helper\ElasticsearchMapper;
 use EWW\Dpf\Helper\FormDataReader;
 
@@ -213,6 +214,8 @@ abstract class AbstractDocumentFormController extends \TYPO3\CMS\Extbase\Mvc\Con
         if (!$newDocumentForm->isPlausible()) {
             throw new \Exception("Document form failed plausibility check.");
         }
+
+        DocumentTypeGuard::assertAvailable($this->documentTypeRepository, $newDocumentForm->getUid());
 
         $documentMapper = $this->objectManager->get(DocumentMapper::class);
         $newDocument    = $documentMapper->getDocument($newDocumentForm);
