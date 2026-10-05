@@ -1,7 +1,20 @@
 imports:
-  - { resource: "EXT:rte_ckeditor/Configuration/RTE/Processing.yaml" }
-  - { resource: "EXT:rte_ckeditor/Configuration/RTE/Editor/Base.yaml" }
-  - { resource: "EXT:rte_ckeditor/Configuration/RTE/Editor/Plugins.yaml" }
+  # Default.yaml (not just Base+Plugins) because it also sets removeButtons
+  # incl. "Styles" -- without that, the undefined toolbar: "Basic" string
+  # falls back to a fuller default toolbar that includes the Styles combo,
+  # which makes CKEditor fetch a styles.js this trimmed build never ships
+  # (404 -> nosniff blocks it -> editor fails to mount at all).
+  - { resource: "EXT:rte_ckeditor/Configuration/RTE/Default.yaml" }
+
+editor:
+  config:
+    # Default.yaml/Base.yaml leave stylesSet as [] (empty array), which is
+    # still truthy in JS -- CKEditor's load guard only skips the fetch when
+    # the value is strictly false. Empty array still triggers
+    # CKEDITOR.resourceManager.load("default", ...) -> styles.js -> 404
+    # (this trimmed CKEditor build never ships that file) -> nosniff blocks
+    # the HTML error body -> CKEDITOR throws -> editor never mounts.
+    stylesSet: false
 
 buttons:
   link:

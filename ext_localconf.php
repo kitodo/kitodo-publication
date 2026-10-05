@@ -90,3 +90,10 @@ $overrideSetup = 'plugin.tx_dpf_coins.userFunc = EWW\Dpf\Plugins\Coins\Coins->ma
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript($_EXTKEY, 'setup', $overrideSetup);
 
 $TYPO3_CONF_VARS['BE']['AJAX']['AjaxDocumentFormController:fieldAction'] = 'EXT:Dpf/Classes/Controller/AjaxDocumentFormController.php:AjaxDocumentFormController->fieldAction';
+
+// TCA's richtextConfiguration must be a preset *name* registered here, not a
+// raw EXT: path -- \TYPO3\CMS\Core\Configuration\Richtext::loadConfigurationFromPreset()
+// looks the value up in $TYPO3_CONF_VARS['RTE']['Presets'][name] and silently
+// falls back to an empty config (not even the base "default" preset) if the
+// name isn't registered.
+$GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['dpfInfoText'] = 'EXT:dpf/Configuration/RTE/InfoText.yaml';
