@@ -3,16 +3,10 @@
         <li class="dpf-search-result">
             <h3 class="dpf-search-result__title">
                 <f:if condition="{hit._source.objectIdentifier} && {landingPage}">
-                    <f:then>
-                        <f:link.page pageUid="{landingPage}"
-                            additionalParams="{tx_dpf: {qid: hit._source.objectIdentifier}}">
-                            {hit._source.title.0}
-                        </f:link.page>
-                    </f:then>
-                    <f:else>
-                        {hit._source.title.0}
-                    </f:else>
-                </f:if>
+                    <f:then><f:link.page pageUid="{landingPage}"
+                            additionalParams="{tx_dpf: {qid: hit._source.objectIdentifier}}">{hit._source.title.0}</f:link.page></f:then>
+                    <f:else>{hit._source.title.0}</f:else>
+                </f:if><f:if condition="{hit._source.volume}">, {hit._source.volume}</f:if>
             </h3>
             <f:if condition="{hit._source.persons}">
                 <p class="dpf-search-result__persons">{hit._source.persons.0}</p>

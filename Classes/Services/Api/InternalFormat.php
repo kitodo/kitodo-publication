@@ -322,6 +322,17 @@ class InternalFormat
     }
 
     /**
+     * The issue designation (e.g. "5,1 (2025)") of a document that is an
+     * issue of a journal, taken from its host relation.
+     */
+    public function getHostVolume(): string
+    {
+        return trim($this->getValue(
+            'mods:mods/mods:relatedItem[@type="host"]/mods:part[@type="volume"]/mods:detail/mods:number'
+        ));
+    }
+
+    /**
      * @return mixed
      */
     public function getPrimaryUrn()

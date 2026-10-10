@@ -927,6 +927,34 @@ XML;
     }
 
     /**
+     * #2051: after #2043 the issue designation of a repaired issue sits in its
+     * host relation as part[@type="volume"], not as a top-level part.
+     */
+    public function testExtractIssueDesignationReadsHostVolumePart()
+    {
+        $assembler = new LandingPageAssembler();
+        $mets = $this->metsFixture(
+            '<mods:relatedItem type="host">'
+            . '<mods:part type="volume"><mods:detail><mods:number>5,1 (2025)</mods:number></mods:detail></mods:part>'
+            . '</mods:relatedItem>'
+        );
+
+        $this->assertSame('5,1 (2025)', $assembler->extractIssueDesignation($mets));
+    }
+
+    public function testExtractIssueDesignationIgnoresVolumePartOfOtherRelations()
+    {
+        $assembler = new LandingPageAssembler();
+        $mets = $this->metsFixture(
+            '<mods:relatedItem type="series">'
+            . '<mods:part type="volume"><mods:detail><mods:number>7</mods:number></mods:detail></mods:part>'
+            . '</mods:relatedItem>'
+        );
+
+        $this->assertSame('', $assembler->extractIssueDesignation($mets));
+    }
+
+    /**
      * #2051: a person's hover box lists every affiliation, not just the first,
      * followed by the identifiers.
      */

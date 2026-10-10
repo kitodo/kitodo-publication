@@ -568,6 +568,10 @@ class LandingPageAssembler
                 $targetObjectIdentifier = $resolved['objectIdentifier'];
             }
 
+            if ($relation === 'constituent' && $volume === '' && $type === 'local') {
+                $volume = $this->resolveVolumeFromPublicIndex($docId);
+            }
+
             if (in_array($relation, ['preceding', 'succeeding'], true)) {
                 $targetId = $type === 'local' ? $docId : $targetObjectIdentifier;
                 $title = $this->appendIssueDesignation($title, $targetId, $settings);
@@ -993,6 +997,21 @@ class LandingPageAssembler
     }
 
     /**
+     * #2051: the issue designation of a journal's child issue, e.g. "5,1 (2025)". The journal's
+     * constituent stub has none, but the child's public index document does. Never throws.
+     */
+    private function resolveVolumeFromPublicIndex(string $docId): string
+    {
+        try {
+            $index = GeneralUtility::makeInstance(\EWW\Dpf\Services\ElasticSearch\PublicElasticSearch::class);
+            $doc = $index->getDocument(strtolower($docId));
+            return (string)($doc['_source']['volume'] ?? '');
+        } catch (\Throwable $e) {
+            return '';
+        }
+    }
+
+    /**
      * #2041: appends the target's issue designation to a Vorgänger/
      * Nachfolger title, e.g. "Archiv für Epigraphik" + "5,1 (2025)" - split
      * out of extractRelatedItems() to keep it under phpmd's line-count limit.
@@ -1038,7 +1057,12 @@ class LandingPageAssembler
      */
     public function extractIssueDesignation(\SimpleXMLElement $mets): string
     {
-        return $this->firstXPathValue($mets, '//mods:mods/mods:part[@type="issue"]/mods:detail/mods:number');
+        // After the #2043 repair the designation sits in the host relation's volume part.
+        return $this->firstXPathValue(
+            $mets,
+            '//mods:mods/mods:part[@type="issue"]/mods:detail/mods:number'
+            . ' | //mods:mods/mods:relatedItem[@type="host"]/mods:part[@type="volume"]/mods:detail/mods:number'
+        );
     }
 
     /**

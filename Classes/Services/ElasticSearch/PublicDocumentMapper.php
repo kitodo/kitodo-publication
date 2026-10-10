@@ -68,6 +68,7 @@ class PublicDocumentMapper
         $data['hasFiles'] = $document->hasFiles();
         $data['language'] = $internalFormat->getSearchLanguage();
         $data['publisher'] = $internalFormat->getPublishers();
+        $data['volume'] = $internalFormat->getHostVolume();
 
         $embargoDate = $document->getEmbargoDate();
         $data['embargoDate'] = ($embargoDate instanceof DateTime) ? $embargoDate->format('Y-m-d') : null;

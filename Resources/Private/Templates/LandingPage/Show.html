@@ -60,7 +60,7 @@
                                 <f:if condition="{item.url}">
                                     <f:then><a href="{item.url}">{item.title -> f:format.htmlspecialchars()}</a></f:then>
                                     <f:else>{item.title -> f:format.htmlspecialchars()}</f:else>
-                                </f:if>
+                                </f:if><f:if condition="{item.volume} && {item.relation} == 'constituent'">, {item.volume -> f:format.htmlspecialchars()}</f:if>
                             </li>
                         </f:for>
                     </ul>

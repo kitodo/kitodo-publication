@@ -33,7 +33,7 @@ class PublicDocumentMapperTest extends TestCase
         return $dt;
     }
 
-    private function makeInternalFormat(array $collections = ['fulltext']): InternalFormat
+    private function makeInternalFormat(array $collections = ['fulltext'], string $hostVolume = ''): InternalFormat
     {
         $fmt = $this->createMock(InternalFormat::class);
         $fmt->method('getSearchTitles')->willReturn([]);
@@ -46,7 +46,28 @@ class PublicDocumentMapperTest extends TestCase
         $fmt->method('getSearchYear')->willReturn([]);
         $fmt->method('getSearchLanguage')->willReturn([]);
         $fmt->method('getDateIssued')->willReturn('');
+        $fmt->method('getHostVolume')->willReturn($hostVolume);
         return $fmt;
+    }
+
+    public function testMapIndexesHostVolume()
+    {
+        $mapper = new PublicDocumentMapper();
+        $doc = $this->makeDocument(DocumentWorkflow::STATE_NONE_ACTIVE);
+
+        $data = $mapper->map($doc, $this->makeInternalFormat(['fulltext'], '5,1 (2025)'));
+
+        $this->assertSame('5,1 (2025)', $data['volume']);
+    }
+
+    public function testMapIndexesNoVolumeAsEmptyString()
+    {
+        $mapper = new PublicDocumentMapper();
+        $doc = $this->makeDocument(DocumentWorkflow::STATE_NONE_ACTIVE);
+
+        $data = $mapper->map($doc, $this->makeInternalFormat());
+
+        $this->assertSame('', $data['volume']);
     }
 
     public function testMapRejectsNoneNoneState()

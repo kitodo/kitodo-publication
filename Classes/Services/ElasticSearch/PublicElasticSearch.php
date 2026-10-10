@@ -99,6 +99,7 @@ class PublicElasticSearch extends ElasticSearch
                         'dateIssued' => ['type' => 'date', 'format' => 'yyyy-MM-dd'],
                         'embargoDate' => ['type' => 'date', 'format' => 'yyyy-MM-dd'],
                         'language' => ['type' => 'keyword'],
+                        'volume' => ['type' => 'keyword'],
                     ],
                 ],
             ],
