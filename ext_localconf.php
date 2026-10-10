@@ -446,6 +446,9 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfRenameNew
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfMoveInstitutionContributorAfterContributor'] =
     \EWW\Dpf\Updates\MoveInstitutionContributorAfterContributorUpdate::class;
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfMoveNameIdentifiersIntoHoverBox'] =
+    \EWW\Dpf\Updates\MoveNameIdentifiersIntoHoverBoxUpdate::class;
+
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dpfAlignInstitutionRolesWithPersonRoles'] =
     \EWW\Dpf\Updates\AlignInstitutionRolesWithPersonRolesUpdate::class;
 

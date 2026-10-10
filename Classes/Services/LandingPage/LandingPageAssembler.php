@@ -113,7 +113,7 @@ class LandingPageAssembler
     /**
      * Second-look identifier fields for a person's mods:name node (#2047,
      * UBL-26-5007): label => xpath relative to that name node. Order is
-     * display order in the title="" tooltip.
+     * display order in the hover box.
      */
     private const PERSON_TOOLTIP_FIELDS = [
         'Institutionszugehörigkeit' => 'mods:affiliation',
@@ -273,7 +273,7 @@ class LandingPageAssembler
      * @param array $local metadata values, consumed via array_shift as repeatable fields are read
      * @param array $fieldwrap parsed TypoScript for this field (key./value./all.)
      * @param array $settings Extbase settings, needed by translateValue()
-     * @param string[] $tooltips per-position title="" text (#2047), consumed alongside $local
+     * @param string[] $tooltips per-position hover box text (#2047), consumed alongside $local
      */
     private function parseFieldValue(
         ContentObjectRenderer $cObj,
@@ -307,16 +307,18 @@ class LandingPageAssembler
     }
 
     /**
-     * #2047: wraps an already-escaped field value in a title="" tooltip span, or returns it
-     * unchanged when there's nothing to show (no value, or no tooltip for this position).
+     * #2047/#2051: wraps an already-escaped field value in a span with the same hover box as a
+     * personal name (span.affiliation, styled in slub_web_qucosa), or returns it unchanged when
+     * there's nothing to show (no value, or no tooltip for this position).
      */
-    private function wrapWithTooltip(string $value, ?string $tooltip): string
+    public function wrapWithTooltip(string $value, ?string $tooltip): string
     {
         if (empty($value) || empty($tooltip)) {
             return $value;
         }
 
-        return '<span title="' . $tooltip . '">' . $value . '</span>';
+        return '<span class="has-ids">' . $value
+            . '<span class="affiliation" style="display:none;">' . $tooltip . '</span></span>';
     }
 
     /**
@@ -866,7 +868,7 @@ class LandingPageAssembler
 
     /**
      * #2047 (UBL-26-5007): affiliation/ORCID/ResearcherID/GND-ID/Scopus Author ID (person) and
-     * GND-ID/ROR-ID (institution) should be visible on second look, not inline - a native title=""
+     * GND-ID/ROR-ID (institution) should be visible on second look, not inline - a hover box
      * tooltip on the name. mods:nameIdentifier/mods:affiliation nest inside each mods:name node, so
      * they're correlated per-position, not a flat field. Personal roles (author/publisher) render
      * via a numbered value.override chain in their wrap - writes positions 1-3 into $metadata as
@@ -887,19 +889,19 @@ class LandingPageAssembler
             'authorIds' => ['//mods:mods/mods:name[@type="personal"][mods:role/mods:roleTerm="aut"]', self::PERSON_TOOLTIP_FIELDS, 3],
             'publisherIds' => ['//mods:mods/mods:name[@type="personal"][mods:role/mods:roleTerm="edt"]', self::PERSON_TOOLTIP_FIELDS, 3],
         ] as $fieldPrefix => [$nameXpath, $tooltipFields, $limit]) {
-            foreach ($this->buildNameIdentifierTooltips($doc, $nameXpath, $tooltipFields, $limit) as $i => $tooltip) {
+            foreach ($this->buildNameIdentifierTooltips($doc->mets, $nameXpath, $tooltipFields, $limit) as $i => $tooltip) {
                 $metadata[$fieldPrefix . ($i + 1)] = [$tooltip];
             }
         }
 
         return [
             'corporation_author' => $this->buildNameIdentifierTooltips(
-                $doc,
+                $doc->mets,
                 '//mods:mods/mods:name[@type="corporate"][mods:role/mods:roleTerm="aut"]',
                 self::INSTITUTION_TOOLTIP_FIELDS
             ),
             'corporation_editor' => $this->buildNameIdentifierTooltips(
-                $doc,
+                $doc->mets,
                 '//mods:mods/mods:name[@type="corporate"][mods:role/mods:roleTerm="edt"]',
                 self::INSTITUTION_TOOLTIP_FIELDS
             ),
@@ -907,20 +909,20 @@ class LandingPageAssembler
     }
 
     /**
-     * Builds one title="" tooltip string per mods:name node matched by
+     * Builds one hover box text per mods:name node matched by
      * $nameXpath, from that node's own nested fields (#2047) - affiliation
      * and nameIdentifiers sit inside each mods:name, correlated per person/
      * institution, not a flat list. Empty for a position with no such data.
      *
-     * @param MetsDocument $doc
+     * @param \SimpleXMLElement $mets a document's METS root, namespaces already registered
      * @param string $nameXpath selects the ordered mods:name nodes for one role
      * @param array $fields label => xpath relative to each name node (PERSON_TOOLTIP_FIELDS / INSTITUTION_TOOLTIP_FIELDS)
      * @param int $limit max positions to build (institution roles: unbounded)
-     * @return string[] 0-indexed, in document order; htmlspecialchars'd for use in a title attribute
+     * @return string[] 0-indexed, in document order; htmlspecialchars'd
      */
-    private function buildNameIdentifierTooltips(MetsDocument $doc, string $nameXpath, array $fields, int $limit = PHP_INT_MAX): array
+    public function buildNameIdentifierTooltips(\SimpleXMLElement $mets, string $nameXpath, array $fields, int $limit = PHP_INT_MAX): array
     {
-        $nodes = $doc->mets->xpath($nameXpath);
+        $nodes = $mets->xpath($nameXpath);
         if (!is_array($nodes)) {
             return [];
         }
@@ -930,9 +932,9 @@ class LandingPageAssembler
             $node->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
             $parts = [];
             foreach ($fields as $label => $relativeXpath) {
-                $value = $this->firstXPathValue($node, $relativeXpath);
-                if ($value !== '') {
-                    $parts[] = $label . ': ' . $value;
+                $values = array_filter(array_map('strval', $node->xpath($relativeXpath) ?: []));
+                if (!empty($values)) {
+                    $parts[] = $label . ': ' . implode(', ', $values);
                 }
             }
             $tooltips[] = !empty($parts) ? htmlspecialchars(implode('; ', $parts), ENT_QUOTES) : '';

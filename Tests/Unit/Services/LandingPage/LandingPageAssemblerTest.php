@@ -927,6 +927,72 @@ XML;
     }
 
     /**
+     * #2051: a person's hover box lists every affiliation, not just the first,
+     * followed by the identifiers.
+     */
+    public function testPersonTooltipListsAllAffiliationsAndIdentifiers()
+    {
+        $assembler = new LandingPageAssembler();
+        $mets = $this->metsFixture(
+            '<mods:name type="personal"><mods:role><mods:roleTerm>aut</mods:roleTerm></mods:role>'
+            . '<mods:affiliation>Uni A</mods:affiliation><mods:affiliation>Uni B</mods:affiliation>'
+            . '<mods:nameIdentifier type="ORCID">0000-0001</mods:nameIdentifier>'
+            . '<mods:nameIdentifier type="gnd">GND1</mods:nameIdentifier></mods:name>'
+        );
+
+        $tooltips = $assembler->buildNameIdentifierTooltips(
+            $mets,
+            '//mods:mods/mods:name[@type="personal"][mods:role/mods:roleTerm="aut"]',
+            [
+                'Institutionszugehörigkeit' => 'mods:affiliation',
+                'ORCID' => 'mods:nameIdentifier[@type="ORCID"]',
+                'GND-ID' => 'mods:nameIdentifier[@type="gnd"]',
+            ]
+        );
+
+        $this->assertSame(['Institutionszugehörigkeit: Uni A, Uni B; ORCID: 0000-0001; GND-ID: GND1'], $tooltips);
+    }
+
+    public function testTooltipIsEmptyForNameWithoutData()
+    {
+        $assembler = new LandingPageAssembler();
+        $mets = $this->metsFixture(
+            '<mods:name type="corporate"><mods:role><mods:roleTerm>aut</mods:roleTerm></mods:role></mods:name>'
+        );
+
+        $tooltips = $assembler->buildNameIdentifierTooltips(
+            $mets,
+            '//mods:mods/mods:name[@type="corporate"]',
+            ['GND-ID' => 'mods:nameIdentifier[@type="gnd"]']
+        );
+
+        $this->assertSame([''], $tooltips);
+    }
+
+    /**
+     * #2051: an institution shows its identifiers in the same hover box as a
+     * person, not in a native title="" tooltip.
+     */
+    public function testWrapWithTooltipPutsTextInHoverBoxSpan()
+    {
+        $assembler = new LandingPageAssembler();
+
+        $this->assertSame(
+            '<span class="has-ids">Uni<span class="affiliation" style="display:none;">GND-ID: 1</span></span>',
+            $assembler->wrapWithTooltip('Uni', 'GND-ID: 1')
+        );
+    }
+
+    public function testWrapWithTooltipKeepsValueWithoutTooltip()
+    {
+        $assembler = new LandingPageAssembler();
+
+        $this->assertSame('Uni', $assembler->wrapWithTooltip('Uni', ''));
+        $this->assertSame('Uni', $assembler->wrapWithTooltip('Uni', null));
+        $this->assertSame('', $assembler->wrapWithTooltip('', 'GND-ID: 1'));
+    }
+
+    /**
      * Builds a minimal namespaced METS root wrapping the given mods:mods
      * inner content, matching what MetsDocument::getInstance() leaves on
      * ->mets (namespaces registered, mods:mods reachable via //mods:mods).
