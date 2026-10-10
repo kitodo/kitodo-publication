@@ -598,7 +598,7 @@ class DocumentMapper
                                 if (empty($value)) {
                                     $form['embargo'] = null;
                                 } else {
-                                    $form['embargo'] = new \DateTime($value);
+                                    $form['embargo'] = EmbargoDate::parse($value);
                                 }
                             }
 
